@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/component_click">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:paddingTop="10dp">
+
+            <com.gcssloop.widget.RCRelativeLayout
+                android:id="@+id/rctl_forpayment_item_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@android:color/transparent"
+                app:round_corner="8dp">
+
+                <ImageView
+                    android:id="@+id/iv_record_item_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/test4" />
+
+            </com.gcssloop.widget.RCRelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_record_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/rctl_forpayment_item_icon"
+                android:layout_toRightOf="@id/rctl_forpayment_item_icon"
+                android:background="@android:color/transparent"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:text="白针大白针大白针"
+                android:textColor="#232326"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/rctl_forpayment_item_icon"
+                android:layout_toRightOf="@id/rctl_forpayment_item_icon"
+                android:background="@android:color/transparent"
+                android:gravity="left|bottom"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:id="@+id/tv_record_item_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:background="@android:color/transparent"
+                    android:text="2017-01-11 16:02"
+                    android:textColor="#A3A3A3"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

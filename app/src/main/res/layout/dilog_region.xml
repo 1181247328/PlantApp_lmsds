@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/plant_ask_background"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <GridView
+            android:id="@+id/gv_region_dilog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/plant_ask_background"
+            android:horizontalSpacing="10dp"
+            android:numColumns="8"
+            android:scrollbars="none"
+            android:verticalSpacing="10dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

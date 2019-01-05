@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/strategy_item_published">
+
+            <RelativeLayout
+                android:id="@+id/rl_refund_return"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/strategy_item_published"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/pldetails_return" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="退款/售后"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_refund_there"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/plant_ask_background"
+            android:gravity="center_vertical|center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/allorder_no" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center|clip_vertical"
+                android:text="暂时还没有退款商品~"
+                android:textColor="@color/plant_science"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <com.jingchen.pulltorefresh.PullToRefreshLayout
+            android:id="@+id/ptrl_refund_pull"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="10dp"
+            android:background="@color/white">
+
+            <com.jingchen.pulltorefresh.PullableListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:divider="@color/plant_ask_background"
+                android:dividerHeight="8dp"
+                android:scrollbars="none" />
+
+        </com.jingchen.pulltorefresh.PullToRefreshLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,180 @@
+<resources>
+    <string name="app_name">龙门水都</string>
+
+    <!--MainActivity下面导航栏-->
+    <array name="modular">
+        <item>资讯</item>
+        <item>商城</item>
+        <item>积分商城</item>
+        <item>购物车</item>
+        <item>我的</item>
+    </array>
+    
+    <!--输入游记标题-->
+    <string name="traveltitle_prompt">1.一个好的游记标题会给你带来更多阅读哦.\n2.标题也可以在游记的过程中进行编辑.\n3.设置好标题后,可以通过点击"下一步"来添加照片或文字.</string>
+
+    <string name="travelcontext_prompt">你可以任意添加一段文字或是图片开始一篇游记。后期可以用"归片排序"的功能来完成游记和文字的编辑。</string>
+
+    <string name="mail_package">包邮</string>
+
+    <string name="mail_dontpackage">不包邮</string>
+
+    <string name="sorting">当前为综合排序</string>
+
+    <string name="sales">当前为销售排序</string>
+
+    <string name="ascending">当前为升序排序</string>
+
+    <string name="descending">当前为降序排序</string>
+
+    <string name="more">没有更多了</string>
+
+    <string name="code_one">执行中出错</string>
+
+    <string name="code_two">列表为空</string>
+
+    <string name="post_free">快递: 免运费</string>
+
+    <string name="post_free_cost">邮费: </string>
+
+    <string name="details_pin">总销量: </string>
+
+    <string name="not_fist">暂无评论</string>
+
+    <string name="shop_fist">商品评价(</string>
+
+    <string name="not_login">您还未登录,是否前住!</string>
+
+    <string name="collection">是否收藏商品!</string>
+
+    <string name="not_collection">是否取消收藏!</string>
+
+    <string name="cart">是否加入购物车!</string>
+
+    <string name="please_while">请稍候</string>
+
+    <string name="collection_while">收藏中</string>
+
+    <string name="delete_cart">请选择要删除的商品</string>
+
+    <string name="delete_not_cart">删除选择的商品</string>
+
+    <string name="sett_one">共</string>
+
+    <string name="sett_two">件商品</string>
+
+    <string name="pay">请选择支付方式</string>
+
+    <string name="is_code">请先验证手机</string>
+
+    <string name="set_phone">请输入手机号码</string>
+
+    <string name="set_phone_modile">请输入正确的手机号码</string>
+
+    <string name="is_wifi_gprs">请检查网络</string>
+
+    <string name="send_code">验证码发送中</string>
+
+    <string name="code">验证码为空</string>
+
+    <string name="send_code_one">验证验证码</string>
+
+    <string name="password_one">请先输入密码</string>
+
+    <string name="password_two">请确认密码</string>
+
+    <string name="registered">注册中</string>
+
+    <string name="userName">请先输入账户</string>
+
+    <string name="pwd">请先输入密码</string>
+
+    <string name="login">登录中</string>
+
+    <string name="login_complete">已登录</string>
+
+    <string name="is_login">请登录</string>
+
+    <string name="user_haer">上传头像中</string>
+
+    <string name="nickname">昵称修改中</string>
+
+    <string name="nickname_not">昵称不能为空</string>
+
+    <string name="nickname_successful">昵称修改成功</string>
+
+    <string name="contacts">请填写收货人</string>
+
+    <string name="contactNumber">请填写联系电话</string>
+
+    <string name="crId">请选择所在地区</string>
+
+    <string name="detaisl_address">请输入详细地址</string>
+
+    <string name="detaisl_address_number">详细地址不小五字</string>
+
+    <string name="delete_address">是否删除</string>
+
+    <string name="phone">修改手机中</string>
+
+    <string name="password">请输入密码</string>
+
+    <string name="newpwd_one">请输入新密码</string>
+
+    <string name="newpwd_two">请确认密码</string>
+
+    <string name="newpwd_three">两次密码不相等</string>
+
+    <string name="user_exit">是否退出当前账户</string>
+
+    <string name="published">发表中</string>
+
+    <string name="drafts">保存草稿中</string>
+
+    <string name="collection_not">取消收藏中</string>
+
+    <string name="goods">收货中</string>
+
+    <string name="share">分享</string>
+
+    <string name="travel_edit">编辑标题</string>
+    
+    <array name="license">
+        <item>京</item>
+        <item>津</item>
+        <item>沪</item>
+        <item>冀</item>
+        <item>蒙</item>
+        <item>辽</item>
+        <item>吉</item>
+        <item>黑</item>
+        <item>苏</item>
+        <item>浙</item>
+        <item>皖</item>
+        <item>闽</item>
+        <item>赣</item>
+        <item>鲁</item>
+        <item>豫</item>
+        <item>鄂</item>
+        <item>湘</item>
+        <item>粤</item>
+        <item>桂</item>
+        <item>琼</item>
+        <item>渝</item>
+        <item>川</item>
+        <item>黔</item>
+        <item>滇</item>
+        <item>藏</item>
+        <item>陕</item>
+        <item>甘</item>
+        <item>青</item>
+        <item>宁</item>
+        <item>新</item>
+        <item>台</item>
+        <item>港</item>
+        <item>澳</item>
+    </array>
+    
+    <string name="rules">1.每个id只能兑换一次;\n2.邮费由龙门水都负责,用户不需要承担额外费用;\n3.台湾香港西藏地区需用额外支付费用;\n4.其它问题请致电</string>
+
+</resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--沉浸式-->
+    <color name="immersion">#378f77</color>
+
+    <!--白色-->
+    <color name="white">#ffffff</color>
+
+    <!--颜色-->
+    <color name="black">#000000</color>
+
+    <!--主页底部选项卡背景颜色-->
+    <color name="tab_backgrund">#49A2F0</color>
+
+    <!--主页底部选项卡字体颜色-->
+    <color name="tab_font">#ffffff</color>
+
+    <!--登录-->
+    <color name="login_backgrund">#009E91</color>
+    <color name="login_registered">#A3D5CF</color>
+    <color name="login_button">#33a199</color>
+
+    <color name="login_bution_select">#858686</color>
+
+    <!--植物园-->
+    <color name="plant_ask_background">#F5F5F5</color>
+
+    <color name="plant_background">#000</color>
+
+    <color name="plant_science">#9A9A9A</color>
+
+    <color name="plantscience_search_background">#E3E3E3</color>
+
+    <color name="strategy_item_color">#474747</color>
+
+    <color name="strategy_item_published">#24c789</color>
+
+    <color name="planning_item">#378F77</color>
+
+    <color name="planning_item_two">#F9B933</color>
+
+    <color name="planning_item_three">#218D98</color>
+
+    <color name="selected_back">#99ffffff</color>
+
+    <!--所有点击通用效果-->
+    <color name="selected_all">#DDDDDD</color>
+
+    <color name="plant_address">#797979</color>
+
+</resources>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/transparent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/weather"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="提示"
+            android:gravity="center"
+            android:textColor="#474747"
+            android:textSize="16sp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:background="#C0C0C0"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+
+        <TextView
+            android:id="@+id/tv_promap_dilog_content"
+            android:layout_width="match_parent"
+            android:text="是否收藏商品?"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:paddingBottom="40dp"
+            android:paddingTop="40dp"
+            android:textColor="#000"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:background="#C0C0C0"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_promap_dilog_cancel"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:text="确定"
+                android:textColor="#8D8D8D"
+                android:gravity="center"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="1dp"
+                android:background="#C0C0C0"
+                android:padding="6dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_promap_dilog_determine"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:text="取消"
+                android:textColor="#8D8D8D"
+                android:gravity="center"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

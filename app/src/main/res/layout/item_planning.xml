@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@color/white">
+
+        <com.gcssloop.widget.RCRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:round_corner="5dp">
+
+            <ImageView
+                android:id="@+id/iv_planning_item_picture"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/test5" />
+
+            <com.haozhang.lib.SlantedTextView
+                android:id="@+id/stv_planning_item_name"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                app:slantedBackgroundColor="@color/planning_item"
+                app:slantedLength="60dp"
+                app:slantedMode="left"
+                app:slantedText="精品线路"
+                app:slantedTextColor="@color/white"
+                app:slantedTextSize="16sp" />
+
+        </com.gcssloop.widget.RCRelativeLayout>
+
+        <com.gcssloop.widget.RCRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            app:round_corner="5dp">
+
+            <TextView
+                android:id="@+id/tv_planning_item_specific"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/planning_item" />
+
+            <TextView
+                android:id="@+id/tv_planning_item_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_planning_item_specific"
+                android:background="@drawable/planning_shape"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:paddingBottom="15dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="35dp"
+                android:paddingTop="15dp"
+                android:text="目的地1—目的地2—目的地3—目的地4—目的地5"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </com.gcssloop.widget.RCRelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

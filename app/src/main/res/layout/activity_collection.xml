@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rl_collection_return"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/plantscience_return" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical|center"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="我的收藏"
+                android:textColor="#474747"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/plant_ask_background" />
+
+        <com.zhengsr.viewpagerlib.indicator.TabIndicator
+            android:id="@+id/ti_collection_dicatior"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            app:tab_color="@color/strategy_item_published"
+            app:tab_width="55dp"
+            app:tab_height="1dp"
+            app:tab_text_default_color="@color/plant_address"
+            app:tab_text_change_color="@color/strategy_item_color"
+            app:tab_show="true"
+            app:tab_text_type="normaltext"
+            app:tab_textsize="14sp"
+            app:visiabel_size="3"
+            app:tap_type="rect">
+            
+            <TextView
+                android:layout_width="0dp"
+                android:text="游记"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:text="植物科普"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:text="商品"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_height="match_parent" />
+            
+        </com.zhengsr.viewpagerlib.indicator.TabIndicator>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_collection_screen"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

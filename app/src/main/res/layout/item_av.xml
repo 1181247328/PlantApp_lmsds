@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_av_item_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="8dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/av_delete" />
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_av_item_video"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/rl_av_item_delete"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/test5" />
+
+        <TextView
+            android:id="@+id/tv_av_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_av_item_video"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:text="一个鸟语花开的南国"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_av_item_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_av_item_video"
+            android:layout_toRightOf="@id/iv_av_item_video"
+            android:paddingBottom="3dp"
+            android:paddingLeft="15dp"
+            android:text="已完成"
+            android:textColor="#B5B4B5"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

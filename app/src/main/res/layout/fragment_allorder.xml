@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/plant_ask_background">
+
+    <LinearLayout
+        android:id="@+id/ll_allorder_there"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/plant_ask_background"
+        android:gravity="center_vertical|center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:src="@mipmap/allorder_no"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|clip_vertical"
+            android:text="您还没有相关的订单"
+            android:layout_marginTop="15dp"
+            android:textColor="#474747"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|clip_vertical"
+            android:text="可以去看看有哪些想买的"
+            android:textColor="@color/plant_science"
+            android:layout_marginTop="2dp"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_allorder_are"
+        android:background="@color/plant_ask_background"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <com.jingchen.pulltorefresh.PullToRefreshLayout
+            android:id="@+id/ptrl_allorder_pull"
+            android:layout_width="match_parent"
+            android:background="@color/plant_ask_background"
+            android:layout_height="match_parent">
+
+            <com.jingchen.pulltorefresh.PullableListView
+                android:layout_width="match_parent"
+                android:scrollbars="none"
+                android:background="@color/white"
+                android:divider="@color/plant_ask_background"
+                android:dividerHeight="15dp"
+                android:layout_height="match_parent"/>
+
+        </com.jingchen.pulltorefresh.PullToRefreshLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

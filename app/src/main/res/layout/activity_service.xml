@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/plant_ask_background"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/strategy_item_published">
+
+            <RelativeLayout
+                android:id="@+id/rl_service_return"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/strategy_item_published"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/pldetails_return" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="选择服务类型"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+            <com.gcssloop.widget.RCRelativeLayout
+                android:id="@+id/rctl_service_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                app:round_corner="8dp">
+
+                <ImageView
+                    android:id="@+id/iv_Service_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/test4" />
+
+            </com.gcssloop.widget.RCRelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_service_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/rctl_service_icon"
+                android:layout_toRightOf="@id/rctl_service_icon"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="10dp"
+                android:text="大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针"
+                android:textColor="#232326"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/rctl_service_icon"
+                android:layout_toRightOf="@id/rctl_service_icon"
+                android:background="@color/white"
+                android:gravity="left|bottom"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥"
+                    android:textColor="#F23030"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_service_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="108.00"
+                    android:textColor="#F23030"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_service_refund"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/component_click"
+            android:clickable="true"
+            android:paddingLeft="10dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp">
+
+            <ImageView
+                android:id="@+id/iv_service_imageone"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/service_refund" />
+
+            <TextView
+                android:id="@+id/tv_service_textone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/iv_service_imageone"
+                android:text="仅退款"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_service_textone"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/iv_service_imageone"
+                android:text="未收到货(包含未签收)的情况下"
+                android:textColor="#B5B4B5"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/details_return" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_service_goods"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/component_click"
+            android:clickable="true"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp">
+
+            <ImageView
+                android:id="@+id/iv_service_imagetwo"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/service_tui" />
+
+            <TextView
+                android:id="@+id/tv_service_texttwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/iv_service_imagetwo"
+                android:text="退款退货"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_service_texttwo"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/iv_service_imagetwo"
+                android:text="已收到货,需要退换已收到的货物"
+                android:textColor="#B5B4B5"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/details_return" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

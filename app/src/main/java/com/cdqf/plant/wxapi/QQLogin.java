@@ -1,0 +1,127 @@
+package com.cdqf.plant.wxapi;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.cdqf.plant_state.PlantState;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+
+import de.greenrobot.event.EventBus;
+
+/**
+ * QQ登录
+ * Created by liu on 2017/7/19.
+ */
+
+public class QQLogin {
+
+    private static String TAG = QQLogin.class.getSimpleName();
+
+    private static Tencent mTencent;
+
+    private static IUiListener loginListener;
+
+    private static  IUiListener userInfoListener;
+
+    private static String openID;
+
+    private static PlantState plantState = PlantState.getPlantState();
+
+    private static EventBus eventBus = EventBus.getDefault();
+
+    /**
+     * QQ登录
+     * @param context
+     * @param activity
+     */
+    public static void qqLogin(final Context context,Activity activity) {
+        if(!isQQClientAvailable(context)){
+            Toast.makeText(context,"请先安装QQ",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mTencent = Tencent.createInstance(Constants.QQ_APP_ID, context);
+        //创建QQ登录回调接口
+        loginListener = new IUiListener() {
+            @Override
+            public void onComplete(Object o) {
+                //登录成功后调用的方法
+                JSONObject jo = (JSONObject) o;
+                Log.e(TAG, jo.toString());
+
+                try {
+                    openID = jo.getString("openid");
+                    String accessToken = jo.getString("access_token");
+                    String expires = jo.getString("expires_in");
+                    mTencent.setOpenId(openID);
+                    mTencent.setAccessToken(accessToken, expires);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(UiError uiError) {
+                //登录失败后回调该方法
+                Log.e("LoginError:", uiError.toString());
+                plantState.initToast(context,"登录失败,请重新登录",true,0);
+            }
+
+            @Override
+            public void onCancel() {
+                //取消登录后回调该方法
+                plantState.initToast(context,"取消登录",true,0);
+            }
+        };
+
+        userInfoListener = new IUiListener() {
+            @Override
+            public void onComplete(Object o) {
+                if (o == null) {
+                    return;
+                }
+                try {
+                    JSONObject jo = (JSONObject) o;
+                    Log.e(TAG, jo.toString());
+                    String nickName = jo.getString("nickname");
+                    String headImage = jo.getString("figureurl_qq_2").replace("\"", "");
+                    eventBus.post(new QQFind(openID,nickName,headImage));
+                } catch (Exception e) {
+                }
+            }
+
+            @Override
+            public void onError(UiError uiError) {
+            }
+
+            @Override
+            public void onCancel() {
+            }
+        };
+        mTencent.login(activity, Constants.QQ_SCOPE, loginListener);
+    }
+
+    public static boolean isQQClientAvailable(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}

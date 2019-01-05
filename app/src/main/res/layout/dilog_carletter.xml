@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/transparent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@drawable/carletter_shape"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="30dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="#474747"
+            android:textSize="16sp"
+            android:text="温馨提示"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            android:background="@color/plant_ask_background"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:text="确认出场并完成支付后,车主需在10分钟内将绑定车辆驶出停车场,否则系统将继续计时收费。"
+            android:layout_width="match_parent"
+            android:textColor="#474747"
+            android:background="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:lineSpacingExtra="4dp"
+            android:textSize="16sp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_carletter_dilog_appearance"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:textSize="16sp"
+            android:text="确认出场"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/carletter_appearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_carletter_dilog_out"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:textSize="16sp"
+            android:text="暂不出场"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/carletter_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

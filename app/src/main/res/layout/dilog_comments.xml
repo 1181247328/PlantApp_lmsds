@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F3F3F3"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="15dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F3F3F3"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_comments_dilog_cancel"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/comments_dilog_cancel" />
+
+        <TextView
+            android:id="@+id/iv_comments_dilog_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:text="写评论"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_comments_dilog_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@id/iv_comments_dilog_in"
+            android:gravity="center"
+            android:text="0/150"
+            android:textColor="#B5B5B5"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_comments_dilog_context"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/comments_shape"
+        android:gravity="top|left"
+        android:hint="请输入评论内容"
+        android:imeOptions="actionSend"
+        android:lineSpacingExtra="2dp"
+        android:padding="7dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="#B5B5B5"
+        android:textCursorDrawable="@drawable/comments_cursor"
+        android:textSize="14sp" />
+
+</LinearLayout>

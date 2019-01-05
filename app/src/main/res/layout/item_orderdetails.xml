@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:background="@color/white"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <com.gcssloop.widget.RCRelativeLayout
+            android:id="@+id/rcrl_orderdetails_figure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:round_corner="5dp">
+
+            <ImageView
+                android:id="@+id/iv_orderdetails_item_figure"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/test5" />
+
+        </com.gcssloop.widget.RCRelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/rcrl_orderdetails_figure"
+            android:layout_toRightOf="@id/rcrl_orderdetails_figure"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <LinearLayout
+                android:id="@+id/ll_orderdetails_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="￥"
+                        android:textColor="#27272A"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_orderdetails_item_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="#27272A"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_orderdetails_item_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="#797979"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_ordertails_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/ll_orderdetails_number"
+                android:lineSpacingExtra="1dp"
+                android:lines="4"
+                android:textColor="#27272A"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+
+        <com.gcssloop.widget.RCRelativeLayout
+            android:id="@+id/rcrl_orderdetails_item_refund"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/rcrl_orderdetails_figure"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            app:round_corner="30dp"
+            app:stroke_color="#797979"
+            app:stroke_width="1dp">
+
+            <TextView
+                android:id="@+id/tv_orderdetails_item_refund"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/ll_orderdetails_number"
+                android:gravity="center"
+                android:lineSpacingExtra="1dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="8dp"
+                android:textColor="#27272A"
+                android:textSize="12sp" />
+
+        </com.gcssloop.widget.RCRelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

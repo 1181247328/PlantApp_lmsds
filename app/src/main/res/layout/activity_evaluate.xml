@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hedgehog="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:fitsSystemWindows="true">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/plant_ask_background"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/plant_ask_background"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_evaluate_return"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/plantscience_return" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical|center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="发表评论"
+                    android:textColor="#474747"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_evaluate_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/component_click"
+                    android:gravity="center_vertical|center"
+                    android:onClick="true"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="8dp"
+                    android:text="发表"
+                    android:textColor="@color/strategy_item_published"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp">
+
+                <ImageView
+                    android:id="@+id/iv_evaluate_trademark"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tv_evaluate_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="2dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="15dp"
+
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/plant_ask_background" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <EditText
+                    android:id="@+id/et_evaluate_context"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="top"
+                    android:hint="宝贝满足你的期待吗?说说它的优点和美中不足的地方"
+                    android:lines="7"
+                    android:paddingBottom="5dp"
+                    android:textColor="#BEBFC5"
+                    android:textColorHint="#BEBFC5"
+                    android:textSize="15sp" />
+
+                <com.cdqf.plant_view.MyGridView
+                    android:id="@+id/mgv_evaluate_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:horizontalSpacing="8dp"
+                    android:numColumns="3"
+                    android:scrollbars="none"
+                    android:verticalSpacing="8dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="商品评分"
+                    android:textColor="#474747"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="品质评分"
+                        android:textColor="#474747"
+                        android:textSize="15sp" />
+
+                    <com.hedgehog.ratingbar.RatingBar
+                        android:id="@+id/rb_evaluate_quality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        hedgehog:clickable="true"
+                        hedgehog:halfstart="false"
+                        hedgehog:starCount="5"
+                        hedgehog:starEmpty="@mipmap/star_empty"
+                        hedgehog:starFill="@mipmap/star_full"
+                        hedgehog:starImageHeight="25dp"
+                        hedgehog:starImagePadding="10dp"
+                        hedgehog:starImageWidth="35dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="快递评分"
+                        android:textColor="#474747"
+                        android:textSize="15sp" />
+
+                    <com.hedgehog.ratingbar.RatingBar
+                        android:id="@+id/rb_evaluate_courier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        hedgehog:clickable="true"
+                        hedgehog:halfstart="false"
+                        hedgehog:starCount="5"
+                        hedgehog:starEmpty="@mipmap/star_empty"
+                        hedgehog:starFill="@mipmap/star_full"
+                        hedgehog:starImageHeight="25dp"
+                        hedgehog:starImagePadding="10dp"
+                        hedgehog:starImageWidth="35dp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="包装评分"
+                        android:textColor="#474747"
+                        android:textSize="15sp" />
+
+                    <com.hedgehog.ratingbar.RatingBar
+                        android:id="@+id/rb_evaluate_packaging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        hedgehog:clickable="true"
+                        hedgehog:halfstart="false"
+                        hedgehog:starCount="5"
+                        hedgehog:starEmpty="@mipmap/star_empty"
+                        hedgehog:starFill="@mipmap/star_full"
+                        hedgehog:starImageHeight="25dp"
+                        hedgehog:starImagePadding="10dp"
+                        hedgehog:starImageWidth="35dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="服务评分"
+                        android:textColor="#474747"
+                        android:textSize="15sp" />
+
+                    <com.hedgehog.ratingbar.RatingBar
+                        android:id="@+id/rb_evaluate_service"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        hedgehog:clickable="true"
+                        hedgehog:halfstart="false"
+                        hedgehog:starCount="5"
+                        hedgehog:starEmpty="@mipmap/star_empty"
+                        hedgehog:starFill="@mipmap/star_full"
+                        hedgehog:starImageHeight="25dp"
+                        hedgehog:starImagePadding="10dp"
+                        hedgehog:starImageWidth="35dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

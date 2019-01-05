@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@color/plant_ask_background"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rl_phonechangnext_return"
+                android:layout_width="50dp"
+                android:background="@drawable/component_click"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:clickable="true"
+                android:paddingTop="8dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:background="@android:color/transparent"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/plantscience_return" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical|center"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="换绑手机"
+                android:textColor="#474747"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:textSize="14sp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:paddingLeft="10dp"
+            android:textColor="#474747"
+            android:text="请输入13551021778收到的短信检验码"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:backgroundTint="@color/white"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="检验码"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:background="@android:color/transparent"
+                    android:paddingBottom="15dp"
+                    android:textColor="#474747"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content">
+
+                    <com.xw.repo.XEditText
+                        android:id="@+id/xet_phonechangenext_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="2"
+                        android:background="@color/white"
+                        android:gravity="center_vertical|left"
+                        android:lines="1"
+                        android:hint="短信检验码"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="10dp"
+                        android:textColor="#797979"
+                        android:textColorHint="#CAC9CA"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical|right"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="1dp"
+                        android:background="#CAC9CA"
+                        android:layout_height="20dp" />
+
+                    <TextView
+                        android:id="@+id/tv_phonexhangenext_test"
+                        android:layout_width="wrap_content"
+                        android:text="重发检验码"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:background="@android:color/transparent"
+                        android:paddingBottom="15dp"
+                        android:textColor="@color/strategy_item_published"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_phonechangenext_next"
+            android:text="下一步"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:background="@color/strategy_item_published"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical|center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

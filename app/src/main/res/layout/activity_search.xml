@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F5F5F5"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:id="@+id/rl_search_return"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@color/white"
+                android:paddingBottom="12dp"
+                android:paddingLeft="7dp"
+                android:paddingTop="12dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/plantscience_return" />
+
+            </RelativeLayout>
+
+            <com.gcssloop.widget.RCRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:layout_toRightOf="@id/rl_search_return"
+                android:background="@android:color/transparent"
+                app:round_corner="40dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/plantscience_search_background"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp">
+
+                    <ImageView
+                        android:id="@+id/plantscience_search"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_centerVertical="true"
+                        android:background="@color/plantscience_search_background"
+                        android:src="@mipmap/plantscience_search" />
+
+                    <com.xw.repo.XEditText
+                        android:id="@+id/xet_search_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@color/plantscience_search_background"
+                        android:gravity="center_vertical"
+                        android:hint="请输入您要搜索的地点"
+                        android:lines="1"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="8dp"
+                        android:singleLine="true"
+                        android:textColor="#C8C8C8"
+                        android:textColorHint="#C8C8C8"
+                        android:textCursorDrawable="@drawable/nickname_cursor"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </com.gcssloop.widget.RCRelativeLayout>
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/lv_search_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:divider="@color/plant_ask_background"
+            android:dividerHeight="2dp"
+            android:scrollbars="none" />
+
+    </LinearLayout>
+
+</LinearLayout>

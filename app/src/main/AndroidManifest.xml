@@ -1,0 +1,507 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.cdqf.plant_lmsd">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <application
+        android:name="com.cdqf.plant_hear.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        tools:replace="label,allowBackup">
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remoe" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="rnDcWy8Sr4TYSC3HPWGlGnD3LwemHZLe" />
+
+        <!--主activity-->
+        <activity
+            android:name="com.cdqf.plant_activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--支付宝-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+
+        <!--资讯详情-->
+        <activity
+            android:name="com.cdqf.plant_activity.ForDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!--科普内容-->
+        <activity
+            android:name="com.cdqf.plant_activity.PlantScienceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!--游记攻略-->
+        <activity
+            android:name="com.cdqf.plant_activity.StrategyDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!--线路规划-->
+        <activity
+            android:name="com.cdqf.plant_activity.PlanningActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--线路规划详情-->
+        <activity
+            android:name="com.cdqf.plant_activity.PlanningDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--评论-->
+        <activity
+            android:name="com.cdqf.plant_activity.CommentsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--游记标题-->
+        <activity
+            android:name="com.cdqf.plant_activity.TravelTitleActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--游记内容-->
+        <activity
+            android:name="com.cdqf.plant_activity.TravelContextActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--添加文字-->
+        <activity
+            android:name="com.cdqf.plant_activity.AddTextActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--商品列表-->
+        <activity
+            android:name="com.cdqf.plant_activity.GoodsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--商品详情-->
+        <activity
+            android:name="com.cdqf.plant_activity.GoodsDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--购物车-->
+        <activity
+            android:name="com.cdqf.plant_activity.CartActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--确认订单-->
+        <activity
+            android:name="com.cdqf.plant_activity.SettlementActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--管理收货地址-->
+        <activity
+            android:name="com.cdqf.plant_activity.AddressActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--添加新地址-->
+        <activity
+            android:name="com.cdqf.plant_activity.NewAddressActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--设置-->
+        <activity
+            android:name="com.cdqf.plant_activity.SetActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--个人资料-->
+        <activity
+            android:name="com.cdqf.plant_activity.PersonalDataActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--换绑手机第一步-->
+        <activity
+            android:name="com.cdqf.plant_activity.PhoneChangeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--换绑手机第二步-->
+        <activity
+            android:name="com.cdqf.plant_activity.PhoneChangeNextActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--修改密码第一步-->
+        <activity
+            android:name="com.cdqf.plant_activity.PassWordOneActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--修改密码第二步-->
+        <activity
+            android:name="com.cdqf.plant_activity.PassWordTwoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--注册第一步-->
+        <activity
+            android:name="com.cdqf.plant_activity.RegisteredOneActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--注册第二步-->
+        <activity
+            android:name="com.cdqf.plant_activity.RegisteredTwoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--登录页-->
+        <activity
+            android:name="com.cdqf.plant_activity.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--绑定车牌号-->
+        <activity
+            android:name="com.cdqf.plant_activity.NumberActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--车辆信息-->
+        <activity
+            android:name="com.cdqf.plant_activity.CarletterActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--我的收藏-->
+        <activity
+            android:name="com.cdqf.plant_activity.CollectionActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--我的游记-->
+        <activity
+            android:name="com.cdqf.plant_activity.PublishedActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--我的订单-->
+        <activity
+            android:name="com.cdqf.plant_activity.MyOrderActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--植物详情-->
+        <activity
+            android:name="com.cdqf.plant_activity.PlantsDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--影音管理-->
+        <activity
+            android:name="com.cdqf.plant_activity.AvActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--影音管理-->
+        <activity
+            android:name="com.cdqf.plant_activity.GoodsAllEvaluationActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--订单详情-->
+        <activity
+            android:name="com.cdqf.plant_activity.OrderDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--物流-->
+        <activity
+            android:name="com.cdqf.plant_activity.LogisticsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--昵称设置-->
+        <activity
+            android:name="com.cdqf.plant_activity.NickNameActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--编辑文字-->
+        <activity
+            android:name="com.cdqf.plant_activity.EditTextActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--买家评价-->
+        <activity
+            android:name="com.cdqf.plant_activity.EvaluateActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <service
+            android:name="com.cdqf.plant_service.PlantService"
+            android:permission="true">
+
+        </service>
+
+        <activity
+            android:name="com.cdqf.plant_image.PhotoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--景区介绍-->
+        <activity
+            android:name="com.cdqf.plant_activity.IntroductionActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--退款服务类型-->
+        <activity
+            android:name="com.cdqf.plant_activity.ServiceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--仅退款和退款退货-->
+        <activity
+            android:name="com.cdqf.plant_activity.TypeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--退款列表-->
+        <activity
+            android:name="com.cdqf.plant_activity.RefundActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--退款详情-->
+        <activity
+            android:name="com.cdqf.plant_activity.RefundetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--填写物流信息-->
+        <activity
+            android:name="com.cdqf.plant_activity.FillActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--周边旅游-->
+        <activity
+            android:name="com.cdqf.plant_activity.PoiActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--交通图-->
+        <activity
+            android:name="com.cdqf.plant_activity.MapActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--交通图-->
+        <activity
+            android:name="com.cdqf.plant_activity.ForMapActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--搜索-->
+        <activity
+            android:name="com.cdqf.plant_search.SearchActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--搜索商品-->
+        <activity
+            android:name="com.cdqf.plant_activity.SearchShopActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--积分明细-->
+        <activity
+            android:name="com.cdqf.plant_activity.SubsidiaryActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--兑换记录-->
+        <activity
+            android:name="com.cdqf.plant_activity.RecordActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--积分详情-->
+        <activity android:name="com.cdqf.plant_activity.IntegralDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--积分订单提交-->
+        <activity android:name="com.cdqf.plant_activity.SettlementIntegralActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PlantApp.iml" filepath="$PROJECT_DIR$/PlantApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimpleAndroidImageCrop/SimpleAndroidImageCrop.iml" filepath="$PROJECT_DIR$/SimpleAndroidImageCrop/SimpleAndroidImageCrop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ZProgressBar/ZProgressBar.iml" filepath="$PROJECT_DIR$/ZProgressBar/ZProgressBar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bubbleimageview/bubbleimageview.iml" filepath="$PROJECT_DIR$/bubbleimageview/bubbleimageview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/horizontallistview/horizontallistview.iml" filepath="$PROJECT_DIR$/horizontallistview/horizontallistview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imgdots/imgdots.iml" filepath="$PROJECT_DIR$/imgdots/imgdots.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pullToRefreshlibrary/pullToRefreshlibrary.iml" filepath="$PROJECT_DIR$/pullToRefreshlibrary/pullToRefreshlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pulltorefresh_library/pulltorefresh_library.iml" filepath="$PROJECT_DIR$/pulltorefresh_library/pulltorefresh_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/staggeredgridview_library/staggeredgridview_library.iml" filepath="$PROJECT_DIR$/staggeredgridview_library/staggeredgridview_library.iml" />
+    </modules>
+  </component>
+</project>

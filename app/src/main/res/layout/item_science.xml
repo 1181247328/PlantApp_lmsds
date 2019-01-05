@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_height="match_parent"
+    android:background="@drawable/shop_item">
+
+    <com.gcssloop.widget.RCRelativeLayout
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/science"
+        android:orientation="vertical"
+        app:round_corner="2dp">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_ask_item_figure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_ask_item_figure"
+                android:layout_width="130dp"
+                android:layout_height="150dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/test1" />
+
+            <RelativeLayout
+                android:id="@+id/rl_ask_item_collection"
+                android:layout_width="40dp"
+                android:layout_alignParentRight="true"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:layout_height="40dp">
+
+                <ImageView
+                    android:id="@+id/iv_ask_item_collection"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/strategy_item_collection"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_ask_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_ask_item_figure"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:text="药用香蕉"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_ask_item_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_ask_item_name"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:lineSpacingExtra="1dp"
+            android:lines="2"
+            android:paddingBottom="10dp"
+            android:text="能做药的香蕉你见过吗吗sssss"
+            android:textColor="@color/plant_science"
+            android:textSize="12sp" />
+
+    </com.gcssloop.widget.RCRelativeLayout>
+
+</LinearLayout>
