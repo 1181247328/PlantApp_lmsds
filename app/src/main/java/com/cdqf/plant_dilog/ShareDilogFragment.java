@@ -15,8 +15,8 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_adapter.ShareDilogAdapter;
+import com.cdqf.plant_lmsd.R;
 
 /**
  * 分享
@@ -42,7 +42,7 @@ public class ShareDilogFragment extends DialogFragment {
 
     private ShareDilogAdapter shareDilogAdapter = null;
 
-    private void shareContext(String shareTitle, String shareSummary, String shareURL) {
+    public void shareContext(String shareTitle, String shareSummary, String shareURL) {
         Log.e(TAG, "---标题---" + shareTitle + "---摘要---" + shareSummary + "---图片---" + shareURL);
         this.shareTitle = shareTitle;
         this.shareSummary = shareSummary;
@@ -87,11 +87,11 @@ public class ShareDilogFragment extends DialogFragment {
      * 初始化控件
      */
     private void initView() {
-        gvShareDilogList = (GridView) view.findViewById(R.id.gv_share_dilog_list);
+        gvShareDilogList = view.findViewById(R.id.gv_share_dilog_list);
     }
 
     private void initAdapter() {
-        shareDilogAdapter = new ShareDilogAdapter(getContext());
+        shareDilogAdapter = new ShareDilogAdapter(getContext(), shareTitle, shareSummary, shareURL);
         gvShareDilogList.setAdapter(shareDilogAdapter);
     }
 
@@ -102,12 +102,15 @@ public class ShareDilogFragment extends DialogFragment {
         gvShareDilogList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e(TAG, "---分享---");
                 switch (position) {
                     //QQ好友
                     case 0:
                         break;
                     //微信好友
                     case 1:
+                        Log.e(TAG, "---微信好友---");
+//                        HttpWxPayWrap.shareWXImage(getContext(), shareTitle, 0, shareURL);
                         break;
                 }
             }

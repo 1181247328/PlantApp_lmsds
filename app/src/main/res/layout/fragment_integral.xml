@@ -159,11 +159,12 @@
                     <TextView
                         android:id="@+id/tv_integral_no"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:background="@color/white"
+                        android:layout_height="300dp"
+                        android:background="@color/plant_ask_background"
                         android:gravity="center"
                         android:visibility="gone"
-                        android:text="暂无商品兑换~"
+                        android:text="暂无~"
+                        android:textSize="14sp"
                         android:textColor="@color/black" />
 
                     <com.cdqf.plant_view.MyGridView

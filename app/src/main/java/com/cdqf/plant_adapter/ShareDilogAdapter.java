@@ -5,12 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.cdqf.plant.wxapi.ShareQQFind;
+import com.cdqf.plant.wxapi.ShareWxFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.PlantViewHolder;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 分享适配器
@@ -19,7 +20,20 @@ import com.cdqf.plant_state.PlantViewHolder;
 
 public class ShareDilogAdapter extends BaseAdapter {
 
+    private String TAG = ShareDilogAdapter.class.getSimpleName();
+
+    private EventBus eventBus = EventBus.getDefault();
+
     private Context context = null;
+
+    //标题
+    private String shareTitle = null;
+
+    //摘要
+    private String shareSummary = null;
+
+    //图片
+    private String shareURL = null;
 
     //图片
     private int[] shareImage = new int[]{
@@ -32,13 +46,16 @@ public class ShareDilogAdapter extends BaseAdapter {
             "QQ好友", "微信好友"
     };
 
-    public ShareDilogAdapter(Context context) {
+    public ShareDilogAdapter(Context context, String shareTitle, String shareSummary, String shareURL) {
         this.context = context;
+        this.shareTitle = shareTitle;
+        this.shareSummary = shareSummary;
+        this.shareURL = shareURL;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return shareName.length;
     }
 
     @Override
@@ -58,17 +75,40 @@ public class ShareDilogAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_dilog_share, null);
             plantViewHolder = new PlantViewHolder();
             //布局
-            plantViewHolder.llDilogItemLayout = (LinearLayout) convertView.findViewById(R.id.ll_dilog_item_layout);
+            plantViewHolder.llDilogItemLayout = convertView.findViewById(R.id.ll_dilog_item_layout);
             //图片
-            plantViewHolder.ivDilogItemImage = (ImageView) convertView.findViewById(R.id.iv_dilog_item_image);
+            plantViewHolder.ivDilogItemImage = convertView.findViewById(R.id.iv_dilog_item_image);
             //分享名
-            plantViewHolder.tvDilogItemName = (TextView) convertView.findViewById(R.id.tv_dilog_item_name);
+            plantViewHolder.tvDilogItemName = convertView.findViewById(R.id.tv_dilog_item_name);
             convertView.setTag(plantViewHolder);
         } else {
             plantViewHolder = (PlantViewHolder) convertView.getTag();
         }
         plantViewHolder.ivDilogItemImage.setImageResource(shareImage[position]);
         plantViewHolder.tvDilogItemName.setText(shareName[position]);
+        plantViewHolder.llDilogItemLayout.setOnClickListener(new OnShareListener(position));
         return convertView;
+    }
+
+    class OnShareListener implements View.OnClickListener {
+
+        private int position;
+
+        public OnShareListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (position) {
+                case 0:
+                    eventBus.post(new ShareQQFind("https://www.baidu.com/", "百度一下,你就知道", shareURL, shareSummary));
+                    break;
+                case 1:
+                    eventBus.post(new ShareWxFind(shareTitle, "", shareURL));
+//                    HttpWxPayWrap.shareWXImage(context, shareTitle, 0, shareURL);
+                    break;
+            }
+        }
     }
 }

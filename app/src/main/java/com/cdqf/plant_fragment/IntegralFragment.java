@@ -19,7 +19,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_activity.IntegralDetailsActivity;
@@ -28,6 +27,7 @@ import com.cdqf.plant_activity.SubsidiaryActivity;
 import com.cdqf.plant_adapter.IntegralAdapter;
 import com.cdqf.plant_class.Carousel;
 import com.cdqf.plant_class.Integral;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
@@ -117,12 +117,12 @@ public class IntegralFragment extends Fragment {
                 case 0x001:
                     ptrlIntegralScroll.setPullDownEnable(true);
                     tvIntegralNo.setVisibility(View.GONE);
-                    ptrlIntegralScroll.setVisibility(View.VISIBLE);
+                    mgvIntegralRecommended.setVisibility(View.VISIBLE);
                     break;
                 case 0x002:
                     ptrlIntegralScroll.setPullDownEnable(false);
                     tvIntegralNo.setVisibility(View.VISIBLE);
-                    ptrlIntegralScroll.setVisibility(View.GONE);
+                    mgvIntegralRecommended.setVisibility(View.GONE);
                     break;
             }
         }

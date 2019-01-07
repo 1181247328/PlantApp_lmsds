@@ -84,7 +84,7 @@ public class RequestHandler extends RequestCallBack<String> {
 
     @Override
     public void onFailure(HttpException arg0, String arg1) {
-        Log.e(TAG,"---onFailure---"+responseHandler);
+        Log.e(TAG, "---onFailure---" + arg0.getMessage());
         if (responseHandler != null) {
             responseHandler.onResponse(null, RequestStatus.FAILURE);
         }

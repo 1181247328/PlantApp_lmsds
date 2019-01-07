@@ -9,7 +9,7 @@ public class Commlist {
     private String commname;
     private String picture;
     private String imgpicture;
-    private int price;
+    private double price;
     private int postage;
     private boolean ispostfree;
     private boolean isrecommend;
@@ -21,7 +21,7 @@ public class Commlist {
 
     }
 
-    public Commlist(int commid, String commname, String picture, String imgpicture, int price, int postage, boolean ispostfree, boolean isrecommend, int recommendedorder, int payer, boolean isoriginalprice) {
+    public Commlist(int commid, String commname, String picture, String imgpicture, double price, int postage, boolean ispostfree, boolean isrecommend, int recommendedorder, int payer, boolean isoriginalprice) {
         this.commid = commid;
         this.commname = commname;
         this.picture = picture;
@@ -67,11 +67,11 @@ public class Commlist {
         this.imgpicture = imgpicture;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

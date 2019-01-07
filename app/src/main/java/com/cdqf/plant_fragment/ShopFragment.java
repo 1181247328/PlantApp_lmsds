@@ -16,7 +16,6 @@ import android.widget.ScrollView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_activity.GoodsActivity;
@@ -26,6 +25,7 @@ import com.cdqf.plant_adapter.RecommendedAdapter;
 import com.cdqf.plant_adapter.ShopFunctionAdapter;
 import com.cdqf.plant_class.Banners;
 import com.cdqf.plant_class.Commlist;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
@@ -226,7 +226,7 @@ public class ShopFragment extends Fragment {
                     String picture = PlantAddress.ADDRESS + j.getString("picture");
                     String imgPicture = j.getString("imgPicture");
                     //价格
-                    int price = j.getInteger("price");
+                    double price = j.getDouble("price");
                     //是否包邮
                     int postage = j.getInteger("postage");
                     //
@@ -312,7 +312,7 @@ public class ShopFragment extends Fragment {
         @Override
         public View createView(Context context) {
             View view = LayoutInflater.from(context).inflate(R.layout.item_shop_banner, null);
-            ivShopItemImage = (ImageView) view.findViewById(R.id.iv_shop_item_image);
+            ivShopItemImage = view.findViewById(R.id.iv_shop_item_image);
             return view;
         }
 

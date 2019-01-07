@@ -13,7 +13,7 @@ public class Constants {
     public static final String WX_URL_STRING = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
     //appid 微信分配的公众账号ID
-    public static final String WX_APP_ID = "wx44417aef778ec57b";
+    public static final String WX_APP_ID = "wx5048e518874eed43";
 
     //商户号 微信分配的公众账号ID
     public static final String WX_MCH_ID = "";

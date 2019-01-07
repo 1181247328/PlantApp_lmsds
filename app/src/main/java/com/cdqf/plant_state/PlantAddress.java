@@ -11,7 +11,7 @@ public class PlantAddress {
     //龙门水都
 //    public static final String ADDRESS = "http://192.168.31.172:1020/";
 
-    public static final String ADDRESS = "http://rlmsdapi.quanyubao.cn/";
+    public static final String ADDRESS = "http://rlmsdapi.quanyubao.cn";
 
     //线上
     //public static final String ADDRESS = "http://zwyapi.quanyubao.cn/";
@@ -37,7 +37,7 @@ public class PlantAddress {
     public static final String ASK_DETAILS = ADDRESS + "/api/ScenicSpot/GetBotanyDetails";
 
     //资质轮播图
-    public static final String ASK_NEWHEEL = ADDRESS + "/api/News/GetTopNews";
+    public static final String ASK_NEWHEEL = ADDRESS + "/api/News/RGetTopNews";
 
     /**
      * 游记
