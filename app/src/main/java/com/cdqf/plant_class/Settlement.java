@@ -1,7 +1,7 @@
 package com.cdqf.plant_class;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by liu on 2017/12/11.
@@ -9,11 +9,11 @@ import java.util.List;
 
 public class Settlement {
     private int postFree;
-    private int allCommTotalPrice;
+    private double allCommTotalPrice;
     private int totalNum;
     private String commIds;
     private String commNums;
-    private List<Commlist> commList = new ArrayList<>();
+    private List<Commlist> commList = new CopyOnWriteArrayList<>();
     private Receivingaddress receivingAddress = null;
 
     public Settlement(){
@@ -28,11 +28,11 @@ public class Settlement {
         this.postFree = postFree;
     }
 
-    public int getAllCommTotalPrice() {
+    public double getAllCommTotalPrice() {
         return allCommTotalPrice;
     }
 
-    public void setAllCommTotalPrice(int allCommTotalPrice) {
+    public void setAllCommTotalPrice(double allCommTotalPrice) {
         this.allCommTotalPrice = allCommTotalPrice;
     }
 

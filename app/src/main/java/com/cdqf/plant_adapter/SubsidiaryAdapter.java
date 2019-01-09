@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.PlantState;
@@ -50,18 +49,24 @@ public class SubsidiaryAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_subidiary, null);
             plantViewHolder = new PlantViewHolder();
             //名称
-            plantViewHolder.tvSubsidiaryItemName = (TextView) convertView.findViewById(R.id.tv_subsidiary_item_name);
+            plantViewHolder.tvSubsidiaryItemName = convertView.findViewById(R.id.tv_subsidiary_item_name);
             //时间
-            plantViewHolder.tvSubsidiaryItemTimer = (TextView) convertView.findViewById(R.id.tv_subsidiary_item_timer);
+            plantViewHolder.tvSubsidiaryItemTimer = convertView.findViewById(R.id.tv_subsidiary_item_timer);
             //兑换所得积分
-            plantViewHolder.tvSubsidiaryItemMoney = (TextView) convertView.findViewById(R.id.tv_subsidiary_item_money);
+            plantViewHolder.tvSubsidiaryItemMoney = convertView.findViewById(R.id.tv_subsidiary_item_money);
             convertView.setTag(plantViewHolder);
         } else {
             plantViewHolder = (PlantViewHolder) convertView.getTag();
         }
         plantViewHolder.tvSubsidiaryItemName.setText(plantState.getSubsidiaryList().get(position).getOrderNo());
         plantViewHolder.tvSubsidiaryItemTimer.setText(plantState.getSubsidiaryList().get(position).getStrRecordDate());
-        plantViewHolder.tvSubsidiaryItemMoney.setText("+" + plantState.getSubsidiaryList().get(position).getIntegralNumber());
+        if (plantState.getSubsidiaryList().get(position).getIntegralNumber() < 0) {
+            plantViewHolder.tvSubsidiaryItemMoney.setText(plantState.getSubsidiaryList().get(position).getIntegralNumber() + "");
+        } else if (plantState.getSubsidiaryList().get(position).getIntegralNumber() > 0) {
+            plantViewHolder.tvSubsidiaryItemMoney.setText("+" + plantState.getSubsidiaryList().get(position).getIntegralNumber());
+        } else {
+            plantViewHolder.tvSubsidiaryItemMoney.setText("0");
+        }
         return convertView;
     }
 }

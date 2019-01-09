@@ -12,12 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_activity.SettlementActivity;
@@ -25,9 +25,11 @@ import com.cdqf.plant_adapter.CartAdapter;
 import com.cdqf.plant_class.CartList;
 import com.cdqf.plant_dilog.PromptDilogFragment;
 import com.cdqf.plant_find.CartAddFind;
+import com.cdqf.plant_find.CartDeteleFind;
 import com.cdqf.plant_find.CartFind;
 import com.cdqf.plant_find.CartReductionFind;
-import com.cdqf.plant_find.DeteleShopFind;
+import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_state.DoubleOperationUtil;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
@@ -69,7 +71,7 @@ public class CartFragment extends Fragment {
     private HttpRequestWrap httpRequestWrap = null;
 
     //删除
-    @BindView(R.id.tv_cart_delete)
+    @BindView(R.id.tv_cart_deletes)
     public TextView tvCartDelete = null;
 
     //集合
@@ -105,7 +107,7 @@ public class CartFragment extends Fragment {
 
     private Gson gson = new Gson();
 
-    private int allPrice = 0;
+    private double allPrice = 0.0;
 
     private Handler handler = new Handler() {
         @Override
@@ -149,6 +151,8 @@ public class CartFragment extends Fragment {
 
         initAdapter();
 
+        initListener();
+
         initBack();
 
         return view;
@@ -174,6 +178,34 @@ public class CartFragment extends Fragment {
         lvCartList.setAdapter(cartAdapter);
     }
 
+    private void initListener() {
+        cbCartCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!buttonView.isPressed()) {
+                    return;
+                }
+                allPrice = 0.00;
+                if (isChecked) {
+                    for (CartList c : plantState.getCartList()) {
+                        c.setCart(true);
+//                        allPrice += c.getPrice() * c.getNumber();
+                        allPrice = DoubleOperationUtil.add(allPrice, c.getPrice() * c.getNumber());
+                    }
+                    tvCartPrice.setText("￥" + allPrice + "");
+                    tvCartSettlement.setText("去结算(" + allPrice + ")");
+                } else {
+                    for (CartList c : plantState.getCartList()) {
+                        c.setCart(false);
+                    }
+                    allPrice = 0.0;
+                    tvCartPrice.setText("￥" + allPrice + "");
+                    tvCartSettlement.setText("去结算(" + allPrice + ")");
+                }
+                cartAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     private void initBack() {
         ptrlCartPull.setPullDownEnable(false);
@@ -248,11 +280,11 @@ public class CartFragment extends Fragment {
         startActivity(intent);
     }
 
-    @OnClick({R.id.tv_cart_delete, R.id.tv_cart_settlement})
+    @OnClick({R.id.tv_cart_deletes, R.id.tv_cart_settlement})
     public void onClick(View v) {
         switch (v.getId()) {
             //删除
-            case R.id.tv_cart_delete:
+            case R.id.tv_cart_deletes:
                 boolean isCart = false;
                 for (CartList c : plantState.getCartList()) {
                     if (c.isCart()) {
@@ -264,18 +296,30 @@ public class CartFragment extends Fragment {
                     return;
                 }
                 PromptDilogFragment promptDilogFragment = new PromptDilogFragment();
-                promptDilogFragment.initPrompt(getContext().getResources().getString(R.string.delete_not_cart), 6);
+                promptDilogFragment.initPrompt(getContext().getResources().getString(R.string.delete_not_cart), 26);
                 promptDilogFragment.show(getFragmentManager(), "提示删除");
                 break;
             //去结算
             case R.id.tv_cart_settlement:
+                boolean isCartSelete = false;
+                for (CartList s : plantState.getCartList()) {
+                    if (s.isCart()) {
+                        isCartSelete = true;
+                    }
+                }
+                if (!isCartSelete) {
+                    plantState.initToast(getContext(), "请选择至少一个商品", true, 0);
+                    return;
+                }
                 //商品id集合
                 String commIds = "";
                 //商品数量集合
                 String numbers = "";
                 for (CartList c : plantState.getCartList()) {
-                    commIds += c.getCommId() + ",";
-                    numbers += c.getNumber() + ",";
+                    if (c.isCart()) {
+                        commIds += c.getCommId() + ",";
+                        numbers += c.getNumber() + ",";
+                    }
                 }
                 commIds = commIds.substring(0, commIds.length() - 1);
                 numbers = numbers.substring(0, numbers.length() - 1);
@@ -317,9 +361,21 @@ public class CartFragment extends Fragment {
      * @param c
      */
     public void onEventMainThread(CartFind c) {
-        allPrice += plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber();
+//        allPrice += plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber();
+        allPrice = DoubleOperationUtil.add(allPrice, plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber());
+
         tvCartPrice.setText("￥" + allPrice + "");
         tvCartSettlement.setText("去结算(" + allPrice + ")");
+
+        boolean isCartSelete = true;
+        for (CartList s : plantState.getCartList()) {
+            if (!s.isCart()) {
+                isCartSelete = false;
+            }
+        }
+        if (isCartSelete) {
+            cbCartCheckbox.setChecked(true);
+        }
     }
 
     /**
@@ -328,9 +384,21 @@ public class CartFragment extends Fragment {
      * @param c
      */
     public void onEventMainThread(CartReductionFind c) {
-        allPrice -= plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber();
+//        allPrice -= plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber();
+        allPrice = DoubleOperationUtil.sub(allPrice, plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber());
         tvCartPrice.setText("￥" + allPrice + "");
         tvCartSettlement.setText("去结算(" + allPrice + ")");
+
+        boolean isCartSelete = true;
+        for (CartList s : plantState.getCartList()) {
+            if (!s.isCart()) {
+                isCartSelete = false;
+            }
+        }
+        Log.e(TAG, "---取消全选的操作---" + isCartSelete);
+        if (!isCartSelete) {
+            cbCartCheckbox.setChecked(false);
+        }
     }
 
     /**
@@ -354,7 +422,7 @@ public class CartFragment extends Fragment {
      *
      * @param d
      */
-    public void onEventMainThread(DeteleShopFind d) {
+    public void onEventMainThread(CartDeteleFind d) {
         String shoppingCartIds = "";
         for (CartList c : plantState.getCartList()) {
             if (c.isCart()) {
@@ -364,7 +432,7 @@ public class CartFragment extends Fragment {
         shoppingCartIds = shoppingCartIds.substring(0, shoppingCartIds.length() - 1);
         Log.e(TAG, "---DeteleShopFind---" + shoppingCartIds);
         httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, getContext().getResources().getString(R.string.please_while), new OnResponseHandler() {
+        httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {
                 String data = Errer.isResult(getContext(), result, status);
@@ -373,6 +441,10 @@ public class CartFragment extends Fragment {
                     return;
                 }
                 Log.e(TAG, "---删除购物车商品成功---" + data);
+                if (TextUtils.equals(data, "1001")) {
+                    handler.sendEmptyMessage(0x001);
+                    return;
+                }
                 plantState.getCartList().clear();
                 List<CartList> cartLists = gson.fromJson(data, new TypeToken<List<CartList>>() {
                 }.getType());
@@ -380,6 +452,11 @@ public class CartFragment extends Fragment {
                 if (cartAdapter != null) {
                     cartAdapter.notifyDataSetChanged();
                 }
+
+                allPrice = 0.0;
+                tvCartPrice.setText("￥" + allPrice + "");
+                tvCartSettlement.setText("去结算(" + allPrice + ")");
+                cbCartCheckbox.setChecked(false);
             }
         }));
         Map<String, Object> params = new HashMap<String, Object>();

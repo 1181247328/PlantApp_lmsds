@@ -29,7 +29,9 @@ import com.cdqf.plant_adapter.GoodsQualityAdapter;
 import com.cdqf.plant_adapter.GoodsRecommendedAdapter;
 import com.cdqf.plant_class.Evaluation;
 import com.cdqf.plant_class.GoodsDetails;
+import com.cdqf.plant_dilog.NumberDilogFragment;
 import com.cdqf.plant_dilog.PromptDilogFragment;
+import com.cdqf.plant_find.NumberSettFind;
 import com.cdqf.plant_find.PromptFind;
 import com.cdqf.plant_find.ShopColltionFind;
 import com.cdqf.plant_lmsd.R;
@@ -345,7 +347,7 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
                 if (goodsDetails.isPostFree()) {
                     tvDetailsCourier.setText(context.getResources().getString(R.string.post_free));
                 } else {
-                    tvDetailsCourier.setText(context.getResources().getString(R.string.post_free_cost) + "15元");
+                    tvDetailsCourier.setText(context.getResources().getString(R.string.post_free_cost) + "15.0元");
                 }
                 //月销
                 tvDetailsPin.setText(context.getResources().getString(R.string.details_pin) + goodsDetails.getPayer() + "笔");
@@ -369,10 +371,10 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
         int commId = 0;
         switch (type) {
             case 0:
-                commId = plantState.getCommlist().get(position).getCommid();
+                commId = plantState.getCommlist().get(position).getCommId();
                 break;
             case 1:
-                commId = plantState.getGoodlist().get(position).getCommid();
+                commId = plantState.getGoodlist().get(position).getCommId();
                 break;
             case 2:
                 commId = plantState.getSearchList().get(position).getCommId();
@@ -455,10 +457,10 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
         int commId = 0;
         switch (type) {
             case 0:
-                commId = plantState.getCommlist().get(position).getCommid();
+                commId = plantState.getCommlist().get(position).getCommId();
                 break;
             case 1:
-                commId = plantState.getGoodlist().get(position).getCommid();
+                commId = plantState.getGoodlist().get(position).getCommId();
                 break;
             case 2:
                 commId = plantState.getSearchList().get(position).getCommId();
@@ -576,18 +578,32 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
                 if (isLogin(3)) {
                     //商品id
                     int commId = 0;
+                    String name = null;
+                    double pricte = 0;
                     switch (type) {
                         case 0:
-                            commId = plantState.getCommlist().get(position).getCommid();
+                            commId = plantState.getCommlist().get(position).getCommId();
+                            name = plantState.getCommlist().get(position).getCommName();
+                            pricte = plantState.getCommlist().get(position).getPrice();
                             break;
                         case 1:
-                            commId = plantState.getGoodlist().get(position).getCommid();
+                            commId = plantState.getGoodlist().get(position).getCommId();
+                            name = plantState.getGoodlist().get(position).getCommName();
+                            pricte = plantState.getGoodlist().get(position).getPrice();
                             break;
                         case 2:
                             commId = plantState.getSearchList().get(position).getCommId();
+                            name = plantState.getSearchList().get(position).getCommName();
+                            pricte = plantState.getSearchList().get(position).getPrice();
                             break;
                     }
-                    initIntent(SettlementActivity.class, commId + "", "1");
+//                    initIntent(SettlementActivity.class, commId + "", "1");
+                    NumberDilogFragment numberDilogFragment = new NumberDilogFragment();
+                    numberDilogFragment.setInIt(
+                            name,
+                            pricte,
+                            commId);
+                    numberDilogFragment.show(getSupportFragmentManager(), "添加数量");
                 }
                 break;
             //查看全部评价
@@ -596,10 +612,10 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
                 int commId = 0;
                 switch (type) {
                     case 0:
-                        commId = plantState.getCommlist().get(position).getCommid();
+                        commId = plantState.getCommlist().get(position).getCommId();
                         break;
                     case 1:
-                        commId = plantState.getGoodlist().get(position).getCommid();
+                        commId = plantState.getGoodlist().get(position).getCommId();
                         break;
                     case 2:
                         commId = plantState.getSearchList().get(position).getCommId();
@@ -654,10 +670,10 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
                 int collectedId = 0;
                 switch (type) {
                     case 0:
-                        collectedId = plantState.getCommlist().get(position).getCommid();
+                        collectedId = plantState.getCommlist().get(position).getCommId();
                         break;
                     case 1:
-                        collectedId = plantState.getGoodlist().get(position).getCommid();
+                        collectedId = plantState.getGoodlist().get(position).getCommId();
                         break;
                     case 2:
                         collectedId = plantState.getSearchList().get(position).getCommId();
@@ -713,10 +729,10 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
                 int commId = 0;
                 switch (type) {
                     case 0:
-                        commId = plantState.getCommlist().get(position).getCommid();
+                        commId = plantState.getCommlist().get(position).getCommId();
                         break;
                     case 1:
-                        commId = plantState.getGoodlist().get(position).getCommid();
+                        commId = plantState.getGoodlist().get(position).getCommId();
                         break;
                     case 2:
                         commId = plantState.getSearchList().get(position).getCommId();
@@ -797,5 +813,9 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
         super.onDestroy();
         Log.e(TAG, "---销毁---");
         eventBus.unregister(context);
+    }
+
+    public void onEventMainThread(NumberSettFind t) {
+        initIntent(SettlementActivity.class, t.commId + "", t.position + "");
     }
 }

@@ -35,6 +35,8 @@ import com.cdqf.plant_utils.RequestHandler;
 import com.cdqf.plant_utils.RequestStatus;
 import com.cdqf.plant_view.MyGridView;
 import com.gcssloop.widget.RCRelativeLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.zhouwei.mzbanner.MZBannerView;
@@ -91,6 +93,8 @@ public class ShopFragment extends Fragment {
 
     private RecommendedAdapter recommendedAdapter = null;
 
+    private Gson gson = new Gson();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -108,7 +112,7 @@ public class ShopFragment extends Fragment {
     }
 
     private void initAgo() {
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         imageLoader = plantState.getImageLoader(getContext());
         httpRequestWrap = new HttpRequestWrap(getContext());
     }
@@ -129,14 +133,14 @@ public class ShopFragment extends Fragment {
         mgvShopList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                initIntent(GoodsActivity.class,position);
+                initIntent(GoodsActivity.class, position);
             }
         });
         //为您推荐
         mgvShopRecommended.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                initIntentType(GoodsDetailsActivity.class,position,0);
+                initIntentType(GoodsDetailsActivity.class, position, 0);
             }
         });
     }
@@ -145,7 +149,7 @@ public class ShopFragment extends Fragment {
         slShopScrol.smoothScrollTo(0, 0);
         //首页
         initPictures();
-        mgvShopList.setOnScrollListener(new PauseOnScrollListener(plantState.getImageLoader(getContext()),true,false));
+        mgvShopList.setOnScrollListener(new PauseOnScrollListener(plantState.getImageLoader(getContext()), true, false));
     }
 
     private void initBanner(List<Banners> datas) {
@@ -172,16 +176,16 @@ public class ShopFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void initIntent(Class<?> activity,int position) {
+    private void initIntent(Class<?> activity, int position) {
         Intent intent = new Intent(getContext(), activity);
-        intent.putExtra("position",position);
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 
-    private void initIntentType(Class<?> activity,int posiiton,int type) {
+    private void initIntentType(Class<?> activity, int posiiton, int type) {
         Intent intent = new Intent(getContext(), activity);
-        intent.putExtra("position",posiiton);
-        intent.putExtra("type",type);
+        intent.putExtra("position", posiiton);
+        intent.putExtra("type", type);
         startActivity(intent);
     }
 
@@ -215,34 +219,41 @@ public class ShopFragment extends Fragment {
                 initBanner(plantState.getBanners());
                 //推荐
                 plantState.getCommlist().clear();
-                JSONArray commList = dataJSON.getJSONArray("commList");
-                for (int i = 0; i < commList.size(); i++) {
-                    JSONObject j = commList.getJSONObject(i);
-                    //商品ID
-                    int commId = j.getInteger("commId");
-                    //商品名称
-                    String commName = j.getString("commName");
-                    //图片地址
-                    String picture = PlantAddress.ADDRESS + j.getString("picture");
-                    String imgPicture = j.getString("imgPicture");
-                    //价格
-                    double price = j.getDouble("price");
-                    //是否包邮
-                    int postage = j.getInteger("postage");
-                    //
-                    boolean isPostFree = j.getBoolean("isPostFree");
-                    //是否推荐
-                    boolean isRecommend = j.getBoolean("isRecommend");
-                    //推荐顺序
-                    int recommendedOrder = j.getInteger("recommendedOrder");
-                    //付款人数
-                    int payer = j.getInteger("payer");
-                    //是否原价
-                    boolean isOriginalPrice = j.getBoolean("isOriginalPrice");
-                    Commlist commlist = new Commlist(commId, commName, picture, imgPicture, price, postage, isPostFree, isRecommend, recommendedOrder, payer, isOriginalPrice);
-                    plantState.getCommlist().add(commlist);
-                }
-                recommendedAdapter = new RecommendedAdapter(getContext(), imageLoader,plantState.getCommlist());
+                String shop = dataJSON.getString("commList");
+                List<Commlist> commList = gson.fromJson(shop, new TypeToken<List<Commlist>>() {
+                }.getType());
+                plantState.setCommlist(commList);
+//                JSONArray commList = dataJSON.getJSONArray("commList");
+//                for (int i = 0; i < commList.size(); i++) {
+//                    JSONObject j = commList.getJSONObject(i);
+//                    Log.e(TAG, "---商品---" + commList.getString(i));
+//                    //商品ID
+//                    int commId = j.getInteger("commId");
+//                    //商品名称
+//                    String commName = j.getString("commName");
+//                    //图片地址
+//                    String picture = PlantAddress.ADDRESS + j.getString("picture");
+//                    String imgPicture = j.getString("imgPicture");
+//                    //价格
+//                    double price = j.getDoubleValue("price");
+//                    Log.e(TAG, "---商品价格---" + price);
+//                    //是否包邮
+//                    int postage = j.getInteger("postage");
+//                    //
+//                    boolean isPostFree = j.getBoolean("isPostFree");
+//                    //是否推荐
+//                    boolean isRecommend = j.getBoolean("isRecommend");
+//                    //推荐顺序
+//                    int recommendedOrder = j.getInteger("recommendedOrder");
+//                    //付款人数
+//                    int payer = j.getInteger("payer");
+//                    //是否原价
+//                    boolean isOriginalPrice = j.getBoolean("isOriginalPrice");
+//                    Commlist commlist = new Commlist(commId, commName, picture, imgPicture, price, postage, isPostFree, isRecommend, recommendedOrder, payer, isOriginalPrice);
+//
+//                    plantState.getCommlist().add(commlist);
+//                }
+                recommendedAdapter = new RecommendedAdapter(getContext(), imageLoader, plantState.getCommlist());
                 mgvShopRecommended.setAdapter(recommendedAdapter);
             }
         }));
@@ -270,8 +281,8 @@ public class ShopFragment extends Fragment {
     }
 
     @OnClick({R.id.rcrl_shop_search})
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             //搜索
             case R.id.rcrl_shop_search:
                 initIntent(SearchShopActivity.class);

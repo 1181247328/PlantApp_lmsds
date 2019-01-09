@@ -11,7 +11,7 @@ public class CartList {
     private String commPic;
     private String commHttpPic;
     private int number;
-    private int price;
+    private double price;
     private boolean isCart = false;
 
     public int getScId() {
@@ -62,11 +62,11 @@ public class CartList {
         this.number = number;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

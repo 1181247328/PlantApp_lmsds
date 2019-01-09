@@ -23,7 +23,7 @@ public class SettlementAdapter extends BaseAdapter {
 
     private Context context = null;
 
-    private ImageLoader imageLoader= ImageLoader.getInstance();
+    private ImageLoader imageLoader = ImageLoader.getInstance();
 
     private PlantState plantState = PlantState.getPlantState();
 
@@ -35,7 +35,7 @@ public class SettlementAdapter extends BaseAdapter {
         imageLoader = plantState.getImageLoader(context);
     }
 
-    public void setSettlement(Settlement settlement){
+    public void setSettlement(Settlement settlement) {
         this.settlement = settlement;
         notifyDataSetChanged();
     }
@@ -58,8 +58,8 @@ public class SettlementAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         PlantViewHolder plantViewHolder = null;
-        if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_settlement,null);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_settlement, null);
             plantViewHolder = new PlantViewHolder();
             //图片
             plantViewHolder.ivSettlementItemFigure = convertView.findViewById(R.id.iv_settlement_item_figure);
@@ -73,10 +73,10 @@ public class SettlementAdapter extends BaseAdapter {
         } else {
             plantViewHolder = (PlantViewHolder) convertView.getTag();
         }
-        imageLoader.displayImage(settlement.getCommList().get(position).getCommHttpPic(),plantViewHolder.ivSettlementItemFigure,plantState.getImageLoaderOptions(R.mipmap.not_loaded,R.mipmap.not_loaded,R.mipmap.not_loaded));
+        imageLoader.displayImage(settlement.getCommList().get(position).getCommHttpPic(), plantViewHolder.ivSettlementItemFigure, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
         plantViewHolder.tvSettlementItemName.setText(settlement.getCommList().get(position).getCommName());
-        plantViewHolder.tvSettlementItemPrice.setText(settlement.getCommList().get(position).getPrice()+"");
-        plantViewHolder.tvSettlementItemReduction.setText("X"+settlement.getCommList().get(position).getNumber());
+        plantViewHolder.tvSettlementItemPrice.setText((double) settlement.getCommList().get(position).getPrice() + "");
+        plantViewHolder.tvSettlementItemReduction.setText("X" + settlement.getCommList().get(position).getNumber());
         return convertView;
     }
 }

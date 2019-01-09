@@ -9,16 +9,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_city.CityJSON;
 import com.cdqf.plant_city.OnWitePickListener;
 import com.cdqf.plant_find.NewAddressFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -164,14 +165,14 @@ public class NewAddressActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
-        rlNewaddressReturn = (RelativeLayout) this.findViewById(R.id.rl_newaddress_return);
-        tvNesaddressSave = (TextView) this.findViewById(R.id.tv_newaddress_save);
-        xetNewaddressGoods = (XEditText) this.findViewById(R.id.xet_newaddress_goods);
-        xetNewaddressPhone = (XEditText) this.findViewById(R.id.xet_newaddress_phone);
-        llNewaddressRegion = (LinearLayout) this.findViewById(R.id.ll_newaddress_region);
-        xetNewaddressDetails = (XEditText) this.findViewById(R.id.xet_newaddress_details);
-        swNewaddressSwitch = (Switch) this.findViewById(R.id.sw_newaddress_switch);
-        tvNewaddressArea = (TextView) this.findViewById(R.id.tv_newaddress_area);
+        rlNewaddressReturn = this.findViewById(R.id.rl_newaddress_return);
+        tvNesaddressSave = this.findViewById(R.id.tv_newaddress_save);
+        xetNewaddressGoods = this.findViewById(R.id.xet_newaddress_goods);
+        xetNewaddressPhone = this.findViewById(R.id.xet_newaddress_phone);
+        llNewaddressRegion = this.findViewById(R.id.ll_newaddress_region);
+        xetNewaddressDetails = this.findViewById(R.id.xet_newaddress_details);
+        swNewaddressSwitch = this.findViewById(R.id.sw_newaddress_switch);
+        tvNewaddressArea = this.findViewById(R.id.tv_newaddress_area);
     }
 
     private void initAdapter() {
@@ -228,6 +229,14 @@ public class NewAddressActivity extends BaseActivity implements View.OnClickList
         id = plantState.getProvinceList().get(options1).getCityTheList().get(options2).getAreaList().get(options3).getId();
         tvNewaddressArea.setText(peroince + city + area);
         areaRegionDistrictId = Integer.parseInt(id);
+    }
+
+    private void closeDecor() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     @Override
@@ -320,6 +329,7 @@ public class NewAddressActivity extends BaseActivity implements View.OnClickList
                 break;
             //所在地区
             case R.id.ll_newaddress_region:
+                closeDecor();
                 cityJSON.optionsPickerWith(newAddressActivity, context, plantState.getOptions1Items(), plantState.getOptions2Items(), plantState.getOptions3Items());
                 cityJSON.setOnWitePickListener(new OnWitePickListener() {
                     @Override

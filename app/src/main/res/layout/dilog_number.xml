@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/immersion"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_number_dilog_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/immersion"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="商品名称"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/immersion"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:paddingLeft="10dp"
+                android:paddingTop="3dp"
+                android:text="￥"
+                android:textColor="#EE4E55"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_number_dilog_pricte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/immersion"
+                android:gravity="right"
+                android:paddingLeft="3dp"
+                android:paddingRight="10dp"
+                android:text="444.0"
+                android:textColor="#EE4E55"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_number_dilog_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="购买数量"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="right"
+            android:paddingLeft="10dp"
+            android:paddingTop="18dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="18dp">
+
+            <TextView
+                android:id="@+id/tv_number_dilog_reduction"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/number_click"
+                android:gravity="center"
+                android:text="—"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_number_dilog_context"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_number_dilog_add"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/number_click"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_number_dilog_determine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/immersion"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

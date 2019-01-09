@@ -47,7 +47,7 @@
 
                 <com.gcssloop.widget.RCRelativeLayout
                     android:id="@+id/rcrl_shop_item_rc"
-                    android:layout_width="45dp"
+                    android:layout_width="55dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@color/white"

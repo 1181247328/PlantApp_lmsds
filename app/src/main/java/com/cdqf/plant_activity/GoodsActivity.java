@@ -36,10 +36,13 @@ import com.cdqf.plant_utils.HttpRequestWrap;
 import com.cdqf.plant_utils.OnResponseHandler;
 import com.cdqf.plant_utils.RequestHandler;
 import com.cdqf.plant_utils.RequestStatus;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jingchen.pulltorefresh.PullToRefreshLayout;
 import com.xw.repo.XEditText;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.cdqf.plant_lmsd.R.id.tv_goods_comprehensive;
@@ -97,6 +100,8 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
     private GoodsAdapter goodsAdapter = null;
 
     private LinearLayout llGoodsThere = null;
+
+    private Gson gson = new Gson();
 
     //true = 按高排序
     private boolean isSelected = true;
@@ -279,32 +284,37 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
                             plantState.initToast(context, context.getResources().getString(R.string.more), true, 0);
                             return;
                         }
-                        for (int i = 0; i < commList.size(); i++) {
-                            JSONObject j = commList.getJSONObject(i);
-                            //商品ID
-                            int commId = j.getInteger("commId");
-                            //商品名称
-                            String commName = j.getString("commName");
-                            //图片地址
-                            String picture = PlantAddress.ADDRESS + j.getString("picture");
-                            String imgPicture = j.getString("imgPicture");
-                            //价格
-                            int price = j.getInteger("price");
-                            //是否包邮
-                            int postage = j.getInteger("postage");
-                            //
-                            boolean isPostFree = j.getBoolean("isPostFree");
-                            //是否推荐
-                            boolean isRecommend = j.getBoolean("isRecommend");
-                            //推荐顺序
-                            int recommendedOrder = j.getInteger("recommendedOrder");
-                            //付款人数
-                            int payer = j.getInteger("payer");
-                            //是否原价
-                            boolean isOriginalPrice = j.getBoolean("isOriginalPrice");
-                            Commlist goodlist = new Commlist(commId, commName, picture, imgPicture, price, postage, isPostFree, isRecommend, recommendedOrder, payer, isOriginalPrice);
-                            plantState.getGoodlist().add(goodlist);
-                        }
+//                        for (int i = 0; i < commList.size(); i++) {
+//                            JSONObject j = commList.getJSONObject(i);
+//                            //商品ID
+//                            int commId = j.getInteger("commId");
+//                            //商品名称
+//                            String commName = j.getString("commName");
+//                            //图片地址
+//                            String picture = PlantAddress.ADDRESS + j.getString("picture");
+//                            String imgPicture = j.getString("imgPicture");
+//                            //价格
+//                            int price = j.getInteger("price");
+//                            //是否包邮
+//                            int postage = j.getInteger("postage");
+//                            //
+//                            boolean isPostFree = j.getBoolean("isPostFree");
+//                            //是否推荐
+//                            boolean isRecommend = j.getBoolean("isRecommend");
+//                            //推荐顺序
+//                            int recommendedOrder = j.getInteger("recommendedOrder");
+//                            //付款人数
+//                            int payer = j.getInteger("payer");
+//                            //是否原价
+//                            boolean isOriginalPrice = j.getBoolean("isOriginalPrice");
+//                            Commlist goodlist = new Commlist(commId, commName, picture, imgPicture, price, postage, isPostFree, isRecommend, recommendedOrder, payer, isOriginalPrice);
+//                            plantState.getGoodlist().add(goodlist);
+//                        }
+//                        plantState.getGoodlist().clear();
+                        String shop = dataJSON.getString("list");
+                        List<Commlist> commGoodList = gson.fromJson(shop, new TypeToken<List<Commlist>>() {
+                        }.getType());
+                        plantState.getGoodlist().addAll(commGoodList);
                         if (goodsAdapter != null) {
                             goodsAdapter.notifyDataSetChanged();
                         }
@@ -433,31 +443,38 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
             plantState.getGoodlist().clear();
         }
         goodsHandler.sendEmptyMessage(0x001);
-        for (int i = 0; i < commList.size(); i++) {
-            JSONObject j = commList.getJSONObject(i);
-            //商品ID
-            int commId = j.getInteger("commId");
-            //商品名称
-            String commName = j.getString("commName");
-            //图片地址
-            String picture = PlantAddress.ADDRESS + j.getString("picture");
-            String imgPicture = j.getString("imgPicture");
-            //价格
-            int price = j.getInteger("price");
-            //是否包邮
-            int postage = j.getInteger("postage");
-            //
-            boolean isPostFree = j.getBoolean("isPostFree");
-            //是否推荐
-            boolean isRecommend = j.getBoolean("isRecommend");
-            //推荐顺序
-            int recommendedOrder = j.getInteger("recommendedOrder");
-            //付款人数
-            int payer = j.getInteger("payer");
-            //是否原价
-            boolean isOriginalPrice = j.getBoolean("isOriginalPrice");
-            Commlist goodlist = new Commlist(commId, commName, picture, imgPicture, price, postage, isPostFree, isRecommend, recommendedOrder, payer, isOriginalPrice);
-            plantState.getGoodlist().add(goodlist);
+//        for (int i = 0; i < commList.size(); i++) {
+//            JSONObject j = commList.getJSONObject(i);
+//            //商品ID
+//            int commId = j.getInteger("commId");
+//            //商品名称
+//            String commName = j.getString("commName");
+//            //图片地址
+//            String picture = PlantAddress.ADDRESS + j.getString("picture");
+//            String imgPicture = j.getString("imgPicture");
+//            //价格
+//            int price = j.getInteger("price");
+//            //是否包邮
+//            int postage = j.getInteger("postage");
+//            //
+//            boolean isPostFree = j.getBoolean("isPostFree");
+//            //是否推荐
+//            boolean isRecommend = j.getBoolean("isRecommend");
+//            //推荐顺序
+//            int recommendedOrder = j.getInteger("recommendedOrder");
+//            //付款人数
+//            int payer = j.getInteger("payer");
+//            //是否原价
+//            boolean isOriginalPrice = j.getBoolean("isOriginalPrice");
+//            Commlist goodlist = new Commlist(commId, commName, picture, imgPicture, price, postage, isPostFree, isRecommend, recommendedOrder, payer, isOriginalPrice);
+//            plantState.getGoodlist().add(goodlist);
+//        }
+        String shop = dataJSON.getString("list");
+        List<Commlist> commGoodList = gson.fromJson(shop, new TypeToken<List<Commlist>>() {
+        }.getType());
+        plantState.setGoodlist(commGoodList);
+        if (goodsAdapter != null) {
+            goodsAdapter.notifyDataSetChanged();
         }
         if (goodsAdapter != null) {
             goodsAdapter.notifyDataSetChanged();

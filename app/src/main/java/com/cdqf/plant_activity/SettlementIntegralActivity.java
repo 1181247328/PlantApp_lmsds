@@ -18,13 +18,13 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_class.Address;
 import com.cdqf.plant_class.Settlement;
 import com.cdqf.plant_find.DetailsFind;
 import com.cdqf.plant_find.SettlementFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -131,7 +131,7 @@ public class SettlementIntegralActivity extends BaseActivity implements View.OnC
     private String commName;
 
     //价格
-    private int unitPrice;
+    private double unitPrice;
 
     private int id;
 
@@ -334,6 +334,7 @@ public class SettlementIntegralActivity extends BaseActivity implements View.OnC
                             return;
                         }
                         Log.e(TAG, "---提交订单解密成功---" + data);
+                        IntegralDetailsActivity.integralDetailsActivity.finish();
                         finish();
                     }
                 }));
@@ -352,6 +353,7 @@ public class SettlementIntegralActivity extends BaseActivity implements View.OnC
                 //随机数
                 int random = plantState.getRandom();
                 String sign = random + "" + commId + commNum + consumerId + consumerReceivingId;
+                Log.e(TAG, "---commId---" + commId + "---commNum---" + commNum + "---consumerId---" + consumerId + "---consumerReceivingId---" + consumerReceivingId);
                 Log.e(TAG, "---明文---" + random);
                 //加密文字
                 String signEncrypt = null;

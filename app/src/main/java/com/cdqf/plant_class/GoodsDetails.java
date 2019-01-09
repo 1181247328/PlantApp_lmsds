@@ -11,7 +11,7 @@ import java.util.List;
 public class GoodsDetails {
     private int commId;
     private String commName;
-    private int price;
+    private double price;
     private int postage;
     private boolean isPostFree;
     private boolean isRecommend;
@@ -53,11 +53,11 @@ public class GoodsDetails {
         this.commName = commName;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

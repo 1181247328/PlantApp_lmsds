@@ -27,6 +27,7 @@ import com.cdqf.plant_activity.SubsidiaryActivity;
 import com.cdqf.plant_adapter.IntegralAdapter;
 import com.cdqf.plant_class.Carousel;
 import com.cdqf.plant_class.Integral;
+import com.cdqf.plant_find.IntegralNumberFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -151,6 +152,9 @@ public class IntegralFragment extends Fragment {
         httpRequestWrap = new HttpRequestWrap(getContext());
         httpRequestWrap.setMethod(HttpRequestWrap.POST);
         imageLoader = plantState.getImageLoader(getContext());
+        if (!eventBus.isRegistered(this)) {
+            eventBus.register(this);
+        }
     }
 
     private void initView() {
@@ -184,7 +188,7 @@ public class IntegralFragment extends Fragment {
                             return;
                         }
                         if (TextUtils.equals(data, "1001")) {
-                            plantState.initToast(getContext(),"没有更多了",true,0);
+                            plantState.initToast(getContext(), "没有更多了", true, 0);
                             pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                             return;
                         }
@@ -204,13 +208,14 @@ public class IntegralFragment extends Fragment {
                     }
                 }));
                 Map<String, Object> params = new HashMap<String, Object>();
+                pageIndex = 1;
                 //页数
                 params.put("pageIndex", pageIndex);
                 //条数
                 int pageCount = 8;
                 params.put("pageCount", pageCount);
                 //加载全部
-                boolean isAll = false;
+                boolean isAll = true;
                 params.put("isAll", isAll);
                 //商品类型id
                 int commTypeId = 0;
@@ -259,7 +264,7 @@ public class IntegralFragment extends Fragment {
                         }
                         if (TextUtils.equals(data, "1001")) {
                             handler.sendEmptyMessage(0x002);
-                            plantState.initToast(getContext(),"没有更多了",true,0);
+                            plantState.initToast(getContext(), "没有更多了", true, 0);
                             pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                             return;
                         }
@@ -275,6 +280,8 @@ public class IntegralFragment extends Fragment {
                 pageIndex++;
                 //页数
                 params.put("pageIndex", pageIndex);
+
+                Log.e(TAG, "---上拉---" + pageIndex);
                 //条数
                 int pageCount = 8;
                 params.put("pageCount", pageCount);
@@ -315,7 +322,11 @@ public class IntegralFragment extends Fragment {
     }
 
     private void initBack() {
+        if (plantState.isLogin()) {
+            tvIntegralNumber.setText(plantState.getUser().getIntegralNumber() + "");
+        }
         srIntegralScroll.smoothScrollTo(0, 0);
+        ptrlIntegralScroll.setPullUpEnable(false);
         banner();
         initPictures();
     }
@@ -404,7 +415,7 @@ public class IntegralFragment extends Fragment {
         int pageCount = 8;
         params.put("pageCount", pageCount);
         //加载全部
-        boolean isAll = false;
+        boolean isAll = true;
         params.put("isAll", isAll);
         //商品类型id
         int commTypeId = 0;
@@ -470,16 +481,16 @@ public class IntegralFragment extends Fragment {
         switch (v.getId()) {
             //积分
             case R.id.ll_integral_number:
-                if (!plantState.isLogin()){
-                    plantState.initToast(getContext(),"请先登录",true,0);
+                if (!plantState.isLogin()) {
+                    plantState.initToast(getContext(), "请先登录", true, 0);
                     return;
                 }
                 initIntent(SubsidiaryActivity.class);
                 break;
             //兑换记录
             case R.id.ll_integral_record:
-                if (!plantState.isLogin()){
-                    plantState.initToast(getContext(),"请先登录",true,0);
+                if (!plantState.isLogin()) {
+                    plantState.initToast(getContext(), "请先登录", true, 0);
                     return;
                 }
                 initIntent(RecordActivity.class);
@@ -509,6 +520,12 @@ public class IntegralFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "---销毁---");
+        eventBus.unregister(this);
+    }
+
+    public void onEventMainThread(IntegralNumberFind i) {
+        Log.e(TAG, "---积分---" + plantState.getUser().getIntegralNumber());
+        tvIntegralNumber.setText(plantState.getUser().getIntegralNumber() + "");
     }
 
     class GlideImageLoader extends com.youth.banner.loader.ImageLoader {

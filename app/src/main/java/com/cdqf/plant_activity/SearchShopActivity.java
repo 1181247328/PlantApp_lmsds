@@ -19,11 +19,11 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_adapter.SearchShopAdapter;
 import com.cdqf.plant_class.SearchShop;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -288,6 +288,10 @@ public class SearchShopActivity extends BaseActivity {
                     return;
                 }
                 Log.e(TAG, "---搜索商品列表解密---" + data);
+                if (TextUtils.equals(data, "1001")) {
+                    handler.sendEmptyMessage(0x002);
+                    return;
+                }
                 data = JSON.parseObject(data).getString("list");
                 plantState.getSearchList().clear();
                 handler.sendEmptyMessage(0x001);

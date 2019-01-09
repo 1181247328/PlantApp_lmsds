@@ -47,6 +47,8 @@ public class MainActivity extends BaseActivity {
 
     private Context context = null;
 
+    public static MainActivity mainActivity = null;
+
     private PlantState plantState = PlantState.getPlantState();
 
     private EventBus eventBus = EventBus.getDefault();
@@ -126,6 +128,7 @@ public class MainActivity extends BaseActivity {
     private void initAgo() {
         //上下文
         context = this;
+        mainActivity = this;
         //注册注解
         ButterKnife.bind(this);
         //获得模块名称
@@ -203,6 +206,11 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+    }
 
     @Override
     protected void onStart() {

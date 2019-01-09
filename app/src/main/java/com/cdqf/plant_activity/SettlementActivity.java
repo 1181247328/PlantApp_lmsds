@@ -17,6 +17,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.cdqf.plant.wxapi.HttpWxPayWrap;
+import com.cdqf.plant.wxapi.WXReturnFind;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_adapter.SettlementAdapter;
@@ -24,6 +26,7 @@ import com.cdqf.plant_class.Settlement;
 import com.cdqf.plant_dilog.PayDilogFragment;
 import com.cdqf.plant_dilog.PromptDilogFragment;
 import com.cdqf.plant_find.DetailsFind;
+import com.cdqf.plant_find.DissFind;
 import com.cdqf.plant_find.PayFind;
 import com.cdqf.plant_find.SettlementFind;
 import com.cdqf.plant_find.WeChatFind;
@@ -135,10 +138,10 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
 
     private Settlement settlement;
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch(msg.what){
+            switch (msg.what) {
                 case 0x001:
                     llSettlementGoods.setVisibility(View.VISIBLE);
                     rlSettlementComplete.setVisibility(View.GONE);
@@ -189,9 +192,12 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
+        HttpWxPayWrap.isWxApp(context, "wx5048e518874eed43");
         Intent intent = getIntent();
         commIds = intent.getStringExtra("commIds");
         numbers = intent.getStringExtra("numbers");
+
+        Log.e(TAG, "---" + commIds + "---" + numbers);
     }
 
     private void initView() {
@@ -230,7 +236,7 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
                 settlement = new Settlement();
                 settlement = gson.fromJson(data, Settlement.class);
                 settlementAdapter.setSettlement(settlement);
-                if(settlement.getReceivingAddress() != null) {
+                if (settlement.getReceivingAddress() != null) {
                     handler.sendEmptyMessage(0x002);
                     //姓名
                     tvSettlementName.setText(settlement.getReceivingAddress().getContacts());
@@ -260,6 +266,7 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
         //随机数
         int random = plantState.getRandom();
         String sign = random + "" + commIds + numbers + userId;
+        Log.e(TAG, "---参数---commIds---" + commIds + "---numbers---" + numbers + "---userId---" + userId);
         Log.e(TAG, "---明文---" + sign);
         //加密文字
         String signEncrypt = null;
@@ -284,9 +291,9 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
         startActivity(intent);
     }
 
-    private void initIntent(Class<?> activity,int position) {
+    private void initIntent(Class<?> activity, int position) {
         Intent intent = new Intent(context, activity);
-        intent.putExtra("position",position);
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 
@@ -440,7 +447,7 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
         if (CartActivity.cartActivity != null) {
             CartActivity.cartActivity.finish();
         }
-        initIntent(MyOrderActivity.class,4);
+        initIntent(MyOrderActivity.class, 2);
         finish();
     }
 
@@ -450,14 +457,95 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
      * @param w
      */
     public void onEventMainThread(WeChatFind w) {
+        httpRequestWrap.setCallBack(new RequestHandler(context, 1, "订单创建中", new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                String data = Errer.isResult(context, result, status);
+                if (data == null) {
+                    Log.e(TAG, "---微信加签失败---" + data);
+                    return;
+                }
+                //2017040706580188
+                Log.e(TAG, "---微信成功---" + data);
+//                HttpZFBPayWrap.zfbPayParamss(context,"2017040706580188","2014-07-24 22:22:22","0.01","测试",System.currentTimeMillis()+"");
+//                HttpZFBPayWrap.zfbPayParamss(context, data);
+                HttpWxPayWrap.wxPostJSON(data);
+            }
+        }));
+        Map<String, Object> params = new HashMap<String, Object>();
+        int orderIds = this.orderIds;
+        params.put("orderId", orderIds);
+        int signType = 1;
+        params.put("signType", signType);
+        int random = plantState.getRandom();
+        String sign = random + "" + orderIds + signType;
+        Log.e(TAG, "---明文---" + random + "---" + orderIds + "---" + signType);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
+        }
+        if (signEncrypt == null) {
+            plantState.initToast(context, "加密失败", true, 0);
+        }
+        //随机数
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+        httpRequestWrap.send(PlantAddress.PAY_SING, params);
+    }
 
+    public void onEventMainThread(WXReturnFind wx) {
+        //关闭搜索界面
+        if (SearchShopActivity.searchShopActivity != null) {
+            SearchShopActivity.searchShopActivity.finish();
+        }
+        //关闭分类商品界面
+        if (GoodsActivity.goodsActivity != null) {
+            GoodsActivity.goodsActivity.finish();
+        }
+        //商品详情界面
+        if (GoodsDetailsActivity.goodsDetailsActivity != null) {
+            GoodsDetailsActivity.goodsDetailsActivity.finish();
+        }
+        //购物车
+        if (CartActivity.cartActivity != null) {
+            CartActivity.cartActivity.finish();
+        }
+        initIntent(MyOrderActivity.class, 2);
+        finish();
+    }
+
+    public void onEventMainThread(DissFind d) {
+        //关闭搜索界面
+        if (SearchShopActivity.searchShopActivity != null) {
+            SearchShopActivity.searchShopActivity.finish();
+        }
+        //关闭分类商品界面
+        if (GoodsActivity.goodsActivity != null) {
+            GoodsActivity.goodsActivity.finish();
+        }
+        //商品详情界面
+        if (GoodsDetailsActivity.goodsDetailsActivity != null) {
+            GoodsDetailsActivity.goodsDetailsActivity.finish();
+        }
+        //购物车
+        if (CartActivity.cartActivity != null) {
+            CartActivity.cartActivity.finish();
+        }
+        initIntent(MyOrderActivity.class, 1);
+        finish();
     }
 
     /**
      * 修改地址有变
+     *
      * @param d
      */
-    public void onEventMainThread(DetailsFind d){
+    public void onEventMainThread(DetailsFind d) {
         initGoods();
     }
 

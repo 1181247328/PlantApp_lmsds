@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_class.PublishedFind;
 import com.cdqf.plant_class.SaveFind;
 import com.cdqf.plant_find.AddressPromptTwoFind;
@@ -21,6 +20,7 @@ import com.cdqf.plant_find.AllDeleteOrderTwoFind;
 import com.cdqf.plant_find.CacenlOrderTwoFind;
 import com.cdqf.plant_find.CacenlRefundetaislFind;
 import com.cdqf.plant_find.CancelAllOneFind;
+import com.cdqf.plant_find.CartDeteleFind;
 import com.cdqf.plant_find.DeleteOrderOneFind;
 import com.cdqf.plant_find.DeteleShopFind;
 import com.cdqf.plant_find.EvaluateDeleteOneFind;
@@ -36,6 +36,7 @@ import com.cdqf.plant_find.SettlementFind;
 import com.cdqf.plant_find.StrategyColltionFind;
 import com.cdqf.plant_find.TraveReturnFind;
 import com.cdqf.plant_find.TravelCollectionTwoFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.PlantPreferences;
 import com.cdqf.plant_state.PlantState;
 
@@ -120,9 +121,9 @@ public class PromptDilogFragment extends DialogFragment implements View.OnClickL
      * 初始化控件
      */
     private void initView() {
-        tvPromapDilogContent = (TextView) view.findViewById(R.id.tv_promap_dilog_content);
-        tvPromapDilogCancel = (TextView) view.findViewById(R.id.tv_promap_dilog_cancel);
-        tvPromapDilogDetermine = (TextView) view.findViewById(R.id.tv_promap_dilog_determine);
+        tvPromapDilogContent = view.findViewById(R.id.tv_promap_dilog_content);
+        tvPromapDilogCancel = view.findViewById(R.id.tv_promap_dilog_cancel);
+        tvPromapDilogDetermine = view.findViewById(R.id.tv_promap_dilog_determine);
     }
 
     private void initAdapter() {
@@ -218,6 +219,9 @@ public class PromptDilogFragment extends DialogFragment implements View.OnClickL
                 tvPromapDilogContent.setText(context);
                 break;
             case 25:
+                tvPromapDilogContent.setText(context);
+                break;
+            case 26:
                 tvPromapDilogContent.setText(context);
                 break;
         }
@@ -366,6 +370,10 @@ public class PromptDilogFragment extends DialogFragment implements View.OnClickL
                     //IntegralDetailsActivity提示是否兑换商品
                     case 25:
                         eventBus.post(new IntegralFind());
+                        dismiss();
+                        break;
+                    case 26:
+                        eventBus.post(new CartDeteleFind());
                         dismiss();
                         break;
                 }

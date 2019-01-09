@@ -69,11 +69,11 @@ public class GoodsAdapter extends BaseAdapter {
             plantViewHolder = (PlantViewHolder) convertView.getTag();
         }
         //图片
-        imageLoader.displayImage(plantState.getGoodlist().get(position).getImgpicture(), plantViewHolder.ivShopItemFigure, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+        imageLoader.displayImage(plantState.getGoodlist().get(position).getImgPicture(), plantViewHolder.ivShopItemFigure, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
         //门票名
-        plantViewHolder.tvShopItemTickets.setText(plantState.getGoodlist().get(position).getCommname());
+        plantViewHolder.tvShopItemTickets.setText(plantState.getGoodlist().get(position).getCommName());
         //是否包邮
-        if (plantState.getGoodlist().get(position).ispostfree()) {
+        if (plantState.getGoodlist().get(position).isPostFree()) {
             plantViewHolder.tvShopItemMail.setText(context.getResources().getString(R.string.mail_package));
         } else {
             plantViewHolder.tvShopItemMail.setText(context.getResources().getString(R.string.mail_dontpackage));

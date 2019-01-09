@@ -25,19 +25,26 @@ public class RequestHandler extends RequestCallBack<String> {
     private JSONValidator jsonValidator;
     private int style = 0;
     private int theme = 1;
-    private String toast;
+    private String toast = "";
 
-    public RequestHandler(Context context,
-                          OnResponseHandler responseHandler) {
+    public RequestHandler() {
+
+    }
+
+    public RequestHandler(Context context, OnResponseHandler responseHandler) {
         super();
+        Log.e(TAG, "---窗体1---" + context.toString());
         this.context = context;
         this.responseHandler = responseHandler;
+        style = 0;
         jsonValidator = new JSONValidator();
+
     }
 
     public RequestHandler(Context context, int style, String toast, OnResponseHandler responseHandler) {
         super();
         this.context = context;
+        xProgressDialog = new XProgressDialog(context, toast, theme);
         this.style = style;
         this.toast = toast;
         this.responseHandler = responseHandler;
@@ -50,6 +57,7 @@ public class RequestHandler extends RequestCallBack<String> {
         this.style = style;
         this.toast = toast;
         this.theme = theme;
+        xProgressDialog = new XProgressDialog(context, toast, theme);
         this.responseHandler = responseHandler;
         jsonValidator = new JSONValidator();
     }
@@ -57,6 +65,7 @@ public class RequestHandler extends RequestCallBack<String> {
     @Override
     public void onStart() {
         super.onStart();
+        Log.e(TAG, "---窗体2---" + style);
         switch (style) {
             case 1:
                 openOneDialog();
@@ -66,14 +75,15 @@ public class RequestHandler extends RequestCallBack<String> {
         }
     }
 
-    private void openOneDialog(){
-        xProgressDialog = new XProgressDialog(context,toast,theme);
+    private void openOneDialog() {
+        xProgressDialog = new XProgressDialog(context, toast, theme);
+        Log.e(TAG, "---窗体---" + context.toString());
         xProgressDialog.show();
     }
 
-    private void  closeOneDialog(){
-        if(xProgressDialog != null){
-            xProgressDialog.cancel();
+    private void closeOneDialog() {
+        if (xProgressDialog != null) {
+            xProgressDialog.dismiss();
         }
     }
 
@@ -93,6 +103,7 @@ public class RequestHandler extends RequestCallBack<String> {
                 closeOneDialog();
                 break;
             default:
+//                closeOneDialog();
                 break;
         }
     }
@@ -101,7 +112,7 @@ public class RequestHandler extends RequestCallBack<String> {
     public void onSuccess(ResponseInfo<String> responseInfo) {
         if (responseHandler != null) {
             String result = responseInfo.result;
-            Log.e(TAG,"---onSuccess---"+result);
+            Log.e(TAG, "---onSuccess---" + result);
             if (jsonValidator.validate(result)) {
                 responseHandler.onResponse(result, RequestStatus.SUCCESS);
             } else {
@@ -113,6 +124,7 @@ public class RequestHandler extends RequestCallBack<String> {
                 closeOneDialog();
                 break;
             default:
+//                closeOneDialog();
                 break;
         }
     }

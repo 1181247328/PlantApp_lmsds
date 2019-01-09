@@ -178,6 +178,29 @@ public class HttpWxPayWrap {
         }
     }
 
+    public static void wxPostJSON(String wxPay) {
+        JSONObject jsonObject = JSON.parseObject(wxPay);
+        //APP_ID
+        String appId = jsonObject.getString("appid");
+        String partnerId = jsonObject.getString("partnerid");
+        String prepayId = jsonObject.getString("prepayid");
+        String packageValue = jsonObject.getString("package");
+        String nonceStr = jsonObject.getString("noncestr");
+        String timestamp = jsonObject.getString("timestamp");
+        String sign = jsonObject.getString("sign");
+        Log.e(TAG, "---appId---" + appId + "---partnerId---" + partnerId + "---prepayId---" + prepayId + "---nonceStr---" + nonceStr + "---sign---" + sign);
+        PayReq wechatPay = new PayReq();
+        wechatPay.appId = appId;
+        wechatPay.partnerId = partnerId;
+        wechatPay.prepayId = prepayId;
+        wechatPay.packageValue = packageValue;
+        wechatPay.nonceStr = nonceStr;
+        wechatPay.timeStamp = timestamp;
+        wechatPay.sign = sign;
+        boolean isApi = api.sendReq(wechatPay);
+        Log.e(TAG, "---" + isApi);
+    }
+
     private static void initToast(Context context, String toast) {
         Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
     }

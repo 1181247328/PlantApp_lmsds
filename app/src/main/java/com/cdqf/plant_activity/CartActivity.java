@@ -30,6 +30,7 @@ import com.cdqf.plant_find.CartReductionFind;
 import com.cdqf.plant_find.DeteleShopFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
+import com.cdqf.plant_state.DoubleOperationUtil;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
@@ -110,7 +111,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
 
     private Gson gson = new Gson();
 
-    private int allPrice = 0;
+    private double allPrice = 0.0;
 
     private Handler handler = new Handler() {
         @Override
@@ -215,10 +216,13 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
         cbCartCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                allPrice = 0;
+                if (!buttonView.isPressed()) {
+                    return;
+                }
+                allPrice = 0.0;
                 if (isChecked) {
                     for (CartList cart : plantState.getCartList()) {
-                        allPrice += cart.getPrice() * cart.getNumber();
+                        allPrice = DoubleOperationUtil.add(allPrice, cart.getPrice() * cart.getNumber());
                         cart.setCart(true);
                     }
                 } else {
@@ -300,7 +304,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
         intent.putExtra("commIds", commIds);
         intent.putExtra("numbers", numbers);
         startActivity(intent);
-        finish();
+//        finish();
     }
 
     @Override
@@ -331,16 +335,28 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                 break;
             //去结算
             case R.id.tv_cart_settlement:
+                boolean isCartSelete = false;
+                for (CartList s : plantState.getCartList()) {
+                    if (s.isCart()) {
+                        isCartSelete = true;
+                    }
+                }
+                if (!isCartSelete) {
+                    plantState.initToast(context, "请选择至少一个商品", true, 0);
+                    return;
+                }
                 //商品id集合
                 String commIds = "";
                 //商品数量集合
                 String numbers = "";
                 for (CartList c : plantState.getCartList()) {
-                    commIds += c.getCommId() + ",";
-                    numbers += c.getNumber() + ",";
+                    if (c.isCart()) {
+                        commIds += c.getCommId() + ",";
+                        numbers += c.getNumber() + ",";
+                    }
                 }
-                commIds = commIds.substring(0,commIds.length()-1);
-                numbers = numbers.substring(0,numbers.length()-1);
+                commIds = commIds.substring(0, commIds.length() - 1);
+                numbers = numbers.substring(0, numbers.length() - 1);
                 Log.e(TAG, "---商品id集合---" + commIds + "---商品数量集合---" + numbers);
                 initIntent(SettlementActivity.class, commIds, numbers);
 
@@ -354,9 +370,20 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
      * @param c
      */
     public void onEventMainThread(CartFind c) {
-        allPrice += plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber();
+        allPrice = DoubleOperationUtil.add(allPrice, plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber());
+
         tvCartPrice.setText("￥" + allPrice + "");
         tvCartSettlement.setText("去结算(" + allPrice + ")");
+
+        boolean isCartSelete = true;
+        for (CartList s : plantState.getCartList()) {
+            if (!s.isCart()) {
+                isCartSelete = false;
+            }
+        }
+        if (isCartSelete) {
+            cbCartCheckbox.setChecked(true);
+        }
     }
 
     /**
@@ -365,9 +392,20 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
      * @param c
      */
     public void onEventMainThread(CartReductionFind c) {
-        allPrice -= plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber();
+        allPrice = DoubleOperationUtil.sub(allPrice, plantState.getCartList().get(c.position).getPrice() * plantState.getCartList().get(c.position).getNumber());
         tvCartPrice.setText("￥" + allPrice + "");
         tvCartSettlement.setText("去结算(" + allPrice + ")");
+
+        boolean isCartSelete = true;
+        for (CartList s : plantState.getCartList()) {
+            if (!s.isCart()) {
+                isCartSelete = false;
+            }
+        }
+        Log.e(TAG, "---取消全选的操作---" + isCartSelete);
+        if (!isCartSelete) {
+            cbCartCheckbox.setChecked(false);
+        }
     }
 
     /**
@@ -401,7 +439,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
         shoppingCartIds = shoppingCartIds.substring(0, shoppingCartIds.length() - 1);
         Log.e(TAG, "---DeteleShopFind---" + shoppingCartIds);
         httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(context, 1, context.getResources().getString(R.string.please_while), new OnResponseHandler() {
+        httpRequestWrap.setCallBack(new RequestHandler(CartActivity.this, 1, context.getResources().getString(R.string.please_while), new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {
                 String data = Errer.isResult(context, result, status);
@@ -410,6 +448,10 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                     return;
                 }
                 Log.e(TAG, "---删除购物车商品成功---" + data);
+                if (TextUtils.equals(data, "1001")) {
+                    handler.sendEmptyMessage(0x001);
+                    return;
+                }
                 plantState.getCartList().clear();
                 List<CartList> cartLists = gson.fromJson(data, new TypeToken<List<CartList>>() {
                 }.getType());

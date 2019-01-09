@@ -16,10 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_find.AllPayFind;
+import com.cdqf.plant_find.AllWxFind;
+import com.cdqf.plant_find.DissFind;
+import com.cdqf.plant_find.ForWxFind;
 import com.cdqf.plant_find.PayFind;
 import com.cdqf.plant_find.PayForFind;
 import com.cdqf.plant_find.WeChatFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.PlantState;
 import com.gcssloop.widget.RCRelativeLayout;
 
@@ -78,9 +82,9 @@ public class PayDilogFragment extends DialogFragment {
 
     private int type = 0;
 
-    private int price = 0;
+    private double price = 0;
 
-    public void initPayPrice(int type, int price) {
+    public void initPayPrice(int type, double price) {
         this.type = type;
         this.price = price;
     }
@@ -171,6 +175,7 @@ public class PayDilogFragment extends DialogFragment {
         switch (v.getId()) {
             //取消
             case R.id.rl_settlement_dilog_cancel:
+                eventBus.post(new DissFind());
                 dismiss();
                 break;
             //支付宝
@@ -195,12 +200,21 @@ public class PayDilogFragment extends DialogFragment {
                         } else if (type == 1) {
                             //待付款页面支付
                             eventBus.post(new PayForFind(payPosition));
+                        } else if (type == 2) {
+                            //全部
+                            eventBus.post(new AllPayFind(payPosition));
                         }
                         dismiss();
                         break;
                     //微信
                     case 2:
-                        eventBus.post(new WeChatFind());
+                        if (type == 0) {
+                            eventBus.post(new WeChatFind());
+                        } else if (type == 1) {
+                            eventBus.post(new ForWxFind(payPosition));
+                        } else if (type == 2) {
+                            eventBus.post(new AllWxFind(payPosition));
+                        }
                         dismiss();
                         break;
                 }

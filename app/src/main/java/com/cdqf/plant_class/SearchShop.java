@@ -9,7 +9,7 @@ public class SearchShop {
     private String commName;
     private String picture;
     private String imgPicture;
-    private int price;
+    private double price;
     private int postage;
     private boolean isPostFree;
     private boolean isRecommend;
@@ -49,11 +49,11 @@ public class SearchShop {
         this.imgPicture = imgPicture;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

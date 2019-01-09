@@ -14,12 +14,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_class.IntegralDetails;
 import com.cdqf.plant_dilog.PromptDilogFragment;
 import com.cdqf.plant_find.IntegralFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -55,6 +55,8 @@ import de.greenrobot.event.EventBus;
 public class IntegralDetailsActivity extends BaseActivity {
 
     private String TAG = IntegralDetailsActivity.class.getSimpleName();
+
+    public static IntegralDetailsActivity integralDetailsActivity = null;
 
     private Context context = null;
 
@@ -142,6 +144,7 @@ public class IntegralDetailsActivity extends BaseActivity {
     private void initAgo() {
         context = this;
         ButterKnife.bind(this);
+        integralDetailsActivity = this;
         Intent intent = getIntent();
         position = intent.getIntExtra("position", 0);
         httpRequestWrap = new HttpRequestWrap(context);

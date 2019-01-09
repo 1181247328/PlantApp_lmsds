@@ -22,6 +22,7 @@ public class User {
     private String strLatestModifyTime;
     private String lastTimeLogin;
     private String strLastTimeLogin;
+    private int integralNumber;
     private boolean isDelete;
 
     public int getConsumerId() {
@@ -166,5 +167,13 @@ public class User {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
+    }
+
+    public int getIntegralNumber() {
+        return integralNumber;
+    }
+
+    public void setIntegralNumber(int integralNumber) {
+        this.integralNumber = integralNumber;
     }
 }

@@ -13,13 +13,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant.wxapi.QQLogin;
 import com.cdqf.plant.wxapi.WxLogin;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_class.User;
+import com.cdqf.plant_find.IntegralNumberFind;
 import com.cdqf.plant_find.Login;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -124,13 +125,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initView() {
-        rlLoginReturn = (RelativeLayout) this.findViewById(R.id.rl_login_return);
-        tvLoginRegistered = (TextView) this.findViewById(R.id.tv_login_registered);
-        xetLoginPhone = (XEditText) this.findViewById(R.id.xet_login_phone);
-        xetLogingPassword = (XEditText) this.findViewById(R.id.xet_loging_password);
-        tvLogin = (TextView) this.findViewById(R.id.tv_login);
-        ivLoginQq = (ImageView) this.findViewById(R.id.iv_login_qq);
-        ivLoginWetch = (ImageView) this.findViewById(R.id.iv_login_wetch);
+        rlLoginReturn = this.findViewById(R.id.rl_login_return);
+        tvLoginRegistered = this.findViewById(R.id.tv_login_registered);
+        xetLoginPhone = this.findViewById(R.id.xet_login_phone);
+        xetLogingPassword = this.findViewById(R.id.xet_loging_password);
+        tvLogin = this.findViewById(R.id.tv_login);
+        ivLoginQq = this.findViewById(R.id.iv_login_qq);
+        ivLoginWetch = this.findViewById(R.id.iv_login_wetch);
     }
 
     private void initAdapter() {
@@ -195,6 +196,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         plantState.setLogin(true);
                         PlantPreferences.setLogUserComment(context,user);
                         eventBus.post(new Login());
+                        eventBus.post(new IntegralNumberFind());
                         plantState.initToast(context,context.getResources().getString(R.string.login_complete),true,0);
                         finish();
                     }

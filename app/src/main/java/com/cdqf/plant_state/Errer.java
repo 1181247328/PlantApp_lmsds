@@ -6,9 +6,9 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_utils.RequestStatus;
 
 /**
@@ -78,7 +78,7 @@ public class Errer {
                     }
                     return dataJSON;
                 } else {
-                    plantState.initToast(context, message, true, 0);
+//                    plantState.initToast(context, message, true, 0);
                     return null;
                 }
             } else {
@@ -268,7 +268,7 @@ public class Errer {
                     }
                     return dataJSON;
                 } else {
-                    plantState.initToast(context, message, true, 0);
+//                    plantState.initToast(context, message, true, 0);
                     return null;
                 }
             } else {

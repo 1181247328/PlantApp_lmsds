@@ -5,106 +5,79 @@ package com.cdqf.plant_class;
  */
 
 public class Commlist {
-    private int commid;
-    private String commname;
-    private String picture;
-    private String imgpicture;
-    private double price;
-    private int postage;
-    private boolean ispostfree;
-    private boolean isrecommend;
-    private int recommendedorder;
+//    private int commid;
+//    private String commname;
+//    private String picture;
+//    private String imgpicture;
+//    private double price;
+//    private int postage;
+//    private boolean ispostfree;
+//    private boolean isrecommend;
+//    private int recommendedorder;
+//    private int payer;
+//    private boolean isoriginalprice;
+
+    private int commId;
+    private String commName;
+    private String imgPicture;
+    private boolean isOriginalPrice;
+    private boolean isPostFree;
+    private boolean isRecommend;
     private int payer;
-    private boolean isoriginalprice;
+    private int postage;
+    private double price;
+    private int recommendedOrder;
 
     public Commlist() {
 
     }
 
-    public Commlist(int commid, String commname, String picture, String imgpicture, double price, int postage, boolean ispostfree, boolean isrecommend, int recommendedorder, int payer, boolean isoriginalprice) {
-        this.commid = commid;
-        this.commname = commname;
-        this.picture = picture;
-        this.imgpicture = imgpicture;
-        this.price = price;
-        this.postage = postage;
-        this.ispostfree = ispostfree;
-        this.isrecommend = isrecommend;
-        this.recommendedorder = recommendedorder;
-        this.payer = payer;
-        this.isoriginalprice = isoriginalprice;
+    public int getCommId() {
+        return commId;
     }
 
-    public int getCommid() {
-        return commid;
+    public void setCommId(int commId) {
+        this.commId = commId;
     }
 
-    public void setCommid(int commid) {
-        this.commid = commid;
+    public String getCommName() {
+        return commName;
     }
 
-    public String getCommname() {
-        return commname;
+    public void setCommName(String commName) {
+        this.commName = commName;
     }
 
-    public void setCommname(String commname) {
-        this.commname = commname;
+    public String getImgPicture() {
+        return imgPicture;
     }
 
-    public String getPicture() {
-        return picture;
+    public void setImgPicture(String imgPicture) {
+        this.imgPicture = imgPicture;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public boolean isOriginalPrice() {
+        return isOriginalPrice;
     }
 
-    public String getImgpicture() {
-        return imgpicture;
+    public void setOriginalPrice(boolean originalPrice) {
+        isOriginalPrice = originalPrice;
     }
 
-    public void setImgpicture(String imgpicture) {
-        this.imgpicture = imgpicture;
+    public boolean isPostFree() {
+        return isPostFree;
     }
 
-    public double getPrice() {
-        return price;
+    public void setPostFree(boolean postFree) {
+        isPostFree = postFree;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public boolean isRecommend() {
+        return isRecommend;
     }
 
-    public int getPostage() {
-        return postage;
-    }
-
-    public void setPostage(int postage) {
-        this.postage = postage;
-    }
-
-    public boolean ispostfree() {
-        return ispostfree;
-    }
-
-    public void setIspostfree(boolean ispostfree) {
-        this.ispostfree = ispostfree;
-    }
-
-    public boolean isrecommend() {
-        return isrecommend;
-    }
-
-    public void setIsrecommend(boolean isrecommend) {
-        this.isrecommend = isrecommend;
-    }
-
-    public int getRecommendedorder() {
-        return recommendedorder;
-    }
-
-    public void setRecommendedorder(int recommendedorder) {
-        this.recommendedorder = recommendedorder;
+    public void setRecommend(boolean recommend) {
+        isRecommend = recommend;
     }
 
     public int getPayer() {
@@ -115,11 +88,27 @@ public class Commlist {
         this.payer = payer;
     }
 
-    public boolean isoriginalprice() {
-        return isoriginalprice;
+    public int getPostage() {
+        return postage;
     }
 
-    public void setIsoriginalprice(boolean isoriginalprice) {
-        this.isoriginalprice = isoriginalprice;
+    public void setPostage(int postage) {
+        this.postage = postage;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getRecommendedOrder() {
+        return recommendedOrder;
+    }
+
+    public void setRecommendedOrder(int recommendedOrder) {
+        this.recommendedOrder = recommendedOrder;
     }
 }

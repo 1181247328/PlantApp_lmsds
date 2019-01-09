@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_class.Commlist;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_state.PlantViewHolder;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -65,25 +63,25 @@ public class GoodsRecommendedAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_recommended, null);
             plantViewHolder = new PlantViewHolder();
             //图片
-            plantViewHolder.ivShopItemFigure = (ImageView) convertView.findViewById(R.id.iv_shop_item_figure);
+            plantViewHolder.ivShopItemFigure = convertView.findViewById(R.id.iv_shop_item_figure);
             //门票名
-            plantViewHolder.tvShopItemTickets = (TextView) convertView.findViewById(R.id.iv_shop_item_tickets);
+            plantViewHolder.tvShopItemTickets = convertView.findViewById(R.id.iv_shop_item_tickets);
             //是否包邮
-            plantViewHolder.tvShopItemMail = (TextView) convertView.findViewById(R.id.tv_shop_item_mail);
+            plantViewHolder.tvShopItemMail = convertView.findViewById(R.id.tv_shop_item_mail);
             //金额
-            plantViewHolder.tvShopItemPrice = (TextView) convertView.findViewById(R.id.tv_shop_item_price);
+            plantViewHolder.tvShopItemPrice = convertView.findViewById(R.id.tv_shop_item_price);
             //付款人
-            plantViewHolder.tvShopItemPayment = (TextView) convertView.findViewById(R.id.tv_shop_item_payment);
+            plantViewHolder.tvShopItemPayment = convertView.findViewById(R.id.tv_shop_item_payment);
             convertView.setTag(plantViewHolder);
         } else {
             plantViewHolder = (PlantViewHolder) convertView.getTag();
         }
         //图片
-        imageLoader.displayImage(commlist.get(position).getImgpicture(), plantViewHolder.ivShopItemFigure, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+        imageLoader.displayImage(commlist.get(position).getImgPicture(), plantViewHolder.ivShopItemFigure, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
         //门票名
-        plantViewHolder.tvShopItemTickets.setText(commlist.get(position).getCommname());
+        plantViewHolder.tvShopItemTickets.setText(commlist.get(position).getCommName());
         //是否包邮
-        if (commlist.get(position).ispostfree()) {
+        if (commlist.get(position).isPostFree()) {
             plantViewHolder.tvShopItemMail.setText(context.getResources().getString(R.string.mail_package));
         } else {
             plantViewHolder.tvShopItemMail.setText(context.getResources().getString(R.string.mail_dontpackage));

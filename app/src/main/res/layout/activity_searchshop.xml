@@ -96,19 +96,19 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/allorder_no" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center|clip_vertical"
-                    android:text="没有搜索到商品~"
+                    android:text="暂无商品~"
                     android:textColor="#474747"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

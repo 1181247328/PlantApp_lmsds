@@ -10,8 +10,8 @@ public class IntegralDetails {
     private int commId;
     private String commName;
     private int integralNumber;
-    private int integralMoney;
-    private int unitPrice;
+    private double integralMoney;
+    private double unitPrice;
     private String introduction;
     private int postage;
     private String tel;
@@ -41,19 +41,19 @@ public class IntegralDetails {
         this.integralNumber = integralNumber;
     }
 
-    public int getIntegralMoney() {
+    public double getIntegralMoney() {
         return integralMoney;
     }
 
-    public void setIntegralMoney(int integralMoney) {
+    public void setIntegralMoney(double integralMoney) {
         this.integralMoney = integralMoney;
     }
 
-    public int getUnitPrice() {
+    public double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(int unitPrice) {
+    public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
     }
 

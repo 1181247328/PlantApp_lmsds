@@ -8,7 +8,7 @@ public class Integral {
     private int rowNum;
     private int commId;
     private String commName;
-    private int integralMoney;
+    private double integralMoney;
     private int integralNumber;
     private String picture;
 
@@ -36,11 +36,11 @@ public class Integral {
         this.commName = commName;
     }
 
-    public int getIntegralMoney() {
+    public double getIntegralMoney() {
         return integralMoney;
     }
 
-    public void setIntegralMoney(int integralMoney) {
+    public void setIntegralMoney(double integralMoney) {
         this.integralMoney = integralMoney;
     }
 

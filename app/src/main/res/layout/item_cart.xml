@@ -19,10 +19,11 @@
 
         <CheckBox
             android:id="@+id/cb_cart_item_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_centerVertical="true"
-            android:button="@drawable/checkbox_style"
+            android:background="@drawable/checkbox_style"
+            android:button="@null"
             android:checked="false" />
 
         <com.gcssloop.widget.RCRelativeLayout
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:background="@android:color/transparent"
-            app:round_corner="5dp">
+            app:round_corner="3dp">
 
             <ImageView
                 android:id="@+id/iv_cart_item_figure"
@@ -140,7 +141,7 @@
     </LinearLayout>
 
     <TextView
-        android:background="#B5B4B5"
+        android:background="#DDDDDD"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"

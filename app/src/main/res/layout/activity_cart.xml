@@ -20,21 +20,32 @@
 
             <CheckBox
                 android:id="@+id/cb_cart_checkbox"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/checkbox_style"
+                android:button="@null"
+                android:checked="false"
+                android:paddingLeft="2dp"
+                android:textColor="#474747"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_cart_checkbox"
+                android:text="全选"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:checked="false"
-                android:text="全选"
-                android:textSize="16sp"
-                android:textColor="#474747"
-                android:paddingLeft="2dp"
-                android:layout_marginLeft="10dp"
-                android:button="@drawable/checkbox_style"/>
+                android:layout_toRightOf="@id/cb_cart_checkbox"
+                android:paddingLeft="5dp"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_cart_settlement"
                 android:layout_width="140dp"
-                android:text="去结算(0)"
+                android:text="去结算(0.0)"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/white"
                 android:gravity="center"
@@ -53,7 +64,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:gravity="center"
-                android:layout_toRightOf="@id/cb_cart_checkbox"
+                android:layout_toRightOf="@id/tv_cart_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
@@ -61,7 +72,7 @@
 
             <TextView
                 android:id="@+id/tv_cart_price"
-                android:text="￥0.00"
+                android:text="￥0.0"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:gravity="left|center_vertical"
