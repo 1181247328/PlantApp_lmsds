@@ -189,6 +189,8 @@ public class RegisteredTwoActivity extends BaseActivity implements View.OnClickL
                         }
                         if (TextUtils.equals(data, "注册成功")) {
                             initIntent(LoginActivity.class);
+                            RegisteredOneActivity.registeredOneActivity.finish();
+                            finish();
                         }
                         Log.e(TAG, "---用户注册解密成功---" + data);
                     }

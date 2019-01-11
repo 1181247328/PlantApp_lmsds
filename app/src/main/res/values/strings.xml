@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">龙门水都</string>
+    <string name="app_name" translatable="false">龙门水都</string>
 
     <!--MainActivity下面导航栏-->
     <array name="modular">

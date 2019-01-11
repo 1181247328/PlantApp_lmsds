@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.cdqf.plant.wxapi.ShareQQFind;
-import com.cdqf.plant.wxapi.ShareWxFind;
 import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_lmsd.wxapi.ShareQQFind;
+import com.cdqf.plant_lmsd.wxapi.ShareWxFind;
 import com.cdqf.plant_state.PlantViewHolder;
 
 import de.greenrobot.event.EventBus;

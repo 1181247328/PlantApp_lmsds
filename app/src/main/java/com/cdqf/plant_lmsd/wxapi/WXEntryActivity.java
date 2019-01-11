@@ -1,4 +1,4 @@
-package com.cdqf.plant.wxapi;
+package com.cdqf.plant_lmsd.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,7 +45,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         Log.e(TAG, "---微信---");
         httpRequestWrap = new HttpRequestWrap(this);
         httpRequestWrap.setMethod(HttpRequestWrap.GET);
-        api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID,true);
+        api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID, true);
         api.handleIntent(getIntent(), this);
     }
 
@@ -57,7 +57,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void onResp(BaseResp resp) {
-        Log.e(TAG,"---"+resp.errCode);
+        Log.e(TAG, "---" + resp.errCode);
         String result = "";
         if (resp != null) {
             resp = resp;
@@ -68,29 +68,29 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 Toast.makeText(WXEntryActivity.this, result, Toast.LENGTH_SHORT).show();
                 String code = ((SendAuth.Resp) resp).code;
                 String get_access_token = getCodeRequest(code);
-                Log.e(TAG,"---"+get_access_token);
+                Log.e(TAG, "---请求地址---" + get_access_token);
                 httpRequestWrap.setCallBack(new RequestHandler(WXEntryActivity.this, new OnResponseHandler() {
                     @Override
                     public void onResponse(String result, RequestStatus status) {
-                        Log.e(TAG, "---" + result);
+                        Log.e(TAG, "---第一次---" + result);
                         if (status == RequestStatus.SUCCESS) {
                             if (result != null) {
                                 JSONObject wxCodeJSON = JSON.parseObject(result);
                                 int expires_in = wxCodeJSON.getInteger("expires_in");
-                                if(expires_in != 7200){
-                                    Toast.makeText(WXEntryActivity.this,"微信登录失败",Toast.LENGTH_SHORT).show();
+                                if (expires_in != 7200) {
+                                    Toast.makeText(WXEntryActivity.this, "微信登录失败", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                                 String access_token = wxCodeJSON.getString("access_token");
                                 String openid = wxCodeJSON.getString("openid");
-                                String get_user_info_url = getUserInfo(access_token,openid);
+                                String get_user_info_url = getUserInfo(access_token, openid);
                                 getUserInfo(get_user_info_url);
                             } else {
-                                Toast.makeText(WXEntryActivity.this,"微信登录失败,请检查网络",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(WXEntryActivity.this, "微信登录失败,请检查网络", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         } else {
-                            Toast.makeText(WXEntryActivity.this,"微信登录失败,请检查网络",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WXEntryActivity.this, "微信登录失败,请检查网络", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
@@ -138,36 +138,38 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     private String getUserInfo(String access_token, String openid) {
         String result = null;
-        Constants.WX_GET_CODE_REQUEST = Constants.WX_GET_CODE_REQUEST.replace("ACCESS_TOKEN", urlEnodeUTF8(access_token));
-        Constants.WX_GET_CODE_REQUEST = Constants.WX_GET_CODE_REQUEST.replace("OPENID", urlEnodeUTF8(openid));
-        result = Constants.WX_GET_CODE_REQUEST;
+        Constants.WX_GET_USER_INFO = Constants.WX_GET_USER_INFO.replace("ACCESS_TOKEN", urlEnodeUTF8(access_token));
+        Constants.WX_GET_USER_INFO = Constants.WX_GET_USER_INFO.replace("OPENID", urlEnodeUTF8(openid));
+        result = Constants.WX_GET_USER_INFO;
         return result;
     }
 
     /**
      * 请求用户个人信息
+     *
      * @param user_info_url
      */
-    private void getUserInfo(String user_info_url){
+    private void getUserInfo(String user_info_url) {
+        Log.e(TAG, "---用户个人信息地址---" + user_info_url);
         httpRequestWrap.setCallBack(new RequestHandler(WXEntryActivity.this, new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {
-                Log.e(TAG, "---" + result);
+                Log.e(TAG, "---用户个人信息---" + result);
                 if (status == RequestStatus.SUCCESS) {
                     if (result != null) {
                         JSONObject wxUserJSON = JSON.parseObject(result);
                         String openid = wxUserJSON.getString("openid");
                         String nickname = wxUserJSON.getString("nickname");
                         String headimgurl = wxUserJSON.getString("headimgurl").replace("\"", "");
-                        Log.e(TAG,"---"+headimgurl);
-                        eventBus.post(new WXFind(openid,nickname,headimgurl));
+                        Log.e(TAG, "---" + headimgurl);
+                        eventBus.post(new WXFind(openid, nickname, headimgurl));
                         finish();
                     } else {
-                        Toast.makeText(WXEntryActivity.this,"微信登录失败,请检查网络",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WXEntryActivity.this, "微信登录失败,请检查网络", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } else {
-                    Toast.makeText(WXEntryActivity.this,"微信登录失败,请检查网络",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WXEntryActivity.this, "微信登录失败,请检查网络", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }

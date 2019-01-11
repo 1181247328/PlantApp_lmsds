@@ -24,6 +24,8 @@ import com.cdqf.plant_class.ForGoods;
 import com.cdqf.plant_dilog.PromptDilogFragment;
 import com.cdqf.plant_find.ForGoddsFind;
 import com.cdqf.plant_find.ForGoodsOneFind;
+import com.cdqf.plant_find.ForGoodsPullFind;
+import com.cdqf.plant_find.TypeFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -136,23 +138,26 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
     private void initListener() {
         ptrlAllorderPull.setOnPullListener(new PullToRefreshLayout.OnPullListener() {
             @Override
-            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+            public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
                 // 下拉刷新操作
-                httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, plantState.getPlantString(getContext(), R.string.please_while), new OnResponseHandler() {
+                httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
                     @Override
                     public void onResponse(String result, RequestStatus status) {
                         String data = Errer.isResult(getContext(), result, status);
                         if (data == null) {
                             Log.e(TAG, "---获取订单待收货解密失败---" + data);
+                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
                             return;
                         }
                         Log.e(TAG, "---获取订单待收货解密成功---" + data);
+                        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                         if (TextUtils.equals(data, "1001")) {
                             handler.sendEmptyMessage(0x01);
                             return;
                         }
                         data = JSON.parseObject(data).getString("list");
                         plantState.getForGoodsList().clear();
+                        eventBus.post(new TypeFind());
                         List<ForGoods> forPaymentList = gson.fromJson(data, new TypeToken<List<ForGoods>>() {
                         }.getType());
                         plantState.setForGoodsList(forPaymentList);
@@ -165,19 +170,21 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
             }
 
             @Override
-            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+            public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
                 // 上拉加载操作
-                httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, plantState.getPlantString(getContext(), R.string.please_while), new OnResponseHandler() {
+                httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
                     @Override
                     public void onResponse(String result, RequestStatus status) {
                         String data = Errer.isResult(getContext(), result, status);
                         if (data == null) {
                             Log.e(TAG, "---获取订单待收货解密失败---" + data);
+                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
                             return;
                         }
+                        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                         Log.e(TAG, "---获取订单待收货解密成功---" + data);
                         if (TextUtils.equals(data, "1001")) {
-                            handler.sendEmptyMessage(0x01);
+                            plantState.initToast(getContext(), plantState.getPlantString(getContext(), R.string.more), true, 0);
                             return;
                         }
                         data = JSON.parseObject(data).getString("list");
@@ -370,4 +377,9 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
         params.put("sign", signEncrypt);
         httpRequestWrap.send(PlantAddress.USER_SIGN, params);
     }
+
+    public void onEventMainThread(ForGoodsPullFind g) {
+        initPull();
+    }
+
 }

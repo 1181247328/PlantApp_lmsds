@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_adapter.EvaluateCommentAdapter;
+import com.cdqf.plant_find.TypeFind;
 import com.cdqf.plant_image.PhotoActivity;
 import com.cdqf.plant_image.PhotoFind;
 import com.cdqf.plant_lmsd.R;
@@ -229,6 +230,7 @@ public class EvaluateActivity extends BaseActivity {
                         }
                         Log.e(TAG, "---获取评价发表解密成功---" + data);
                         plantState.initToast(context, data, true, 0);
+                        eventBus.post(new TypeFind());
                         finish();
                     }
                 }));
@@ -253,7 +255,7 @@ public class EvaluateActivity extends BaseActivity {
                 }
                 evaluate.setPicList(imageNameList);
                 String orderContent = gson.toJson(evaluate);
-                params.put("orderContent",orderContent);
+                params.put("orderContent", orderContent);
                 //图片
                 for (int i = 0; i < pictureHttpList.size(); i++) {
                     params.put(imageNameList.get(i), new File(pictureHttpList.get(i)));

@@ -15,15 +15,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant.wxapi.HttpWxPayWrap;
-import com.cdqf.plant.wxapi.QQLogin;
-import com.cdqf.plant.wxapi.ShareQQFind;
-import com.cdqf.plant.wxapi.ShareWxFind;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_class.NewsContext;
 import com.cdqf.plant_dilog.ShareDilogFragment;
 import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_lmsd.wxapi.HttpWxPayWrap;
+import com.cdqf.plant_lmsd.wxapi.QQLogin;
+import com.cdqf.plant_lmsd.wxapi.ShareQQFind;
+import com.cdqf.plant_lmsd.wxapi.ShareWxFind;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -131,7 +131,7 @@ public class ForDetailsActivity extends BaseActivity implements View.OnClickList
         position = intent.getIntExtra("position", 0);
         type = intent.getIntExtra("type", 0);
         imageLoader = plantState.getImageLoader(context);
-        HttpWxPayWrap.isWxApp(context, com.cdqf.plant.wxapi.Constants.WX_APP_ID);
+        HttpWxPayWrap.isWxApp(context, com.cdqf.plant_lmsd.wxapi.Constants.WX_APP_ID);
     }
 
     private void initView() {

@@ -13,14 +13,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant.wxapi.QQLogin;
-import com.cdqf.plant.wxapi.WxLogin;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_class.User;
 import com.cdqf.plant_find.IntegralNumberFind;
 import com.cdqf.plant_find.Login;
+import com.cdqf.plant_find.LoginWXFind;
 import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_lmsd.wxapi.QQLogin;
+import com.cdqf.plant_lmsd.wxapi.WXFind;
+import com.cdqf.plant_lmsd.wxapi.WxLogin;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -122,6 +124,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void initAgo() {
         context = this;
         httpRequestWrap = new HttpRequestWrap(context);
+        if (!eventBus.isRegistered(this)) {
+            eventBus.register(this);
+        }
     }
 
     private void initView() {
@@ -170,14 +175,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             //登录
             case R.id.tv_login:
-                userName= xetLoginPhone.getText().toString();
-                if(userName.length()<=0){
-                    plantState.initToast(context,context.getResources().getString(R.string.userName),true,0);
+                userName = xetLoginPhone.getText().toString();
+                if (userName.length() <= 0) {
+                    plantState.initToast(context, context.getResources().getString(R.string.userName), true, 0);
                     return;
                 }
                 pwd = xetLogingPassword.getText().toString();
-                if(pwd.length()<=0){
-                    plantState.initToast(context,context.getResources().getString(R.string.pwd),true,0);
+                if (pwd.length() <= 0) {
+                    plantState.initToast(context, context.getResources().getString(R.string.pwd), true, 0);
                     return;
                 }
                 httpRequestWrap.setMethod(HttpRequestWrap.POST);
@@ -191,13 +196,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         }
                         Log.e(TAG, "---用户登录解密成功---" + data);
                         User user = new User();
-                        user = gson.fromJson(data,User.class);
+                        user = gson.fromJson(data, User.class);
                         plantState.setUser(user);
                         plantState.setLogin(true);
-                        PlantPreferences.setLogUserComment(context,user);
+                        PlantPreferences.setLogUserComment(context, user);
                         eventBus.post(new Login());
                         eventBus.post(new IntegralNumberFind());
-                        plantState.initToast(context,context.getResources().getString(R.string.login_complete),true,0);
+                        plantState.initToast(context, context.getResources().getString(R.string.login_complete), true, 0);
                         finish();
                     }
                 }));
@@ -227,10 +232,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             //QQ登录
             case R.id.iv_login_qq:
-                QQLogin.qqLogin(context,LoginActivity.this);
+                QQLogin.qqLogin(context, LoginActivity.this);
                 break;
             //微信登录
             case R.id.iv_login_wetch:
+                Log.e(TAG, "---微信登录---");
                 WxLogin.loginWx(context);
                 break;
         }
@@ -275,5 +281,59 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "---销毁---");
+        eventBus.unregister(this);
+    }
+
+    /**
+     * 微信登录
+     *
+     * @param w
+     */
+    public void onEventMainThread(WXFind w) {
+        httpRequestWrap.setMethod(HttpRequestWrap.POST);
+        httpRequestWrap.setCallBack(new RequestHandler(context, 1, context.getResources().getString(R.string.login), new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                String data = Errer.isResult(context, result, status);
+                if (data == null) {
+                    Log.e(TAG, "---用户微信登录解密失败---" + data);
+                    return;
+                }
+                Log.e(TAG, "---用户登录解密成功---" + data);
+                User user = new User();
+                user = gson.fromJson(data, User.class);
+                plantState.setUser(user);
+                plantState.setLogin(true);
+                PlantPreferences.setLogUserComment(context, user);
+                eventBus.post(new LoginWXFind());
+                eventBus.post(new IntegralNumberFind());
+                plantState.initToast(context, context.getResources().getString(R.string.login_complete), true, 0);
+                finish();
+            }
+        }));
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("openid", w.openid);
+        params.put("nickname", w.nickname);
+        params.put("headimgurl", w.headimgurl);
+        //随机数
+        int random = plantState.getRandom();
+        String sign = random + "" + w.nickname + w.openid;
+        Log.e(TAG, "---明文---" + sign);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
+        }
+        if (signEncrypt == null) {
+            plantState.initToast(context, "加密失败", true, 0);
+        }
+        //随机数
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+        httpRequestWrap.send(PlantAddress.WX_LOGIN, params);
     }
 }

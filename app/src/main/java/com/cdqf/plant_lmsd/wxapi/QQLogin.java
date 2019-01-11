@@ -1,4 +1,4 @@
-package com.cdqf.plant.wxapi;
+package com.cdqf.plant_lmsd.wxapi;
 
 import android.app.Activity;
 import android.content.Context;

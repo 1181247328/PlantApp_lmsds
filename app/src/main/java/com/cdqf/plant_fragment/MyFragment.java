@@ -25,6 +25,7 @@ import com.cdqf.plant_adapter.OrderAdapter;
 import com.cdqf.plant_adapter.OtherAdapter;
 import com.cdqf.plant_find.Login;
 import com.cdqf.plant_find.LoginExitFind;
+import com.cdqf.plant_find.LoginWXFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_view.MyGridView;
@@ -322,6 +323,23 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         imageLoader.displayImage(plantState.getUser().getImgAvatat(), ivMyHearYes, plantState.getImageLoaderOptions(R.mipmap.login_hear, R.mipmap.login_hear, R.mipmap.login_hear));
         handler.sendEmptyMessage(0x002);
         tvMyLoginName.setText(plantState.getUser().getNickName() + "-" + plantState.getUser().getNowMemberName());
+        tvMyRegisteredPhone.setText(plantState.phoneEmpty(plantState.getUser().getPhone()));
+    }
+
+    /**
+     * 微信登录
+     *
+     * @param l
+     */
+    public void onEventMainThread(LoginWXFind l) {
+        String image = plantState.getUser().getImgAvatat().replace("http://rlmsdfile.quanyubao.cn", "");
+        imageLoader.displayImage(image, ivMyHearYes, plantState.getImageLoaderOptions(R.mipmap.login_hear, R.mipmap.login_hear, R.mipmap.login_hear));
+        handler.sendEmptyMessage(0x002);
+        if (plantState.getUser().getNowMemberName() == null) {
+            tvMyLoginName.setText(plantState.getUser().getNickName());
+        } else {
+            tvMyLoginName.setText(plantState.getUser().getNickName() + "-" + plantState.getUser().getNowMemberName());
+        }
         tvMyRegisteredPhone.setText(plantState.phoneEmpty(plantState.getUser().getPhone()));
     }
 

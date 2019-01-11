@@ -99,6 +99,9 @@ public class PlantAddress {
     //登录
     public static final String USER_LOGIN = ADDRESS + "/api/Consumer/ConsumerLogin";
 
+    //微信登录
+    public static final String WX_LOGIN = ADDRESS + "/api/Consumer/ConsumerRegisterWithOutMobile";
+
     //头像
     public static final String USER_HEAR = ADDRESS + "/api/Consumer/UpdateConsumerAvatar";
 

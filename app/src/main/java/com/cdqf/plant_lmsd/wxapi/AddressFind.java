@@ -1,4 +1,4 @@
-package com.cdqf.plant.wxapi;
+package com.cdqf.plant_lmsd.wxapi;
 
 /**
  * Created by liu on 2017/8/7.

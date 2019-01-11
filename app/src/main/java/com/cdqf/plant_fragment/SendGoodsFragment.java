@@ -21,6 +21,8 @@ import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_activity.OrderDetailsActivity;
 import com.cdqf.plant_adapter.SendsGoodsAdapter;
 import com.cdqf.plant_class.SendGoods;
+import com.cdqf.plant_find.ForGoodsPullFind;
+import com.cdqf.plant_find.SendGoodsPullFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -113,6 +115,9 @@ public class SendGoodsFragment extends Fragment implements View.OnClickListener 
     private void initAgo() {
         httpRequestWrap = new HttpRequestWrap(getContext());
         httpRequestWrap.setMethod(HttpRequestWrap.POST);
+        if (!eventBus.isRegistered(this)) {
+            eventBus.register(this);
+        }
     }
 
     private void initView() {
@@ -149,6 +154,7 @@ public class SendGoodsFragment extends Fragment implements View.OnClickListener 
                         }
                         data = JSON.parseObject(data).getString("list");
                         plantState.getSendGoodsList().clear();
+                        eventBus.post(new ForGoodsPullFind());
                         List<SendGoods> forPaymentList = gson.fromJson(data, new TypeToken<List<SendGoods>>() {
                         }.getType());
                         plantState.setSendGoodsList(forPaymentList);
@@ -193,7 +199,7 @@ public class SendGoodsFragment extends Fragment implements View.OnClickListener 
         llAllorderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                initIntent(OrderDetailsActivity.class,position);
+                initIntent(OrderDetailsActivity.class, position);
             }
         });
     }
@@ -275,10 +281,10 @@ public class SendGoodsFragment extends Fragment implements View.OnClickListener 
         startActivity(intent);
     }
 
-    private void initIntent(Class<?> activity,int position) {
+    private void initIntent(Class<?> activity, int position) {
         Intent intent = new Intent(getContext(), activity);
-        intent.putExtra("type",2);
-        intent.putExtra("position",position);
+        intent.putExtra("type", 2);
+        intent.putExtra("position", position);
         intent.putExtra("isAllOrder", false);
         startActivity(intent);
     }
@@ -312,6 +318,11 @@ public class SendGoodsFragment extends Fragment implements View.OnClickListener 
     public void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "---销毁---");
+        eventBus.unregister(this);
+    }
+
+    public void onEventMainThread(SendGoodsPullFind c) {
+        initPull();
     }
 
 }

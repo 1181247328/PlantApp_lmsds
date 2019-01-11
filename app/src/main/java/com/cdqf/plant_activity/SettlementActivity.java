@@ -17,8 +17,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.cdqf.plant.wxapi.HttpWxPayWrap;
-import com.cdqf.plant.wxapi.WXReturnFind;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_adapter.SettlementAdapter;
@@ -31,6 +29,8 @@ import com.cdqf.plant_find.PayFind;
 import com.cdqf.plant_find.SettlementFind;
 import com.cdqf.plant_find.WeChatFind;
 import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_lmsd.wxapi.HttpWxPayWrap;
+import com.cdqf.plant_lmsd.wxapi.WXReturnFind;
 import com.cdqf.plant_pay.HttpZFBPayWrap;
 import com.cdqf.plant_pay.ZFBFind;
 import com.cdqf.plant_state.BaseActivity;

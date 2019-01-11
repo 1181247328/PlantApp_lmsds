@@ -1,4 +1,4 @@
-package com.cdqf.plant.wxapi;
+package com.cdqf.plant_lmsd.wxapi;
 
 /**
  * Created by liu on 2017/6/23.
@@ -19,7 +19,7 @@ public class Constants {
     public static final String WX_MCH_ID = "";
 
     //登录所用的secret
-    public static final String WX_APP_SECRET = "a8271e2ef1cc88ffdf0e283837b87560";
+    public static final String WX_APP_SECRET = "d300efaab70833a4321b34fc0247e101";
 
     //API密钥，在商户平台设置
     public static final  String WX_API_KEY= "";

@@ -149,7 +149,11 @@ public class LogisticsActivity extends BaseActivity {
     }
 
     private void initBack() {
-        imageLoader.displayImage(plantState.getAllOrderList().get(position).getOrderCommList().get(0).getImgCommPic(), ivLogisticsPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+        if (type == 0) {
+            imageLoader.displayImage(plantState.getAllOrderList().get(position).getOrderCommList().get(0).getImgCommPic(), ivLogisticsPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+        } else {
+            imageLoader.displayImage(plantState.getForGoodsList().get(position).getOrderCommList().get(0).getImgCommPic(), ivLogisticsPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+        }
         initPull();
     }
 
@@ -243,7 +247,6 @@ public class LogisticsActivity extends BaseActivity {
                 } else {
                     plantState.initToast(context,message,true,0);
                 }
-
             }
         }));
         Map<String, Object> params = new HashMap<String, Object>();

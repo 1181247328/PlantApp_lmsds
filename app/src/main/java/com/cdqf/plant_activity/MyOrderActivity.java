@@ -20,6 +20,7 @@ import com.cdqf.plant_fragment.ForGoodsFragment;
 import com.cdqf.plant_fragment.ForPaymentFragment;
 import com.cdqf.plant_fragment.SendGoodsFragment;
 import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_lmsd.wxapi.HttpWxPayWrap;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_state.StatusBarCompat;
@@ -105,6 +106,7 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
     private void initAgo() {
         context = this;
         httpRequestWrap = new HttpRequestWrap(context);
+        HttpWxPayWrap.isWxApp(context, "wx5048e518874eed43");
         Intent intent = getIntent();
         position = intent.getIntExtra("position", 0);
     }

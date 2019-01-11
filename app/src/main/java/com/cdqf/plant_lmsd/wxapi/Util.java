@@ -1,4 +1,4 @@
-package com.cdqf.plant.wxapi;
+package com.cdqf.plant_lmsd.wxapi;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;

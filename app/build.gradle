@@ -35,23 +35,23 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
-//    signingConfigs {
-//        release {
-//            storeFile file("plant.jks")
-//            storePassword "123456"
-//            keyAlias "plant"
-//            keyPassword "123456"
-//        }
-//    }
-//
-//    buildTypes {
-//        debug {
-//            signingConfig signingConfigs.release
-//        }
-//        release {
-//            signingConfig signingConfigs.release
-//        }
-//    }
+    signingConfigs {
+        release {
+            storeFile file("plant_lmsd.jks")
+            storePassword "123456"
+            keyAlias "plant_lmsd"
+            keyPassword "123456"
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 
     sourceSets {
         main {

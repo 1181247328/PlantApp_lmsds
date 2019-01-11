@@ -1,6 +1,7 @@
-package com.cdqf.plant.wxapi;
+package com.cdqf.plant_lmsd.wxapi;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cdqf.plant_state.PlantState;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -29,8 +30,9 @@ public class WxLogin {
         if (WXapi != null && WXapi.isWXAppInstalled()) {
             SendAuth.Req req = new SendAuth.Req();
             req.scope = "snsapi_userinfo";
-            req.state = "wechat_sdk_demo";
-            WXapi.sendReq(req);
+            req.state = "wechat_sdk_demo_test";
+            boolean isWxapi = WXapi.sendReq(req);
+            Log.e("WxLogin", "---" + isWxapi);
         } else {
             plantState.initToast(context,TOAST,true,0);
         }
