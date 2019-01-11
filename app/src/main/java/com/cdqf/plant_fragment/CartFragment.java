@@ -443,6 +443,10 @@ public class CartFragment extends Fragment {
                 Log.e(TAG, "---删除购物车商品成功---" + data);
                 if (TextUtils.equals(data, "1001")) {
                     handler.sendEmptyMessage(0x001);
+                    allPrice = 0.0;
+                    tvCartPrice.setText("￥" + allPrice + "");
+                    tvCartSettlement.setText("去结算(" + allPrice + ")");
+                    cbCartCheckbox.setChecked(false);
                     return;
                 }
                 plantState.getCartList().clear();
@@ -452,7 +456,6 @@ public class CartFragment extends Fragment {
                 if (cartAdapter != null) {
                     cartAdapter.notifyDataSetChanged();
                 }
-
                 allPrice = 0.0;
                 tvCartPrice.setText("￥" + allPrice + "");
                 tvCartSettlement.setText("去结算(" + allPrice + ")");

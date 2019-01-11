@@ -11,26 +11,34 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
-import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant.wxapi.HttpWxPayWrap;
+import com.cdqf.plant.wxapi.WXReturnFind;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
+import com.cdqf.plant_activity.OrderDetailsActivity;
 import com.cdqf.plant_adapter.AllOrderAdapter;
 import com.cdqf.plant_class.AllOrder;
 import com.cdqf.plant_dilog.PayDilogFragment;
 import com.cdqf.plant_dilog.PromptDilogFragment;
 import com.cdqf.plant_find.AllDeleteOrderFind;
 import com.cdqf.plant_find.AllDeleteOrderTwoFind;
+import com.cdqf.plant_find.AllOrderDissFind;
 import com.cdqf.plant_find.AllPayFind;
+import com.cdqf.plant_find.AllWxFind;
 import com.cdqf.plant_find.CancelAllFind;
 import com.cdqf.plant_find.CancelAllOneFind;
+import com.cdqf.plant_find.ForPaymentFind;
 import com.cdqf.plant_find.GoodsAllFind;
 import com.cdqf.plant_find.GoodsAllOneFind;
 import com.cdqf.plant_find.PayFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_pay.HttpZFBPayWrap;
+import com.cdqf.plant_pay.ZFBFind;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
@@ -130,9 +138,9 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        llAllorderThere = (LinearLayout) view.findViewById(R.id.ll_allorder_there);
-        llAllorderAre = (LinearLayout) view.findViewById(R.id.ll_allorder_are);
-        ptrlAllorderPull = (PullToRefreshLayout) view.findViewById(R.id.ptrl_allorder_pull);
+        llAllorderThere = view.findViewById(R.id.ll_allorder_there);
+        llAllorderAre = view.findViewById(R.id.ll_allorder_are);
+        ptrlAllorderPull = view.findViewById(R.id.ptrl_allorder_pull);
         llAllorderList = (ListView) ptrlAllorderPull.getPullableView();
     }
 
@@ -142,6 +150,12 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initListener() {
+        llAllorderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                initIntent(OrderDetailsActivity.class, position);
+            }
+        });
         ptrlAllorderPull.setOnPullListener(new PullToRefreshLayout.OnPullListener() {
             @Override
             public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
@@ -287,6 +301,24 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
         startActivity(intent);
     }
 
+    private void initIntent(Class<?> activity, int position) {
+        Intent intent = new Intent(getContext(), activity);
+        int type = 0;
+        if (TextUtils.equals(plantState.getAllOrderList().get(position).getOrderStatus(), "待付款")) {
+            type = 1;
+        } else if (TextUtils.equals(plantState.getAllOrderList().get(position).getOrderStatus(), "待发货")) {
+            type = 2;
+        } else if (TextUtils.equals(plantState.getAllOrderList().get(position).getOrderStatus(), "待收货")) {
+            type = 3;
+        } else if (TextUtils.equals(plantState.getAllOrderList().get(position).getOrderStatus(), "交易成功")) {
+            type = 4;
+        }
+        intent.putExtra("type", type);
+        intent.putExtra("isAllOrder", true);
+        intent.putExtra("position", position);
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -326,7 +358,7 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
      */
     public void onEventMainThread(CancelAllFind cancel) {
         PromptDilogFragment payDilogFragment = new PromptDilogFragment();
-        payDilogFragment.initPrompt("是否取消认单",13);
+        payDilogFragment.initPrompt("是否取消认单", 13, cancel.position);
         payDilogFragment.show(getFragmentManager(), "取消订单");
     }
 
@@ -345,6 +377,7 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
                 }
                 Log.e(TAG, "---取消订单解密成功---" + data);
                 plantState.initToast(getContext(), data, true, 0);
+                eventBus.post(new ForPaymentFind());
                 initPull();
             }
         }));
@@ -387,6 +420,7 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
     public void onEventMainThread(AllPayFind a) {
         payPosition = a.position;
         PayDilogFragment payDilogFragment = new PayDilogFragment();
+        payDilogFragment.initPayPricePosition(2, plantState.getAllOrderList().get(payPosition).getTotalPrice(), payPosition);
         payDilogFragment.show(getFragmentManager(), "支付开始");
     }
 
@@ -406,8 +440,9 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
                 }
                 //2017040706580188
                 Log.e(TAG, "---支付宝加签解密成功---" + data);
+                String d = gson.fromJson(data, String.class);
 //                HttpZFBPayWrap.zfbPayParamss(getContext(),"2017040706580188","2014-07-24 22:22:22","0.01","测试",System.currentTimeMillis()+"");
-                HttpZFBPayWrap.zfbPayParamss(getContext(),data);
+                HttpZFBPayWrap.zfbPayParamss(getContext(), d);
             }
         }));
         Map<String, Object> params = new HashMap<String, Object>();
@@ -434,6 +469,60 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
         params.put("random", random);
         params.put("sign", signEncrypt);
         httpRequestWrap.send(PlantAddress.PAY_SING, params);
+    }
+
+    public void onEventMainThread(ZFBFind pay) {
+        initPull();
+    }
+
+    /**
+     * 微信支付
+     *
+     * @param a
+     */
+    public void onEventMainThread(AllWxFind a) {
+        httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, "订单创建中", new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                String data = Errer.isResult(getContext(), result, status);
+                if (data == null) {
+                    Log.e(TAG, "---支付宝加签解密失败---" + data);
+                    return;
+                }
+                //2017040706580188
+                Log.e(TAG, "---支付宝加签解密成功---" + data);
+//                HttpZFBPayWrap.zfbPayParamss(context,"2017040706580188","2014-07-24 22:22:22","0.01","测试",System.currentTimeMillis()+"");
+                HttpWxPayWrap.wxPostJSON(data);
+            }
+        }));
+        Map<String, Object> params = new HashMap<String, Object>();
+        int orderIds = plantState.getAllOrderList().get(a.position).getOrderId();
+        params.put("orderId", orderIds);
+        int signType = 1;
+        params.put("signType", signType);
+        int random = plantState.getRandom();
+        String sign = random + "" + orderIds + signType;
+        Log.e(TAG, "---明文---" + random + "---" + orderIds + "---" + signType);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
+        }
+        if (signEncrypt == null) {
+            plantState.initToast(getContext(), "加密失败", true, 0);
+        }
+        //随机数
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+        httpRequestWrap.send(PlantAddress.PAY_SING, params);
+    }
+
+    public void onEventMainThread(WXReturnFind wx) {
+        initPull();
     }
 
     /**
@@ -548,5 +637,34 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
         params.put("random", random);
         params.put("sign", signEncrypt);
         httpRequestWrap.send(PlantAddress.USER_SIGN, params);
+    }
+
+    public void onEventMainThread(AllOrderDissFind diss) {
+        httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                String data = Errer.isResult(getContext(), result, status);
+                if (data == null) {
+                    Log.e(TAG, "---获取全部订单解密失败---" + data);
+                    handler.sendEmptyMessage(0x01);
+                    return;
+                }
+                Log.e(TAG, "---获取全部订单解密成功---" + data);
+                if (TextUtils.equals(data, "1001")) {
+                    handler.sendEmptyMessage(0x01);
+                    return;
+                }
+                data = JSON.parseObject(data).getString("list");
+                plantState.getAllOrderList().clear();
+                List<AllOrder> allOrderList = gson.fromJson(data, new TypeToken<List<AllOrder>>() {
+                }.getType());
+                plantState.setAllOrderList(allOrderList);
+                if (allOrderAdapter != null) {
+                    allOrderAdapter.notifyDataSetChanged();
+                }
+                handler.sendEmptyMessage(0x00);
+            }
+        }));
+        initPut(true);
     }
 }

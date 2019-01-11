@@ -13,9 +13,9 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -120,12 +120,12 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initView() {
-        rlRegisteredoneReturn = (RelativeLayout) this.findViewById(R.id.rl_registeredone_return);
-        tvRegisteredoneLogin = (TextView) this.findViewById(R.id.tv_registeredone_login);
-        xetRegisteredonePhone = (XEditText) this.findViewById(R.id.xet_registeredone_phone);
-        tvRegisteredoneObtain = (TextView) this.findViewById(R.id.tv_registeredone_obtain);
-        xetRegisteredoneCode = (XEditText) this.findViewById(R.id.xet_registeredone_code);
-        tvRegisteredoneNext = (TextView) this.findViewById(R.id.tv_registeredone_next);
+        rlRegisteredoneReturn = this.findViewById(R.id.rl_registeredone_return);
+        tvRegisteredoneLogin = this.findViewById(R.id.tv_registeredone_login);
+        xetRegisteredonePhone = this.findViewById(R.id.xet_registeredone_phone);
+        tvRegisteredoneObtain = this.findViewById(R.id.tv_registeredone_obtain);
+        xetRegisteredoneCode = this.findViewById(R.id.xet_registeredone_code);
+        tvRegisteredoneNext = this.findViewById(R.id.tv_registeredone_next);
     }
 
     private void initAdapter() {
@@ -171,7 +171,7 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
                     plantState.initToast(context, data, true, 0);
                     isCode = true;
                 } else {
-
+                    plantState.initToast(context, data, true, 0);
                 }
 
             }
@@ -231,8 +231,8 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
                     intent.putExtra("ipAddress",obtainIp);
                     intent.putExtra("code",code);
                     startActivity(intent);
-                } else {
-
+                } else if (TextUtils.equals(data, "该手机号已被使用")) {
+                    plantState.initToast(context, data, true, 0);
                 }
             }
         }));
@@ -283,7 +283,7 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 //判断是否是手机号码
-                if (!plantState.checkMobileNumber(mobile)) {
+                if (!PlantState.checkMobileNumber(mobile)) {
                     plantState.initToast(context, context.getResources().getString(R.string.set_phone_modile), true, 0);
                     return;
                 }

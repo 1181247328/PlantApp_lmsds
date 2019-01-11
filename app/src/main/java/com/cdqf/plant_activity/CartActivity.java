@@ -439,7 +439,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
         shoppingCartIds = shoppingCartIds.substring(0, shoppingCartIds.length() - 1);
         Log.e(TAG, "---DeteleShopFind---" + shoppingCartIds);
         httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(CartActivity.this, 1, context.getResources().getString(R.string.please_while), new OnResponseHandler() {
+        httpRequestWrap.setCallBack(new RequestHandler(context, new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {
                 String data = Errer.isResult(context, result, status);

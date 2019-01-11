@@ -695,6 +695,25 @@ public class PlantState {
         return matcher.matches();
     }
 
+    /**
+     * 手机号码隐藏中间
+     */
+    public String phoneEmpty(String pNumber) {
+        if (!TextUtils.isEmpty(pNumber) && pNumber.length() > 6) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < pNumber.length(); i++) {
+                char c = pNumber.charAt(i);
+                if (i >= 3 && i <= 6) {
+                    sb.append('*');
+                } else {
+                    sb.append(c);
+                }
+            }
+            return sb.toString();
+        }
+        return null;
+    }
+
     public List<Fragment> getFragments() {
         return fragments;
     }

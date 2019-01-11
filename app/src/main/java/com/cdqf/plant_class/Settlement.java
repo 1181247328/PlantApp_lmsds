@@ -82,14 +82,14 @@ public class Settlement {
         private int postage;
         private boolean isPostFree;
         private boolean isOriginalPrice;
-        private int totalPrice;
+        private double totalPrice;
         private int scId;
         private int commId;
         private String commName;
         private String commPic;
         private String commHttpPic;
         private int number;
-        private int price;
+        private double price;
 
         public int getNetContent() {
             return netContent;
@@ -123,11 +123,11 @@ public class Settlement {
             isOriginalPrice = originalPrice;
         }
 
-        public int getTotalPrice() {
+        public double getTotalPrice() {
             return totalPrice;
         }
 
-        public void setTotalPrice(int totalPrice) {
+        public void setTotalPrice(double totalPrice) {
             this.totalPrice = totalPrice;
         }
 
@@ -179,11 +179,11 @@ public class Settlement {
             this.number = number;
         }
 
-        public int getPrice() {
+        public double getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(double price) {
             this.price = price;
         }
     }
@@ -193,7 +193,6 @@ public class Settlement {
         private int crId;
         private String contacts;
         private String contactMobile;
-
         private String fullName;
 
         public String getContacts() {

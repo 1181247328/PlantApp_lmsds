@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.cdqf.plant_utils.HttpRequestWrap;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -58,6 +59,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             case 0:
                 msg = "支付成功";
                 Toast.makeText(WXPayEntryActivity.this,msg,Toast.LENGTH_SHORT).show();
+                eventBus.post(new WXReturnFind());
                 finish();
 //                httpRequestWrap.setMethod(HttpRequestWrap.POST);
 //                httpRequestWrap.setCallBack(new RequestHandler(WXPayEntrtyActivity.this, 1, "请稍候...", new OnResponseHandler() {

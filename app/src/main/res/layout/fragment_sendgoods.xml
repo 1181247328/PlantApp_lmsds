@@ -15,28 +15,28 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:scaleType="fitXY"
             android:src="@mipmap/allorder_no" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:gravity="center|clip_vertical"
             android:text="您还没有相关的订单"
+            android:layout_marginTop="15dp"
             android:textColor="#474747"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:gravity="center|clip_vertical"
             android:text="可以去看看有哪些想买的"
             android:textColor="@color/plant_science"
-            android:textSize="14sp" />
+            android:layout_marginTop="2dp"
+            android:textSize="11sp" />
 
     </LinearLayout>
 

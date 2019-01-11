@@ -18,7 +18,7 @@ public class OrderDetails {
     private String strReceivingAddress;
     private String orderNo;
     private String orderDate;
-    private int dealPrice;
+    private double dealPrice;
     private int postage;
     private String deliverGoodDate;
     private String strDeliverGoodDate;
@@ -112,11 +112,11 @@ public class OrderDetails {
         this.orderDate = orderDate;
     }
 
-    public int getDealPrice() {
+    public double getDealPrice() {
         return dealPrice;
     }
 
-    public void setDealPrice(int dealPrice) {
+    public void setDealPrice(double dealPrice) {
         this.dealPrice = dealPrice;
     }
 
@@ -223,8 +223,8 @@ public class OrderDetails {
         private int commNum;
         private String commPic;
         private String imgCommPic;
-        private int commPrice;
-        private int totalPrice;
+        private double commPrice;
+        private double totalPrice;
         private String brif;
         private int netContent;
         private boolean isTicket;
@@ -272,19 +272,19 @@ public class OrderDetails {
             this.imgCommPic = imgCommPic;
         }
 
-        public int getCommPrice() {
+        public double getCommPrice() {
             return commPrice;
         }
 
-        public void setCommPrice(int commPrice) {
+        public void setCommPrice(double commPrice) {
             this.commPrice = commPrice;
         }
 
-        public int getTotalPrice() {
+        public double getTotalPrice() {
             return totalPrice;
         }
 
-        public void setTotalPrice(int totalPrice) {
+        public void setTotalPrice(double totalPrice) {
             this.totalPrice = totalPrice;
         }
 

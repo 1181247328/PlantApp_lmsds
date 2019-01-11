@@ -157,7 +157,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
     private void userAge(){
         String age;
-        switch (plantState.getUser().getAge()) {
+        switch (plantState.getUser().getGender()) {
             case 0:
                 age = "未知";
                 break;
@@ -193,7 +193,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 break;
             //性别
             case R.id.ll_personaldata_gender:
-                SinglePicker<String> picker = new SinglePicker<>(PersonalDataActivity.this, new String[]{"男", "女"});
+                SinglePicker<String> picker = new SinglePicker<>(PersonalDataActivity.this, new String[]{"男", "女", "未知"});
                 picker.setCanLoop(true);//不禁用循环
                 picker.setTopBackgroundColor(0xFFEEEEEE);
                 picker.setTopHeight(50);

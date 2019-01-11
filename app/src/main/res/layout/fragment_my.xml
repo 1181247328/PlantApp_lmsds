@@ -29,13 +29,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:gravity="center"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:clickable="true"
-                    android:paddingTop="10dp"
                     android:background="@drawable/component_click"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="15dp"
+                    android:paddingBottom="10dp"
                     android:text="设置"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -44,11 +44,12 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_my_no"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/white"
@@ -79,8 +80,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:gravity="center"
-                    android:paddingBottom="5dp"
                     android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:text="登录"
                     android:textColor="@color/planning_item_three"
                     android:textSize="16sp" />
@@ -95,11 +96,71 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:paddingBottom="5dp"
                     android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:text="注册"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_my_yes"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15sp"
+                android:paddingTop="5dp">
+
+
+                <com.gcssloop.widget.RCRelativeLayout
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@color/white"
+                    app:round_as_circle="true">
+
+                    <ImageView
+                        android:id="@+id/iv_my_hear_yes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/login_hear" />
+
+                </com.gcssloop.widget.RCRelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_my_login_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="left"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="清叶-青铜会员"
+                        android:textColor="@color/planning_item_three"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_my_registered_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="left"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="13551021774"
+                        android:textColor="@color/plant_address"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -115,9 +176,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:paddingBottom="15dp"
                     android:paddingLeft="15dp"
                     android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
                     android:text="我的订单"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -137,17 +198,17 @@
                         android:background="@color/white"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingBottom="15dp"
                         android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
                         android:paddingRight="15dp"
-                        android:paddingTop="15dp">
+                        android:paddingBottom="15dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
                             android:background="@color/white"
                             android:text="查看更多订单"
-                            android:layout_marginRight="3dp"
                             android:textColor="@color/plant_science"
                             android:textSize="14sp" />
 
@@ -178,9 +239,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="其它功能"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -189,9 +250,9 @@
                 android:id="@+id/mgv_my_other"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
                 android:background="@color/white"
                 android:numColumns="4"
+                android:paddingBottom="5dp"
                 android:scrollbars="none" />
 
         </LinearLayout>

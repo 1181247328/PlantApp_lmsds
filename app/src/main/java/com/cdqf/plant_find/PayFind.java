@@ -5,7 +5,13 @@ package com.cdqf.plant_find;
  */
 
 public class PayFind {
+    public int position;
+
     public PayFind() {
 
+    }
+
+    public PayFind(int position) {
+        this.position = position;
     }
 }

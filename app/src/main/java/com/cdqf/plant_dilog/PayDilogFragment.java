@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant_find.AllPayFind;
 import com.cdqf.plant_find.AllWxFind;
 import com.cdqf.plant_find.DissFind;
 import com.cdqf.plant_find.ForWxFind;
@@ -84,6 +83,7 @@ public class PayDilogFragment extends DialogFragment {
 
     private double price = 0;
 
+    //0=立即购买1=全部支付2=待付款
     public void initPayPrice(int type, double price) {
         this.type = type;
         this.price = price;
@@ -91,6 +91,12 @@ public class PayDilogFragment extends DialogFragment {
 
     public void initPay(int type, int position) {
         this.type = type;
+    }
+
+    public void initPayPricePosition(int type, double price, int position) {
+        this.type = type;
+        this.price = price;
+        this.payPosition = position;
     }
 
     @Nullable
@@ -196,13 +202,14 @@ public class PayDilogFragment extends DialogFragment {
                     //支付宝
                     case 1:
                         if (type == 0) {
+                            //提交订单
                             eventBus.post(new PayFind());
                         } else if (type == 1) {
                             //待付款页面支付
                             eventBus.post(new PayForFind(payPosition));
                         } else if (type == 2) {
                             //全部
-                            eventBus.post(new AllPayFind(payPosition));
+                            eventBus.post(new PayFind(payPosition));
                         }
                         dismiss();
                         break;

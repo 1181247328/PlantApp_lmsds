@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_dilog.GoodsDilogFragment;
@@ -23,6 +22,7 @@ import com.cdqf.plant_dilog.WhyDilogFragment;
 import com.cdqf.plant_find.GoodsDilogFind;
 import com.cdqf.plant_find.TypeFind;
 import com.cdqf.plant_find.WhyDilogFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -117,7 +117,7 @@ public class TypeActivity extends BaseActivity {
 
     private String title = null;
 
-    private int price = 0;
+    private double price = 0;
 
     //用户id
     private int consumerId = 0;
@@ -135,7 +135,7 @@ public class TypeActivity extends BaseActivity {
     private int returnType = -1;
 
     //金额
-    private int money = 0;
+    private double money = 0;
 
     //退款原因
     private int returnGoodsReason = -1;
@@ -186,9 +186,9 @@ public class TypeActivity extends BaseActivity {
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
         title = intent.getStringExtra("title");
-        price = intent.getIntExtra("price", 0);
+        price = intent.getDoubleExtra("price", 0);
         commNum = intent.getIntExtra("commNum", 0);
-        money = intent.getIntExtra("money", 0);
+        money = intent.getDoubleExtra("money", 0);
         orderId = intent.getIntExtra("orderId", orderId);
         commId = intent.getIntExtra("commId", commId);
         //退款类型

@@ -16,13 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_activity.OrderDetailsActivity;
 import com.cdqf.plant_adapter.EvaluateAdapter;
 import com.cdqf.plant_class.Evaluate;
 import com.cdqf.plant_find.TypeFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
@@ -120,9 +120,9 @@ public class EvaluateFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        llAllorderThere = (LinearLayout) view.findViewById(R.id.ll_allorder_there);
-        llAllorderAre = (LinearLayout) view.findViewById(R.id.ll_allorder_are);
-        ptrlAllorderPull = (PullToRefreshLayout) view.findViewById(R.id.ptrl_allorder_pull);
+        llAllorderThere = view.findViewById(R.id.ll_allorder_there);
+        llAllorderAre = view.findViewById(R.id.ll_allorder_are);
+        ptrlAllorderPull = view.findViewById(R.id.ptrl_allorder_pull);
         llAllorderList = (ListView) ptrlAllorderPull.getPullableView();
     }
 
@@ -286,6 +286,7 @@ public class EvaluateFragment extends Fragment implements View.OnClickListener {
         Intent intent = new Intent(getContext(), activity);
         intent.putExtra("type",4);
         intent.putExtra("position",position);
+        intent.putExtra("isAllOrder", false);
         startActivity(intent);
     }
 

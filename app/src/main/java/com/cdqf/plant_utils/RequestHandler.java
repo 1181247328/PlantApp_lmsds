@@ -57,7 +57,6 @@ public class RequestHandler extends RequestCallBack<String> {
         this.style = style;
         this.toast = toast;
         this.theme = theme;
-        xProgressDialog = new XProgressDialog(context, toast, theme);
         this.responseHandler = responseHandler;
         jsonValidator = new JSONValidator();
     }

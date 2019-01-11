@@ -10,7 +10,7 @@ public class ForPayment {
     private int orderId;
     private int commCount;
     private int postage;
-    private int totalPrice;
+    private double totalPrice;
     private int dealStatus;
     private boolean isDeliverGoods;
     private boolean isSign;
@@ -41,11 +41,11 @@ public class ForPayment {
         this.postage = postage;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -94,7 +94,7 @@ public class ForPayment {
         private int commNum;
         private String commPic;
         private String imgCommPic;
-        private int commPrice;
+        private double commPrice;
 
         public String getCommName() {
             return commName;
@@ -128,11 +128,11 @@ public class ForPayment {
             this.imgCommPic = imgCommPic;
         }
 
-        public int getCommPrice() {
+        public double getCommPrice() {
             return commPrice;
         }
 
-        public void setCommPrice(int commPrice) {
+        public void setCommPrice(double commPrice) {
             this.commPrice = commPrice;
         }
     }

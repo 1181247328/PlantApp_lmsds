@@ -15,11 +15,11 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_adapter.OrderDetailsAdapter;
 import com.cdqf.plant_class.OrderDetails;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -133,6 +133,9 @@ public class OrderDetailsActivity extends BaseActivity {
     //位置
     private int position = 0;
 
+    //判断是否为全部订单
+    private boolean isAllOrder = false;
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -189,6 +192,7 @@ public class OrderDetailsActivity extends BaseActivity {
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 0);
         position = intent.getIntExtra("position", 0);
+        isAllOrder = intent.getBooleanExtra("isAllOrder", false);
         orderDetailsActivity = this;
     }
 
@@ -231,7 +235,7 @@ public class OrderDetailsActivity extends BaseActivity {
                 //商品总价
                 tvOrderdetailsAllprice.setText("￥" + orderDetails.getDealPrice() + "");
                 //集合
-                orderDetailsAdapter.setOrderDetails(orderDetails,orderDetails.getOrderStatus());
+                orderDetailsAdapter.setOrderDetails(orderDetails, orderDetails.getOrderStatus());
                 if (TextUtils.equals(orderDetails.getOrderStatus(), "待付款")) {
                     //邮费
                     tvOrderdetailsPostage.setText("无");
@@ -303,27 +307,49 @@ public class OrderDetailsActivity extends BaseActivity {
         Map<String, Object> params = new HashMap<String, Object>();
         //订单id
         int orderId = 0;
-        switch (type) {
-            //待付款
-            case 1:
-                handler.sendEmptyMessage(0x01);
-                orderId = plantState.getForPaymentList().get(position).getOrderId();
-                break;
-            //待发货
-            case 2:
-                handler.sendEmptyMessage(0x02);
-                orderId = plantState.getSendGoodsList().get(position).getOrderId();
-                break;
-            //待收货
-            case 3:
-                handler.sendEmptyMessage(0x01);
-                orderId = plantState.getForGoodsList().get(position).getOrderId();
-                break;
-            //交易成功
-            case 4:
-                handler.sendEmptyMessage(0x02);
-                orderId = plantState.getEvaluateList().get(position).getOrderId();
-                break;
+        if (isAllOrder) {
+            orderId = plantState.getAllOrderList().get(position).getOrderId();
+            switch (type) {
+                //待付款
+                case 1:
+                    handler.sendEmptyMessage(0x01);
+                    break;
+                //待发货
+                case 2:
+                    handler.sendEmptyMessage(0x02);
+                    break;
+                //待收货
+                case 3:
+                    handler.sendEmptyMessage(0x01);
+                    break;
+                //交易成功
+                case 4:
+                    handler.sendEmptyMessage(0x02);
+                    break;
+            }
+        } else {
+            switch (type) {
+                //待付款
+                case 1:
+                    handler.sendEmptyMessage(0x01);
+                    orderId = plantState.getForPaymentList().get(position).getOrderId();
+                    break;
+                //待发货
+                case 2:
+                    handler.sendEmptyMessage(0x02);
+                    orderId = plantState.getSendGoodsList().get(position).getOrderId();
+                    break;
+                //待收货
+                case 3:
+                    handler.sendEmptyMessage(0x01);
+                    orderId = plantState.getForGoodsList().get(position).getOrderId();
+                    break;
+                //交易成功
+                case 4:
+                    handler.sendEmptyMessage(0x02);
+                    orderId = plantState.getEvaluateList().get(position).getOrderId();
+                    break;
+            }
         }
         params.put("orderId", orderId);
         //用户id

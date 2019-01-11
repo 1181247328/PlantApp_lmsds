@@ -16,7 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
-import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant.wxapi.HttpWxPayWrap;
+import com.cdqf.plant.wxapi.WXReturnFind;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_activity.OrderDetailsActivity;
@@ -24,11 +25,16 @@ import com.cdqf.plant_adapter.ForPaymentAdapter;
 import com.cdqf.plant_class.ForPayment;
 import com.cdqf.plant_dilog.PayDilogFragment;
 import com.cdqf.plant_dilog.PromptDilogFragment;
+import com.cdqf.plant_find.AllOrderDissFind;
 import com.cdqf.plant_find.CacenlOrderFind;
 import com.cdqf.plant_find.CacenlOrderTwoFind;
 import com.cdqf.plant_find.ForPayFind;
+import com.cdqf.plant_find.ForPaymentFind;
+import com.cdqf.plant_find.ForWxFind;
 import com.cdqf.plant_find.PayForFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_pay.HttpZFBPayWrap;
+import com.cdqf.plant_pay.ZFBFind;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
@@ -126,9 +132,9 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
     }
 
     private void initView() {
-        llAllorderThere = (LinearLayout) view.findViewById(R.id.ll_allorder_there);
-        llAllorderAre = (LinearLayout) view.findViewById(R.id.ll_allorder_are);
-        ptrlAllorderPull = (PullToRefreshLayout) view.findViewById(R.id.ptrl_allorder_pull);
+        llAllorderThere = view.findViewById(R.id.ll_allorder_there);
+        llAllorderAre = view.findViewById(R.id.ll_allorder_are);
+        ptrlAllorderPull = view.findViewById(R.id.ptrl_allorder_pull);
         llAllorderList = (ListView) ptrlAllorderPull.getPullableView();
     }
 
@@ -205,7 +211,7 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
         llAllorderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                initIntent(OrderDetailsActivity.class,position);
+                initIntent(OrderDetailsActivity.class, position);
             }
         });
     }
@@ -287,10 +293,11 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
         startActivity(intent);
     }
 
-    private void initIntent(Class<?> activity,int position) {
+    private void initIntent(Class<?> activity, int position) {
         Intent intent = new Intent(getContext(), activity);
-        intent.putExtra("type",1);
-        intent.putExtra("position",position);
+        intent.putExtra("type", 1);
+        intent.putExtra("position", position);
+        intent.putExtra("isAllOrder", false);
         startActivity(intent);
     }
 
@@ -354,6 +361,7 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
                 }
                 Log.e(TAG, "---取消订单解密成功---" + data);
                 plantState.initToast(getContext(), data, true, 0);
+                eventBus.post(new AllOrderDissFind());
                 initPull();
             }
         }));
@@ -392,16 +400,17 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
      */
     public void onEventMainThread(ForPayFind d) {
         PayDilogFragment payDilogFragment = new PayDilogFragment();
-        payDilogFragment.initPay(1,d.position);
-        payDilogFragment.show(getFragmentManager(),"支付");
+        payDilogFragment.initPayPricePosition(1, plantState.getForPaymentList().get(d.position).getTotalPrice(), d.position);
+        payDilogFragment.show(getFragmentManager(), "支付");
     }
 
     /**
      * 支付第二次操作
+     *
      * @param pay
      */
-    public void onEventMainThread(PayForFind pay){
-        httpRequestWrap.setCallBack(new RequestHandler(getContext(),1,"订单创建中", new OnResponseHandler() {
+    public void onEventMainThread(PayForFind pay) {
+        httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, "订单创建中", new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {
                 String data = Errer.isResult(getContext(), result, status);
@@ -411,15 +420,16 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
                 }
                 //2017040706580188
                 Log.e(TAG, "---支付宝加签解密成功---" + data);
+                String d = gson.fromJson(data, String.class);
 //                HttpZFBPayWrap.zfbPayParamss(getContext(),"2017040706580188","2014-07-24 22:22:22","0.01","测试",System.currentTimeMillis()+"");
-                HttpZFBPayWrap.zfbPayParamss(getContext(),data);
+                HttpZFBPayWrap.zfbPayParamss(getContext(), d);
             }
         }));
         Map<String, Object> params = new HashMap<String, Object>();
         int orderIds = plantState.getForPaymentList().get(pay.position).getOrderId();
-        params.put("orderId",orderIds);
+        params.put("orderId", orderIds);
         int signType = 0;
-        params.put("signType",signType);
+        params.put("signType", signType);
         int random = plantState.getRandom();
         String sign = random + "" + orderIds + signType;
         Log.e(TAG, "---明文---" + random + "---" + orderIds + "---" + signType);
@@ -439,5 +449,87 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
         params.put("random", random);
         params.put("sign", signEncrypt);
         httpRequestWrap.send(PlantAddress.PAY_SING, params);
+    }
+
+    public void onEventMainThread(ZFBFind pay) {
+        initPull();
+    }
+
+    /**
+     * 微信支付
+     *
+     * @param pay
+     */
+    public void onEventMainThread(ForWxFind pay) {
+        httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, "订单创建中", new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                String data = Errer.isResult(getContext(), result, status);
+                if (data == null) {
+                    Log.e(TAG, "---微信加签失败---" + data);
+                    return;
+                }
+                //2017040706580188
+                Log.e(TAG, "---微信加签成功---" + data);
+//                HttpZFBPayWrap.zfbPayParamss(getContext(),"2017040706580188","2014-07-24 22:22:22","0.01","测试",System.currentTimeMillis()+"");
+                HttpWxPayWrap.wxPostJSON(data);
+            }
+        }));
+        Map<String, Object> params = new HashMap<String, Object>();
+        int orderIds = plantState.getForPaymentList().get(pay.position).getOrderId();
+        params.put("orderId", orderIds);
+        int signType = 4;
+        params.put("signType", signType);
+        int random = plantState.getRandom();
+        String sign = random + "" + orderIds + signType;
+        Log.e(TAG, "---明文---" + random + "---" + orderIds + "---" + signType);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
+        }
+        if (signEncrypt == null) {
+            plantState.initToast(getContext(), "加密失败", true, 0);
+        }
+        //随机数
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+        httpRequestWrap.send(PlantAddress.PAY_SING, params);
+    }
+
+    public void onEventMainThread(WXReturnFind wx) {
+        initPull();
+    }
+
+    public void onEventMainThread(ForPaymentFind f) {
+        httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                String data = Errer.isResult(getContext(), result, status);
+                if (data == null) {
+                    Log.e(TAG, "---获取订单待付款解密失败---" + data);
+                    return;
+                }
+                Log.e(TAG, "---获取订单待付款解密成功---" + data);
+                if (TextUtils.equals(data, "1001")) {
+                    handler.sendEmptyMessage(0x01);
+                    return;
+                }
+                data = JSON.parseObject(data).getString("list");
+                plantState.getForPaymentList().clear();
+                List<ForPayment> forPaymentList = gson.fromJson(data, new TypeToken<List<ForPayment>>() {
+                }.getType());
+                plantState.setForPaymentList(forPaymentList);
+                if (forPaymentAdapter != null) {
+                    forPaymentAdapter.notifyDataSetChanged();
+                }
+                handler.sendEmptyMessage(0x00);
+            }
+        }));
+        initPut(true);
     }
 }

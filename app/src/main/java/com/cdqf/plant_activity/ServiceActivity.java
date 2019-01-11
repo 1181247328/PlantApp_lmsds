@@ -76,11 +76,11 @@ public class ServiceActivity extends BaseActivity {
 
     private String title = null;
 
-    private int price = 0;
+    private double price = 0;
 
     private int commNum = 0;
 
-    private int money = 0;
+    private double money = 0;
 
     //订单id
     private int orderId = 0;

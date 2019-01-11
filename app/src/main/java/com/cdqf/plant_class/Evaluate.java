@@ -10,12 +10,12 @@ public class Evaluate {
     private int orderId;
     private int commCount;
     private int postage;
-    private int totalPrice;
+    private double totalPrice;
     private int dealStatus;
     private boolean isDeliverGoods;
     private boolean isSign;
     private String orderStatus;
-    private List<ForPayment.Ordercommlist> orderCommList;
+    private List<Ordercommlist> orderCommList;
 
     public int getOrderId() {
         return orderId;
@@ -41,11 +41,11 @@ public class Evaluate {
         this.postage = postage;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -81,11 +81,11 @@ public class Evaluate {
         this.orderStatus = orderStatus;
     }
 
-    public List<ForPayment.Ordercommlist> getOrderCommList() {
+    public List<Ordercommlist> getOrderCommList() {
         return orderCommList;
     }
 
-    public void setOrderCommList(List<ForPayment.Ordercommlist> orderCommList) {
+    public void setOrderCommList(List<Ordercommlist> orderCommList) {
         this.orderCommList = orderCommList;
     }
 
@@ -94,7 +94,7 @@ public class Evaluate {
         private int commNum;
         private String commPic;
         private String imgCommPic;
-        private int commPrice;
+        private double commPrice;
 
         public String getCommName() {
             return commName;
@@ -128,11 +128,11 @@ public class Evaluate {
             this.imgCommPic = imgCommPic;
         }
 
-        public int getCommPrice() {
+        public double getCommPrice() {
             return commPrice;
         }
 
-        public void setCommPrice(int commPrice) {
+        public void setCommPrice(double commPrice) {
             this.commPrice = commPrice;
         }
     }
