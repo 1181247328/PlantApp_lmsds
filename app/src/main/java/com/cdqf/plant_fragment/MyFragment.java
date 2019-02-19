@@ -165,6 +165,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         tvMyRegistered.setOnClickListener(this);
         tvMyLogin.setOnClickListener(this);
         llMyMore.setOnClickListener(this);
+        llMyYes.setOnClickListener(this);
         mgvMyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -286,6 +287,9 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 }
                 initIntent(MyOrderActivity.class, 0);
                 break;
+            case R.id.ll_my_yes:
+                initIntent(SetActivity.class);
+                break;
         }
     }
 
@@ -322,7 +326,11 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     public void onEventMainThread(Login l) {
         imageLoader.displayImage(plantState.getUser().getImgAvatat(), ivMyHearYes, plantState.getImageLoaderOptions(R.mipmap.login_hear, R.mipmap.login_hear, R.mipmap.login_hear));
         handler.sendEmptyMessage(0x002);
-        tvMyLoginName.setText(plantState.getUser().getNickName() + "-" + plantState.getUser().getNowMemberName());
+        if (plantState.getUser().getNowMemberName() != null) {
+            tvMyLoginName.setText(plantState.getUser().getNickName() + "-" + plantState.getUser().getNowMemberName());
+        } else {
+            tvMyLoginName.setText(plantState.getUser().getNickName());
+        }
         tvMyRegisteredPhone.setText(plantState.phoneEmpty(plantState.getUser().getPhone()));
     }
 

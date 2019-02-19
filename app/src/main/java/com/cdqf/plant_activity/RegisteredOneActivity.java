@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,6 +33,8 @@ import com.xw.repo.XEditText;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 注册第一步
@@ -81,6 +85,27 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
     private int type = 1;
 
     private String code = null;
+
+    private int timer = 60;
+
+    private Timer timers = null;
+
+    private boolean isSend = false;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            timer--;
+            if (timer == 0) {
+                timer = 60;
+                isSend = false;
+                tvRegisteredoneObtain.setText("获取验证码");
+                timers.cancel();
+            } else {
+                tvRegisteredoneObtain.setText("重新发送(" + timer + ")s");
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +161,7 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
         rlRegisteredoneReturn.setOnClickListener(this);
         tvRegisteredoneObtain.setOnClickListener(this);
         tvRegisteredoneNext.setOnClickListener(this);
+        tvRegisteredoneLogin.setOnClickListener(this);
     }
 
     private void initBack() {
@@ -170,10 +196,18 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
                 if (TextUtils.equals(data, "发送成功")) {
                     plantState.initToast(context, data, true, 0);
                     isCode = true;
+                    isSend = true;
+                    tvRegisteredoneObtain.setText("重新发送(" + timer + ")s");
+                    timers = new Timer();
+                    timers.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            handler.sendEmptyMessage(0x001);
+                        }
+                    }, 1, 1000);
                 } else {
                     plantState.initToast(context, data, true, 0);
                 }
-
             }
         }));
         Map<String, Object> params = new HashMap<String, Object>();
@@ -226,11 +260,12 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
                 if (TextUtils.equals(data, "验证码正确")) {
                     plantState.initToast(context, data, true, 0);
                     Intent intent = new Intent(context, RegisteredTwoActivity.class);
-                    intent.putExtra("userName",mobile);
-                    intent.putExtra("mobile",mobile);
-                    intent.putExtra("ipAddress",obtainIp);
-                    intent.putExtra("code",code);
+                    intent.putExtra("userName", mobile);
+                    intent.putExtra("mobile", mobile);
+                    intent.putExtra("ipAddress", obtainIp);
+                    intent.putExtra("code", code);
                     startActivity(intent);
+                    finish();
                 } else if (TextUtils.equals(data, "该手机号已被使用")) {
                     plantState.initToast(context, data, true, 0);
                 }
@@ -274,10 +309,15 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
             //登录
             case R.id.tv_registeredone_login:
                 initIntent(LoginActivity.class);
+                finish();
                 break;
             //获取验证码
             case R.id.tv_registeredone_obtain:
                 mobile = xetRegisteredonePhone.getText().toString();
+                if (isSend) {
+                    plantState.initToast(context, "请不要重复发送", true, 0);
+                    return;
+                }
                 if (mobile.length() <= 0) {
                     plantState.initToast(context, context.getResources().getString(R.string.set_phone), true, 0);
                     return;
@@ -356,5 +396,6 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
     protected void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "---销毁---");
+        timers.cancel();
     }
 }

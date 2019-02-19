@@ -63,8 +63,8 @@
             android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp">
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -97,8 +97,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:background="@color/plant_ask_background" />
 
         <LinearLayout
@@ -107,9 +107,9 @@
             android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="40dp"
+            android:paddingLeft="30dp"
 
-            android:paddingRight="40dp">
+            android:paddingRight="30dp">
 
             <TextView
                 android:id="@+id/textView"
@@ -143,16 +143,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:background="@color/plant_ask_background" />
 
         <TextView
             android:id="@+id/tv_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
             android:background="@color/strategy_item_published"
             android:gravity="center_vertical|center"

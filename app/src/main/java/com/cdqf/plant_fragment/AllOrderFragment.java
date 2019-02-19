@@ -490,7 +490,7 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
                 //2017040706580188
-                Log.e(TAG, "---支付宝加签解密成功---" + data);
+                Log.e(TAG, "---微信支付加签解密成功---" + data);
 //                HttpZFBPayWrap.zfbPayParamss(context,"2017040706580188","2014-07-24 22:22:22","0.01","测试",System.currentTimeMillis()+"");
                 HttpWxPayWrap.wxPostJSON(data);
             }
@@ -498,7 +498,7 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
         Map<String, Object> params = new HashMap<String, Object>();
         int orderIds = plantState.getAllOrderList().get(a.position).getOrderId();
         params.put("orderId", orderIds);
-        int signType = 1;
+        int signType = 3;
         params.put("signType", signType);
         int random = plantState.getRandom();
         String sign = random + "" + orderIds + signType;

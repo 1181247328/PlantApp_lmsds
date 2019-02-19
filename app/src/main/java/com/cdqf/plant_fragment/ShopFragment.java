@@ -26,13 +26,12 @@ import com.cdqf.plant_adapter.ShopFunctionAdapter;
 import com.cdqf.plant_class.Banners;
 import com.cdqf.plant_class.Commlist;
 import com.cdqf.plant_lmsd.R;
-import com.cdqf.plant_state.Errer;
+import com.cdqf.plant_okhttp.OKHttpHanlder;
+import com.cdqf.plant_okhttp.OKHttpRequestWrap;
+import com.cdqf.plant_okhttp.OnHttpRequest;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_utils.HttpRequestWrap;
-import com.cdqf.plant_utils.OnResponseHandler;
-import com.cdqf.plant_utils.RequestHandler;
-import com.cdqf.plant_utils.RequestStatus;
 import com.cdqf.plant_view.MyGridView;
 import com.gcssloop.widget.RCRelativeLayout;
 import com.google.gson.Gson;
@@ -191,12 +190,34 @@ public class ShopFragment extends Fragment {
 
     //首页轮播图片
     private void initPictures() {
-        httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, "请稍候", new OnResponseHandler() {
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        //随机数
+        int random = plantState.getRandom();
+        String sign = random + "";
+        Log.e(TAG, "---明文---" + sign);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
+        }
+        if (signEncrypt == null) {
+            plantState.initToast(getContext(), "加密失败", true, 0);
+        }
+        //随机数
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+
+        OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(getContext());
+        okHttpRequestWrap.post(PlantAddress.SHOP_HOME, true, "请稍候", params, new OnHttpRequest() {
             @Override
-            public void onResponse(String result, RequestStatus status) {
-                Log.e(TAG, "---首页---" + result);
-                String data = Errer.isResult(getContext(), result, status);
+            public void onOkHttpResponse(String response, int id) {
+                Log.e(TAG, "---onOkHttpResponse---" + response);
+                String data = OKHttpHanlder.isOKHttpResult(getContext(), response);
                 if (data == null) {
                     Log.e(TAG, "---首页解密失败---" + data);
                     return;
@@ -256,28 +277,100 @@ public class ShopFragment extends Fragment {
                 recommendedAdapter = new RecommendedAdapter(getContext(), imageLoader, plantState.getCommlist());
                 mgvShopRecommended.setAdapter(recommendedAdapter);
             }
-        }));
-        Map<String, Object> params = new HashMap<String, Object>();
-        //随机数
-        int random = plantState.getRandom();
-        String sign = random + "";
-        Log.e(TAG, "---明文---" + sign);
-        //加密文字
-        String signEncrypt = null;
-        try {
-            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
-            Log.e(TAG, "---加密成功---" + signEncrypt);
-        } catch (Exception e) {
-            Log.e(TAG, "---加密失败---");
-            e.printStackTrace();
-        }
-        if (signEncrypt == null) {
-            plantState.initToast(getContext(), "加密失败", true, 0);
-        }
-        //随机数
-        params.put("random", random);
-        params.put("sign", signEncrypt);
-        httpRequestWrap.send(PlantAddress.SHOP_HOME, params);
+
+            @Override
+            public void onOkHttpError(String error) {
+                Log.e(TAG, "---onOkHttpError---" + error);
+            }
+        });
+
+//        httpRequestWrap.setMethod(HttpRequestWrap.POST);
+//        httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, "请稍候", new OnResponseHandler() {
+//            @Override
+//            public void onResponse(String result, RequestStatus status) {
+//                Log.e(TAG, "---首页---" + result);
+//                String data = Errer.isResult(getContext(), result, status);
+//                if (data == null) {
+//                    Log.e(TAG, "---首页解密失败---" + data);
+//                    return;
+//                }
+//                Log.e(TAG, "---首页解密---" + data);
+//                //头部图片
+//                JSONObject dataJSON = JSON.parseObject(data);
+//                plantState.getBanners().clear();
+//                JSONArray banners = dataJSON.getJSONArray("banners");
+//                for (int i = 0; i < banners.size(); i++) {
+//                    JSONObject j = banners.getJSONObject(i);
+//                    //图片
+//                    String banner = PlantAddress.ADDRESS + j.getString("banner");
+//                    String imgBanner = j.getString("imgBanner");
+//                    //id
+//                    int bannerToCommId = j.getInteger("bannerToCommId");
+//                    Banners b = new Banners(banner, imgBanner, bannerToCommId);
+//                    plantState.getBanners().add(b);
+//                }
+//                initBanner(plantState.getBanners());
+//                //推荐
+//                plantState.getCommlist().clear();
+//                String shop = dataJSON.getString("commList");
+//                List<Commlist> commList = gson.fromJson(shop, new TypeToken<List<Commlist>>() {
+//                }.getType());
+//                plantState.setCommlist(commList);
+////                JSONArray commList = dataJSON.getJSONArray("commList");
+////                for (int i = 0; i < commList.size(); i++) {
+////                    JSONObject j = commList.getJSONObject(i);
+////                    Log.e(TAG, "---商品---" + commList.getString(i));
+////                    //商品ID
+////                    int commId = j.getInteger("commId");
+////                    //商品名称
+////                    String commName = j.getString("commName");
+////                    //图片地址
+////                    String picture = PlantAddress.ADDRESS + j.getString("picture");
+////                    String imgPicture = j.getString("imgPicture");
+////                    //价格
+////                    double price = j.getDoubleValue("price");
+////                    Log.e(TAG, "---商品价格---" + price);
+////                    //是否包邮
+////                    int postage = j.getInteger("postage");
+////                    //
+////                    boolean isPostFree = j.getBoolean("isPostFree");
+////                    //是否推荐
+////                    boolean isRecommend = j.getBoolean("isRecommend");
+////                    //推荐顺序
+////                    int recommendedOrder = j.getInteger("recommendedOrder");
+////                    //付款人数
+////                    int payer = j.getInteger("payer");
+////                    //是否原价
+////                    boolean isOriginalPrice = j.getBoolean("isOriginalPrice");
+////                    Commlist commlist = new Commlist(commId, commName, picture, imgPicture, price, postage, isPostFree, isRecommend, recommendedOrder, payer, isOriginalPrice);
+////
+////                    plantState.getCommlist().add(commlist);
+////                }
+//                recommendedAdapter = new RecommendedAdapter(getContext(), imageLoader, plantState.getCommlist());
+//                mgvShopRecommended.setAdapter(recommendedAdapter);
+//            }
+//        }));
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        //随机数
+//        int random = plantState.getRandom();
+//        String sign = random + "";
+//        Log.e(TAG, "---明文---" + sign);
+//        //加密文字
+//        String signEncrypt = null;
+//        try {
+//            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+//            Log.e(TAG, "---加密成功---" + signEncrypt);
+//        } catch (Exception e) {
+//            Log.e(TAG, "---加密失败---");
+//            e.printStackTrace();
+//        }
+//        if (signEncrypt == null) {
+//            plantState.initToast(getContext(), "加密失败", true, 0);
+//        }
+//        //随机数
+//        params.put("random", random);
+//        params.put("sign", signEncrypt);
+//        httpRequestWrap.send(PlantAddress.SHOP_HOME, params);
     }
 
     @OnClick({R.id.rcrl_shop_search})

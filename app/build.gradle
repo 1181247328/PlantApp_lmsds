@@ -6,13 +6,14 @@ android {
     buildToolsVersion "28.0.3"
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
+
     defaultConfig {
         applicationId "com.cdqf.plant_lmsd"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 27
         multiDexEnabled true
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.2.20190219"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -82,6 +83,7 @@ dependencies {
     api project(':bubbleimageview')
     api project(':ZProgressBar')
     api project(':imgdots')
+    api project(':okhttputils')
     api 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     api 'com.gcssloop.widget:rclayout:1.4.1@aar'
     api 'org.sufficientlysecure:html-textview:3.5'
@@ -100,4 +102,7 @@ dependencies {
     api 'com.wrbug:editspinner:1.1.0'
     api 'com.carson_ho:SearchLayout:1.0.1'
     api files('libs/BaiduLBS_Android.jar')
+    api 'com.android.support:multidex:1.0.1'
+    api 'com.squareup.okhttp3:okhttp-urlconnection:3.12.1'
+    api 'com.github.franmontiel:PersistentCookieJar:v0.9.3'
 }

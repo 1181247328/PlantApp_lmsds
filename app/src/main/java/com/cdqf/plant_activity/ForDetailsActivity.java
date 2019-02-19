@@ -24,15 +24,14 @@ import com.cdqf.plant_lmsd.wxapi.HttpWxPayWrap;
 import com.cdqf.plant_lmsd.wxapi.QQLogin;
 import com.cdqf.plant_lmsd.wxapi.ShareQQFind;
 import com.cdqf.plant_lmsd.wxapi.ShareWxFind;
+import com.cdqf.plant_okhttp.OKHttpHanlder;
+import com.cdqf.plant_okhttp.OKHttpRequestWrap;
+import com.cdqf.plant_okhttp.OnHttpRequest;
 import com.cdqf.plant_state.BaseActivity;
-import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_state.StatusBarCompat;
 import com.cdqf.plant_utils.HttpRequestWrap;
-import com.cdqf.plant_utils.OnResponseHandler;
-import com.cdqf.plant_utils.RequestHandler;
-import com.cdqf.plant_utils.RequestStatus;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -156,24 +155,6 @@ public class ForDetailsActivity extends BaseActivity implements View.OnClickList
     }
 
     private void newsContext() {
-        httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(context, 1, plantState.getPlantString(context, R.string.please_while), new OnResponseHandler() {
-            @Override
-            public void onResponse(String result, RequestStatus status) {
-                String data = Errer.isResult(context, result, status);
-                if (data == null) {
-                    Log.e(TAG, "---获取新闻详情解密失败---" + data);
-                    return;
-                }
-                Log.e(TAG, "---获取新闻详情解密成功---" + data);
-                newsContext = new NewsContext();
-                newsContext = gson.fromJson(data, NewsContext.class);
-                imageLoader.displayImage(newsContext.getHttpDefaultPic(), ivForPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
-                tvForName.setText(newsContext.getTitle());
-                tvForData.setText(newsContext.getStrPushDate());
-                htvForContent.setHtml(newsContext.getContent(), new HtmlHttpImageGetter(htvForContent));
-            }
-        }));
         Map<String, Object> params = new HashMap<String, Object>();
         //新闻id
         int nId = 0;
@@ -205,7 +186,80 @@ public class ForDetailsActivity extends BaseActivity implements View.OnClickList
         //随机数
         params.put("random", random);
         params.put("sign", signEncrypt);
-        httpRequestWrap.send(PlantAddress.ASK_NEWSCONTEXT, params);
+        OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(context);
+        okHttpRequestWrap.post(PlantAddress.ASK_NEWSCONTEXT, true, "请稍候", params, new OnHttpRequest() {
+            @Override
+            public void onOkHttpResponse(String response, int id) {
+                Log.e(TAG, "---onOkHttpResponse---" + response);
+                String data = OKHttpHanlder.isOKHttpResult(context, response);
+                if (data == null) {
+                    Log.e(TAG, "---获取新闻详情解密失败---" + data);
+                    return;
+                }
+                Log.e(TAG, "---获取新闻详情解密成功---" + data);
+                newsContext = new NewsContext();
+                newsContext = gson.fromJson(data, NewsContext.class);
+                imageLoader.displayImage(newsContext.getHttpDefaultPic(), ivForPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+                tvForName.setText(newsContext.getTitle());
+                tvForData.setText(newsContext.getStrPushDate());
+                htvForContent.setHtml(newsContext.getContent(), new HtmlHttpImageGetter(htvForContent));
+            }
+
+            @Override
+            public void onOkHttpError(String error) {
+
+            }
+        });
+//        httpRequestWrap.setMethod(HttpRequestWrap.POST);
+//        httpRequestWrap.setCallBack(new RequestHandler(context, 1, plantState.getPlantString(context, R.string.please_while), new OnResponseHandler() {
+//            @Override
+//            public void onResponse(String result, RequestStatus status) {
+//                String data = Errer.isResult(context, result, status);
+//                if (data == null) {
+//                    Log.e(TAG, "---获取新闻详情解密失败---" + data);
+//                    return;
+//                }
+//                Log.e(TAG, "---获取新闻详情解密成功---" + data);
+//                newsContext = new NewsContext();
+//                newsContext = gson.fromJson(data, NewsContext.class);
+//                imageLoader.displayImage(newsContext.getHttpDefaultPic(), ivForPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+//                tvForName.setText(newsContext.getTitle());
+//                tvForData.setText(newsContext.getStrPushDate());
+//                htvForContent.setHtml(newsContext.getContent(), new HtmlHttpImageGetter(htvForContent));
+//            }
+//        }));
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        //新闻id
+//        int nId = 0;
+//        if (type == 0) {
+//            nId = plantState.getCarouselList().get(position).getNewsId();
+//        } else {
+//            nId = plantState.getNews().getList().get(position).getNewsId();
+//        }
+//        params.put("nId", nId);
+//        //用户id
+//        int consumerId = plantState.getUser().getConsumerId();
+//        params.put("consumerId", consumerId);
+//        //随机数
+//        int random = plantState.getRandom();
+//        String sign = random + "" + nId + consumerId;
+//        Log.e(TAG, "---明文---" + sign);
+//        //加密文字
+//        String signEncrypt = null;
+//        try {
+//            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+//            Log.e(TAG, "---加密成功---" + signEncrypt);
+//        } catch (Exception e) {
+//            Log.e(TAG, "---加密失败---");
+//            e.printStackTrace();
+//        }
+//        if (signEncrypt == null) {
+//            plantState.initToast(context, "加密失败", true, 0);
+//        }
+//        //随机数
+//        params.put("random", random);
+//        params.put("sign", signEncrypt);
+//        httpRequestWrap.send(PlantAddress.ASK_NEWSCONTEXT, params);
     }
 
     @Override

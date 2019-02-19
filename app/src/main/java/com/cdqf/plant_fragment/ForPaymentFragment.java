@@ -479,7 +479,7 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
         Map<String, Object> params = new HashMap<String, Object>();
         int orderIds = plantState.getForPaymentList().get(pay.position).getOrderId();
         params.put("orderId", orderIds);
-        int signType = 1;
+        int signType = 3;
         params.put("signType", signType);
         int random = plantState.getRandom();
         String sign = random + "" + orderIds + signType;

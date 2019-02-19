@@ -284,33 +284,6 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
                             plantState.initToast(context, context.getResources().getString(R.string.more), true, 0);
                             return;
                         }
-//                        for (int i = 0; i < commList.size(); i++) {
-//                            JSONObject j = commList.getJSONObject(i);
-//                            //商品ID
-//                            int commId = j.getInteger("commId");
-//                            //商品名称
-//                            String commName = j.getString("commName");
-//                            //图片地址
-//                            String picture = PlantAddress.ADDRESS + j.getString("picture");
-//                            String imgPicture = j.getString("imgPicture");
-//                            //价格
-//                            int price = j.getInteger("price");
-//                            //是否包邮
-//                            int postage = j.getInteger("postage");
-//                            //
-//                            boolean isPostFree = j.getBoolean("isPostFree");
-//                            //是否推荐
-//                            boolean isRecommend = j.getBoolean("isRecommend");
-//                            //推荐顺序
-//                            int recommendedOrder = j.getInteger("recommendedOrder");
-//                            //付款人数
-//                            int payer = j.getInteger("payer");
-//                            //是否原价
-//                            boolean isOriginalPrice = j.getBoolean("isOriginalPrice");
-//                            Commlist goodlist = new Commlist(commId, commName, picture, imgPicture, price, postage, isPostFree, isRecommend, recommendedOrder, payer, isOriginalPrice);
-//                            plantState.getGoodlist().add(goodlist);
-//                        }
-//                        plantState.getGoodlist().clear();
                         String shop = dataJSON.getString("list");
                         List<Commlist> commGoodList = gson.fromJson(shop, new TypeToken<List<Commlist>>() {
                         }.getType());
@@ -443,32 +416,6 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
             plantState.getGoodlist().clear();
         }
         goodsHandler.sendEmptyMessage(0x001);
-//        for (int i = 0; i < commList.size(); i++) {
-//            JSONObject j = commList.getJSONObject(i);
-//            //商品ID
-//            int commId = j.getInteger("commId");
-//            //商品名称
-//            String commName = j.getString("commName");
-//            //图片地址
-//            String picture = PlantAddress.ADDRESS + j.getString("picture");
-//            String imgPicture = j.getString("imgPicture");
-//            //价格
-//            int price = j.getInteger("price");
-//            //是否包邮
-//            int postage = j.getInteger("postage");
-//            //
-//            boolean isPostFree = j.getBoolean("isPostFree");
-//            //是否推荐
-//            boolean isRecommend = j.getBoolean("isRecommend");
-//            //推荐顺序
-//            int recommendedOrder = j.getInteger("recommendedOrder");
-//            //付款人数
-//            int payer = j.getInteger("payer");
-//            //是否原价
-//            boolean isOriginalPrice = j.getBoolean("isOriginalPrice");
-//            Commlist goodlist = new Commlist(commId, commName, picture, imgPicture, price, postage, isPostFree, isRecommend, recommendedOrder, payer, isOriginalPrice);
-//            plantState.getGoodlist().add(goodlist);
-//        }
         String shop = dataJSON.getString("list");
         List<Commlist> commGoodList = gson.fromJson(shop, new TypeToken<List<Commlist>>() {
         }.getType());
@@ -483,39 +430,6 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
 
     private void params(int sorting) {
         params(sorting, 1);
-//        Map<String, Object> params = new HashMap<String, Object>();
-//        //商品分类ID
-//        int cateId = position;
-//        params.put("cateId", cateId);
-//        //排序方式
-//        int orderBy = sorting;
-//        params.put("orderBy", orderBy);
-//        //当前页数
-//        int pageIndex = 1;
-//        params.put("pageIndex", pageIndex);
-//        //每页条数
-//        int pageCount = 10;
-//        params.put("pageCount", pageCount);
-//        //随机数
-//        int random = plantState.getRandom();
-//        String sign = random + "" + cateId + orderBy + pageIndex + pageCount + "";
-//        Log.e(TAG, "---明文---" + sign);
-//        //加密文字
-//        String signEncrypt = null;
-//        try {
-//            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
-//            Log.e(TAG, "---加密成功---" + signEncrypt);
-//        } catch (Exception e) {
-//            Log.e(TAG, "---加密失败---");
-//            e.printStackTrace();
-//        }
-//        if (signEncrypt == null) {
-//            plantState.initToast(context, "加密失败", true, 0);
-//        }
-//        //随机数
-//        params.put("random", random);
-//        params.put("sign", signEncrypt);
-//        httpRequestWrap.send(PlantAddress.SHOP_LIST, params);
     }
 
     private void params(int sorting, int index) {

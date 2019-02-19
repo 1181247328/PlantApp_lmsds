@@ -475,7 +475,7 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
         Map<String, Object> params = new HashMap<String, Object>();
         int orderIds = this.orderIds;
         params.put("orderId", orderIds);
-        int signType = 1;
+        int signType = 3;
         params.put("signType", signType);
         int random = plantState.getRandom();
         String sign = random + "" + orderIds + signType;

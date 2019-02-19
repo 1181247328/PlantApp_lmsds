@@ -13,13 +13,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_class.CityThe;
+import com.cdqf.plant_okhttp.OKHttpRequestWrap;
+import com.cdqf.plant_okhttp.OnHttpRequest;
 import com.cdqf.plant_state.ACache;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_utils.HttpRequestWrap;
-import com.cdqf.plant_utils.OnResponseHandler;
-import com.cdqf.plant_utils.RequestHandler;
-import com.cdqf.plant_utils.RequestStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,29 +64,11 @@ public class PlantService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e(TAG,"---创建---");
+        Log.e(TAG, "---创建---");
         context = this;
-        httpRequestWrap = new HttpRequestWrap(this);
         aCache = ACache.get(this);
         String result = aCache.getAsString("address");
         if (result == null) {
-            httpRequestWrap.setMethod(HttpRequestWrap.POST);
-            httpRequestWrap.setCallBack(new RequestHandler(context,new OnResponseHandler() {
-                @Override
-                public void onResponse(String result, RequestStatus status) {
-                    Log.e(TAG, "---获取地址列表---" + result);
-                    if (status == RequestStatus.SUCCESS) {
-                        if (result != null) {
-                            aCache.put("address", result);
-                            initAddress(result);
-                        } else {
-                            plantState.initToast(context, "地址列表失败,请检查网络", true, 0);
-                        }
-                    } else {
-                        plantState.initToast(context, "请求失败,请检查网络", true, 0);
-                    }
-                }
-            }));
             Map<String, Object> params = new HashMap<String, Object>();
             String random = plantState.getRandom() + "";
             params.put("Random", random);
@@ -106,7 +87,25 @@ public class PlantService extends Service {
                 return;
             }
             params.put("Sign", signEncrypt);
-            httpRequestWrap.send(PlantAddress.USER_REGION, params);
+
+            OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(context);
+            okHttpRequestWrap.post(PlantAddress.USER_REGION, false, "请稍候", params, new OnHttpRequest() {
+                @Override
+                public void onOkHttpResponse(String response, int id) {
+                    Log.e(TAG, "---获取地址列表---" + response);
+                    if (response != null) {
+                        aCache.put("address", response);
+                        initAddress(response);
+                    } else {
+                        plantState.initToast(context, "地址列表失败,请检查网络", true, 0);
+                    }
+                }
+
+                @Override
+                public void onOkHttpError(String error) {
+                    Log.e(TAG, "---onOkHttpError---" + error);
+                }
+            });
         } else {
             initAddress(result);
         }
@@ -116,6 +115,7 @@ public class PlantService extends Service {
     public void onDestroy() {
         super.onDestroy();
     }
+
     private void initAddress(String result) {
         JSONObject resultJSON = JSON.parseObject(result);
         String data = null;

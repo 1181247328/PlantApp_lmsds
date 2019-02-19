@@ -24,15 +24,14 @@ import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_adapter.SearchShopAdapter;
 import com.cdqf.plant_class.SearchShop;
 import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_okhttp.OKHttpHanlder;
+import com.cdqf.plant_okhttp.OKHttpRequestWrap;
+import com.cdqf.plant_okhttp.OnHttpRequest;
 import com.cdqf.plant_state.BaseActivity;
-import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_state.StatusBarCompat;
 import com.cdqf.plant_utils.HttpRequestWrap;
-import com.cdqf.plant_utils.OnResponseHandler;
-import com.cdqf.plant_utils.RequestHandler;
-import com.cdqf.plant_utils.RequestStatus;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jingchen.pulltorefresh.PullToRefreshLayout;
@@ -193,33 +192,6 @@ public class SearchShopActivity extends BaseActivity {
             //加载更多
             @Override
             public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-                httpRequestWrap.setCallBack(new RequestHandler(context, new OnResponseHandler() {
-                    @Override
-                    public void onResponse(String result, RequestStatus status) {
-                        Log.e(TAG, "---商品列表---" + result);
-                        String data = Errer.isResult(context, result, status);
-                        if (data == null) {
-                            Log.e(TAG, "---搜索商品列表解密失败---" + data);
-                            pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.FAIL);
-                            return;
-                        }
-                        Log.e(TAG, "---搜索商品列表解密---" + data);
-                        if (TextUtils.equals(data, "1001")) {
-                            plantState.initToast(context, "没有更多了", true, 0);
-                            pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
-                            return;
-                        }
-                        page++;
-                        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
-                        data = JSON.parseObject(data).getString("list");
-                        List<SearchShop> searchList = gson.fromJson(data, new TypeToken<List<SearchShop>>() {
-                        }.getType());
-                        plantState.getSearchList().addAll(searchList);
-                        if (searchShopAdapter != null) {
-                            searchShopAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }));
                 Map<String, Object> params = new HashMap<String, Object>();
                 //商品分类ID
                 int cateId = 0;
@@ -254,7 +226,39 @@ public class SearchShopActivity extends BaseActivity {
                 //随机数
                 params.put("random", random);
                 params.put("sign", signEncrypt);
-                httpRequestWrap.send(PlantAddress.SHOP_LIST, params);
+                OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(context);
+                okHttpRequestWrap.post(PlantAddress.SHOP_LIST, false, "请稍候", params, new OnHttpRequest() {
+                    @Override
+                    public void onOkHttpResponse(String response, int id) {
+                        Log.e(TAG, "---商品列表---" + response);
+                        String data = OKHttpHanlder.isOKHttpResult(context, response);
+                        if (data == null) {
+                            Log.e(TAG, "---搜索商品列表解密失败---" + data);
+                            pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.FAIL);
+                            return;
+                        }
+                        Log.e(TAG, "---搜索商品列表解密---" + data);
+                        if (TextUtils.equals(data, "1001")) {
+                            plantState.initToast(context, "没有更多了", true, 0);
+                            pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                            return;
+                        }
+                        page++;
+                        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                        data = JSON.parseObject(data).getString("list");
+                        List<SearchShop> searchList = gson.fromJson(data, new TypeToken<List<SearchShop>>() {
+                        }.getType());
+                        plantState.getSearchList().addAll(searchList);
+                        if (searchShopAdapter != null) {
+                            searchShopAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onOkHttpError(String error) {
+                        Log.e(TAG, "---onOkHttpError---" + error);
+                    }
+                });
             }
         });
     }
@@ -271,42 +275,6 @@ public class SearchShopActivity extends BaseActivity {
      * 搜索
      */
     private void initPull() {
-        httpRequestWrap.setCallBack(new RequestHandler(context, 1, "搜索商品中", new OnResponseHandler() {
-            @Override
-            public void onResponse(String result, RequestStatus status) {
-                Log.e(TAG, "---商品列表---" + result);
-                String data = Errer.isResult(context, result, status);
-                if (data == null) {
-                    Log.e(TAG, "---搜索商品列表解密失败---" + data);
-                    if (plantState.getGoodlist().size() > 0) {
-                        plantState.getGoodlist().clear();
-                    }
-                    if (searchShopAdapter != null) {
-                        searchShopAdapter.notifyDataSetChanged();
-                    }
-                    handler.sendEmptyMessage(0x002);
-                    return;
-                }
-                Log.e(TAG, "---搜索商品列表解密---" + data);
-                if (TextUtils.equals(data, "1001")) {
-                    handler.sendEmptyMessage(0x002);
-                    return;
-                }
-                data = JSON.parseObject(data).getString("list");
-                plantState.getSearchList().clear();
-                handler.sendEmptyMessage(0x001);
-                List<SearchShop> searchList = gson.fromJson(data, new TypeToken<List<SearchShop>>() {
-                }.getType());
-                plantState.setSearchList(searchList);
-                if (searchShopAdapter != null) {
-                    searchShopAdapter.notifyDataSetChanged();
-                }
-            }
-        }));
-        params();
-    }
-
-    private void params() {
         Map<String, Object> params = new HashMap<String, Object>();
         //商品分类ID
         int cateId = 0;
@@ -341,7 +309,45 @@ public class SearchShopActivity extends BaseActivity {
         //随机数
         params.put("random", random);
         params.put("sign", signEncrypt);
-        httpRequestWrap.send(PlantAddress.SHOP_LIST, params);
+
+        OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(context);
+        okHttpRequestWrap.post(PlantAddress.SHOP_LIST, true, "请稍候", params, new OnHttpRequest() {
+            @Override
+            public void onOkHttpResponse(String response, int id) {
+                Log.e(TAG, "---商品列表---" + response);
+                String data = OKHttpHanlder.isOKHttpResult(context, response);
+                if (data == null) {
+                    Log.e(TAG, "---搜索商品列表解密失败---" + data);
+                    if (plantState.getGoodlist().size() > 0) {
+                        plantState.getGoodlist().clear();
+                    }
+                    if (searchShopAdapter != null) {
+                        searchShopAdapter.notifyDataSetChanged();
+                    }
+                    handler.sendEmptyMessage(0x002);
+                    return;
+                }
+                Log.e(TAG, "---搜索商品列表解密---" + data);
+                if (TextUtils.equals(data, "1001")) {
+                    handler.sendEmptyMessage(0x002);
+                    return;
+                }
+                data = JSON.parseObject(data).getString("list");
+                plantState.getSearchList().clear();
+                handler.sendEmptyMessage(0x001);
+                List<SearchShop> searchList = gson.fromJson(data, new TypeToken<List<SearchShop>>() {
+                }.getType());
+                plantState.setSearchList(searchList);
+                if (searchShopAdapter != null) {
+                    searchShopAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onOkHttpError(String error) {
+                Log.e(TAG, "---onOkHttpError---" + error);
+            }
+        });
     }
 
     private void initIntent(Class<?> activity, int position) {

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,6 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_activity.ForDetailsActivity;
@@ -28,18 +24,17 @@ import com.cdqf.plant_adapter.ScienceAdapter;
 import com.cdqf.plant_adapter.SituationAdapter;
 import com.cdqf.plant_class.Carousel;
 import com.cdqf.plant_class.News;
-import com.cdqf.plant_class.Plant;
 import com.cdqf.plant_dilog.PromptDilogFragment;
 import com.cdqf.plant_find.PlantCollectionFind;
 import com.cdqf.plant_find.ScienceCollectionFind;
+import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_okhttp.OKHttpHanlder;
+import com.cdqf.plant_okhttp.OKHttpRequestWrap;
+import com.cdqf.plant_okhttp.OnHttpRequest;
 import com.cdqf.plant_state.ACache;
-import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_utils.HttpRequestWrap;
-import com.cdqf.plant_utils.OnResponseHandler;
-import com.cdqf.plant_utils.RequestHandler;
-import com.cdqf.plant_utils.RequestStatus;
 import com.cdqf.plant_view.ListViewForScrollView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -66,7 +61,7 @@ import it.sephiroth.android.library.widget.HListView;
  * Created by liu on 2017/10/19.
  */
 
-public class AskFragment extends Fragment{
+public class AskFragment extends Fragment {
 
     private String TAG = AskFragment.class.getSimpleName();
 
@@ -152,7 +147,6 @@ public class AskFragment extends Fragment{
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
-        httpRequestWrap = new HttpRequestWrap(getContext());
         imageLoader = plantState.getImageLoader(getContext());
     }
 
@@ -168,7 +162,7 @@ public class AskFragment extends Fragment{
                 //weather();
 
                 //植物
-                plants();
+                //plants();
 
                 //新闻
                 news();
@@ -212,31 +206,13 @@ public class AskFragment extends Fragment{
         //weather();
 
         //植物
-        plants();
+        //plants();
 
         //新闻
         news();
     }
 
     private void banner() {
-        httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(getActivity(), new OnResponseHandler() {
-            @Override
-            public void onResponse(String result, RequestStatus status) {
-                String data = Errer.isResult(getContext(), result, status);
-                initPull();
-                if (data == null) {
-                    Log.e(TAG, "---获取轮播新闻解密失败---" + data);
-                    return;
-                }
-                Log.e(TAG, "---获取轮播新闻解密成功---" + data);
-                plantState.getCarouselList().clear();
-                List<Carousel> carouselList = gson.fromJson(data, new TypeToken<List<Carousel>>() {
-                }.getType());
-                plantState.setCarouselList(carouselList);
-                bannerCarousel();
-            }
-        }));
 
         Map<String, Object> params = new HashMap<String, Object>();
         //随机数
@@ -258,125 +234,169 @@ public class AskFragment extends Fragment{
         //随机数
         params.put("random", random);
         params.put("sign", signEncrypt);
-        httpRequestWrap.send(PlantAddress.ASK_NEWHEEL, params);
+        OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(getContext());
+        okHttpRequestWrap.post(PlantAddress.ASK_NEWHEEL, true, "请稍候", params, new OnHttpRequest() {
+            @Override
+            public void onOkHttpResponse(String response, int id) {
+                Log.e(TAG, "---onOkHttpResponse---" + response);
+                String data = OKHttpHanlder.isOKHttpResult(getContext(), response);
+                initPull();
+                if (data == null) {
+                    Log.e(TAG, "---获取轮播新闻解密失败---" + data);
+                    return;
+                }
+                Log.e(TAG, "---获取轮播新闻解密成功---" + data);
+                plantState.getCarouselList().clear();
+                List<Carousel> carouselList = gson.fromJson(data, new TypeToken<List<Carousel>>() {
+                }.getType());
+                plantState.setCarouselList(carouselList);
+                bannerCarousel();
+            }
+
+            @Override
+            public void onOkHttpError(String error) {
+                Log.e(TAG, "---onOkHttpError---" + error);
+            }
+        });
+
+//        httpRequestWrap.setMethod(HttpRequestWrap.POST);
+//        httpRequestWrap.setCallBack(new RequestHandler(getActivity(), new OnResponseHandler() {
+//            @Override
+//            public void onResponse(String result, RequestStatus status) {
+//                String data = Errer.isResult(getContext(), result, status);
+//                initPull();
+//                if (data == null) {
+//                    Log.e(TAG, "---获取轮播新闻解密失败---" + data);
+//                    return;
+//                }
+//                Log.e(TAG, "---获取轮播新闻解密成功---" + data);
+//                plantState.getCarouselList().clear();
+//                List<Carousel> carouselList = gson.fromJson(data, new TypeToken<List<Carousel>>() {
+//                }.getType());
+//                plantState.setCarouselList(carouselList);
+//                bannerCarousel();
+//            }
+//        }));
+//
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        //随机数
+//        int random = plantState.getRandom();
+//        String sign = random + "";
+//        Log.e(TAG, "---明文---" + sign);
+//        //加密文字
+//        String signEncrypt = null;
+//        try {
+//            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+//            Log.e(TAG, "---加密成功---" + signEncrypt);
+//        } catch (Exception e) {
+//            Log.e(TAG, "---加密失败---");
+//            e.printStackTrace();
+//        }
+//        if (signEncrypt == null) {
+//            plantState.initToast(getContext(), "加密失败", true, 0);
+//        }
+//        //随机数
+//        params.put("random", random);
+//        params.put("sign", signEncrypt);
+//        httpRequestWrap.send(PlantAddress.ASK_NEWHEEL, params);
     }
 
     /**
      * 天气
      */
     private void weather() {
-        httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
-            @Override
-            public void onResponse(String result, RequestStatus status) {
-                String data = Errer.isWeather(getContext(), result, status);
-                if (data == null) {
-                    Log.e(TAG, "---天气---" + data);
-                    return;
-                }
-                JSONObject heWeather6 = JSON.parseObject(data);
-                String sta = heWeather6.getJSONArray("HeWeather6").getJSONObject(0).getString("status");
-                Log.e(TAG, "---status---" + sta);
-                if (TextUtils.equals(sta, "ok")) {
-                    JSONObject now = heWeather6.getJSONArray("HeWeather6").getJSONObject(0).getJSONObject("now");
-                    //天气
-                    tvAskSum.setText(now.getString("cond_txt"));
-                    //温度
-                    tvAskTemperature.setText(now.getString("tmp") + "°c");
-                    //湿度
-                    tvAskHumidity.setText(now.getString("hum") + "%");
-                }
-            }
-        }));
-        String param = "key=44421eb83b0d4858ba339005487d558a&location=南宁";
-        httpRequestWrap.send(PlantAddress.WEATHER + "?" + param);
+//        httpRequestWrap.setMethod(HttpRequestWrap.POST);
+//        httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
+//            @Override
+//            public void onResponse(String result, RequestStatus status) {
+//                String data = Errer.isWeather(getContext(), result, status);
+//                if (data == null) {
+//                    Log.e(TAG, "---天气---" + data);
+//                    return;
+//                }
+//                JSONObject heWeather6 = JSON.parseObject(data);
+//                String sta = heWeather6.getJSONArray("HeWeather6").getJSONObject(0).getString("status");
+//                Log.e(TAG, "---status---" + sta);
+//                if (TextUtils.equals(sta, "ok")) {
+//                    JSONObject now = heWeather6.getJSONArray("HeWeather6").getJSONObject(0).getJSONObject("now");
+//                    //天气
+//                    tvAskSum.setText(now.getString("cond_txt"));
+//                    //温度
+//                    tvAskTemperature.setText(now.getString("tmp") + "°c");
+//                    //湿度
+//                    tvAskHumidity.setText(now.getString("hum") + "%");
+//                }
+//            }
+//        }));
+//        String param = "key=44421eb83b0d4858ba339005487d558a&location=南宁";
+//        httpRequestWrap.send(PlantAddress.WEATHER + "?" + param);
     }
 
     /**
      * 植物
      */
     private void plants() {
-        httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
-            @Override
-            public void onResponse(String result, RequestStatus status) {
-                String data = Errer.isResult(getContext(), result, status);
-                initPull();
-                if (data == null) {
-                    Log.e(TAG, "---获取植物解密失败---" + data);
-                    return;
-                }
-                Log.e(TAG, "---获取植物解密成功---" + data);
-                Plant plant = new Plant();
-                plant = gson.fromJson(data, Plant.class);
-                plantState.setPlant(plant);
-                if (scienceAdapter != null) {
-                    scienceAdapter.notifyDataSetChanged();
-                }
-            }
-        }));
-        Map<String, Object> params = new HashMap<String, Object>();
-        //用户id
-        String consumerId = plantState.getUser().getConsumerId() + "";
-        params.put("consumerId", consumerId);
-        //当前页
-        int pageIndex = 1;
-        params.put("pageIndex", pageIndex);
-        //每页条数
-        int pageCount = 10;
-        params.put("pageCount", pageCount);
-        //景点id
-        int scenicSpotId = 0;
-        params.put("scenicSpotId", scenicSpotId);
-        //分类
-        int typeId = 0;
-        params.put("typeId", typeId);
-        //随机数
-        int random = plantState.getRandom();
-        String sign = random + "" + consumerId + pageIndex + pageCount + scenicSpotId + typeId;
-        Log.e(TAG, "---明文---" + sign);
-        //加密文字
-        String signEncrypt = null;
-        try {
-            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
-            Log.e(TAG, "---加密成功---" + signEncrypt);
-        } catch (Exception e) {
-            Log.e(TAG, "---加密失败---");
-            e.printStackTrace();
-        }
-        if (signEncrypt == null) {
-            plantState.initToast(getContext(), "加密失败", true, 0);
-        }
-        //随机数
-        params.put("random", random);
-        params.put("sign", signEncrypt);
-        httpRequestWrap.send(PlantAddress.ASK_PLANTS, params);
+//        httpRequestWrap.setMethod(HttpRequestWrap.POST);
+//        httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
+//            @Override
+//            public void onResponse(String result, RequestStatus status) {
+//                String data = Errer.isResult(getContext(), result, status);
+//                initPull();
+//                if (data == null) {
+//                    Log.e(TAG, "---获取植物解密失败---" + data);
+//                    return;
+//                }
+//                Log.e(TAG, "---获取植物解密成功---" + data);
+//                Plant plant = new Plant();
+//                plant = gson.fromJson(data, Plant.class);
+//                plantState.setPlant(plant);
+//                if (scienceAdapter != null) {
+//                    scienceAdapter.notifyDataSetChanged();
+//                }
+//            }
+//        }));
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        //用户id
+//        String consumerId = plantState.getUser().getConsumerId() + "";
+//        params.put("consumerId", consumerId);
+//        //当前页
+//        int pageIndex = 1;
+//        params.put("pageIndex", pageIndex);
+//        //每页条数
+//        int pageCount = 10;
+//        params.put("pageCount", pageCount);
+//        //景点id
+//        int scenicSpotId = 0;
+//        params.put("scenicSpotId", scenicSpotId);
+//        //分类
+//        int typeId = 0;
+//        params.put("typeId", typeId);
+//        //随机数
+//        int random = plantState.getRandom();
+//        String sign = random + "" + consumerId + pageIndex + pageCount + scenicSpotId + typeId;
+//        Log.e(TAG, "---明文---" + sign);
+//        //加密文字
+//        String signEncrypt = null;
+//        try {
+//            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+//            Log.e(TAG, "---加密成功---" + signEncrypt);
+//        } catch (Exception e) {
+//            Log.e(TAG, "---加密失败---");
+//            e.printStackTrace();
+//        }
+//        if (signEncrypt == null) {
+//            plantState.initToast(getContext(), "加密失败", true, 0);
+//        }
+//        //随机数
+//        params.put("random", random);
+//        params.put("sign", signEncrypt);
+//        httpRequestWrap.send(PlantAddress.ASK_PLANTS, params);
     }
 
     /**
      * 新闻
      */
     private void news() {
-        httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
-            @Override
-            public void onResponse(String result, RequestStatus status) {
-                String data = Errer.isResult(getContext(), result, status);
-                initPull();
-                if (data == null) {
-                    Log.e(TAG, "---获取新闻解密失败---" + data);
-                    return;
-                }
-                Log.e(TAG, "---获取新闻解密成功---" + data);
-                News news = new News();
-                news = gson.fromJson(data, News.class);
-                Log.e(TAG, "---" + news.getList().get(0).getBrief());
-                plantState.setNews(news);
-                if (situationAdapter != null) {
-                    situationAdapter.notifyDataSetChanged();
-                }
-            }
-        }));
         Map<String, Object> params = new HashMap<String, Object>();
         //当前页
         int pageIndex = 1;
@@ -400,10 +420,82 @@ public class AskFragment extends Fragment{
         if (signEncrypt == null) {
             plantState.initToast(getContext(), "加密失败", true, 0);
         }
-        //随机数
         params.put("random", random);
         params.put("sign", signEncrypt);
-        httpRequestWrap.send(PlantAddress.ASK_NEWS, params);
+        OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(getContext());
+        okHttpRequestWrap.post(PlantAddress.ASK_NEWS, true, "请稍候", params, new OnHttpRequest() {
+            @Override
+            public void onOkHttpResponse(String response, int id) {
+                Log.e(TAG, "---onOkHttpResponse---" + response);
+                String data = OKHttpHanlder.isOKHttpResult(getContext(), response);
+                initPull();
+                if (data == null) {
+                    Log.e(TAG, "---获取新闻解密失败---" + data);
+                    return;
+                }
+                Log.e(TAG, "---获取新闻解密成功---" + data);
+                News news = new News();
+                news = gson.fromJson(data, News.class);
+                Log.e(TAG, "---" + news.getList().get(0).getBrief());
+                plantState.setNews(news);
+                if (situationAdapter != null) {
+                    situationAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onOkHttpError(String error) {
+                Log.e(TAG, "---onOkHttpError---" + error);
+            }
+        });
+
+//        httpRequestWrap.setMethod(HttpRequestWrap.POST);
+//        httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
+//            @Override
+//            public void onResponse(String result, RequestStatus status) {
+//                String data = Errer.isResult(getContext(), result, status);
+//                initPull();
+//                if (data == null) {
+//                    Log.e(TAG, "---获取新闻解密失败---" + data);
+//                    return;
+//                }
+//                Log.e(TAG, "---获取新闻解密成功---" + data);
+//                News news = new News();
+//                news = gson.fromJson(data, News.class);
+//                Log.e(TAG, "---" + news.getList().get(0).getBrief());
+//                plantState.setNews(news);
+//                if (situationAdapter != null) {
+//                    situationAdapter.notifyDataSetChanged();
+//                }
+//            }
+//        }));
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        //当前页
+//        int pageIndex = 1;
+//        params.put("pageIndex", pageIndex);
+//        //每页条数
+//        int pageCount = 3;
+//        params.put("pageCount", pageCount);
+//        //随机数
+//        int random = plantState.getRandom();
+//        String sign = random + "" + pageIndex + pageCount;
+//        Log.e(TAG, "---明文---" + sign);
+//        //加密文字
+//        String signEncrypt = null;
+//        try {
+//            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+//            Log.e(TAG, "---加密成功---" + signEncrypt);
+//        } catch (Exception e) {
+//            Log.e(TAG, "---加密失败---");
+//            e.printStackTrace();
+//        }
+//        if (signEncrypt == null) {
+//            plantState.initToast(getContext(), "加密失败", true, 0);
+//        }
+//        //随机数
+//        params.put("random", random);
+//        params.put("sign", signEncrypt);
+//        httpRequestWrap.send(PlantAddress.ASK_NEWS, params);
     }
 
     private void bannerCarousel() {
@@ -507,52 +599,52 @@ public class AskFragment extends Fragment{
      * @param p
      */
     public void onEventMainThread(PlantCollectionFind p) {
-        if (!plantState.isLogin()) {
-            plantState.initToast(getContext(), plantState.getPlantString(getContext(), R.string.is_login), true, 0);
-            return;
-        }
-        httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, plantState.getPlantString(getContext(), R.string.please_while), new OnResponseHandler() {
-            @Override
-            public void onResponse(String result, RequestStatus status) {
-                String data = Errer.isCode(getContext(), result, status);
-                if (data == null) {
-                    Log.e(TAG, "---植物收藏解密失败---" + data);
-                    return;
-                }
-                Log.e(TAG, "---植物收藏解密成功---" + data);
-            }
-        }));
-        Map<String, Object> params = new HashMap<String, Object>();
-        //植物收藏
-        int collectionType = 2;
-        params.put("collectionType", collectionType);
-        //用户id
-        int consumerId = plantState.getUser().getConsumerId();
-        params.put("consumerId", consumerId);
-        //收藏对象id
-        int collectedId = plantState.getPlant().getList().get(plantPosition).getBotanyId();
-        params.put("collectedId", collectedId);
-        //随机数
-        int random = plantState.getRandom();
-        String sign = random + "" + collectionType + consumerId + collectedId;
-        Log.e(TAG, "---明文---" + random + "---" + collectionType + "---" + consumerId + "---" + collectedId);
-        //加密文字
-        String signEncrypt = null;
-        try {
-            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
-            Log.e(TAG, "---加密成功---" + signEncrypt);
-        } catch (Exception e) {
-            Log.e(TAG, "---加密失败---");
-            e.printStackTrace();
-        }
-        if (signEncrypt == null) {
-            plantState.initToast(getContext(), "加密失败", true, 0);
-        }
-        //随机数
-        params.put("random", random);
-        params.put("sign", signEncrypt);
-        httpRequestWrap.send(PlantAddress.ASK_COLLTION, params);
+//        if (!plantState.isLogin()) {
+//            plantState.initToast(getContext(), plantState.getPlantString(getContext(), R.string.is_login), true, 0);
+//            return;
+//        }
+//        httpRequestWrap.setMethod(HttpRequestWrap.POST);
+//        httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, plantState.getPlantString(getContext(), R.string.please_while), new OnResponseHandler() {
+//            @Override
+//            public void onResponse(String result, RequestStatus status) {
+//                String data = Errer.isCode(getContext(), result, status);
+//                if (data == null) {
+//                    Log.e(TAG, "---植物收藏解密失败---" + data);
+//                    return;
+//                }
+//                Log.e(TAG, "---植物收藏解密成功---" + data);
+//            }
+//        }));
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        //植物收藏
+//        int collectionType = 2;
+//        params.put("collectionType", collectionType);
+//        //用户id
+//        int consumerId = plantState.getUser().getConsumerId();
+//        params.put("consumerId", consumerId);
+//        //收藏对象id
+//        int collectedId = plantState.getPlant().getList().get(plantPosition).getBotanyId();
+//        params.put("collectedId", collectedId);
+//        //随机数
+//        int random = plantState.getRandom();
+//        String sign = random + "" + collectionType + consumerId + collectedId;
+//        Log.e(TAG, "---明文---" + random + "---" + collectionType + "---" + consumerId + "---" + collectedId);
+//        //加密文字
+//        String signEncrypt = null;
+//        try {
+//            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+//            Log.e(TAG, "---加密成功---" + signEncrypt);
+//        } catch (Exception e) {
+//            Log.e(TAG, "---加密失败---");
+//            e.printStackTrace();
+//        }
+//        if (signEncrypt == null) {
+//            plantState.initToast(getContext(), "加密失败", true, 0);
+//        }
+//        //随机数
+//        params.put("random", random);
+//        params.put("sign", signEncrypt);
+//        httpRequestWrap.send(PlantAddress.ASK_COLLTION, params);
     }
 
     class GlideImageLoader extends com.youth.banner.loader.ImageLoader {

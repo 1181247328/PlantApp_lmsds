@@ -13,4 +13,5 @@ public interface OnResponseHandler {
 	 * @param status ״̬
 	 */
 	void onResponse(String result, RequestStatus status);
+
 }
