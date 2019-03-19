@@ -11,6 +11,7 @@ public class Integral {
     private double integralMoney;
     private int integralNumber;
     private String picture;
+    private String httpPicture;
 
     public int getRowNum() {
         return rowNum;
@@ -58,5 +59,13 @@ public class Integral {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public String getHttpPicture() {
+        return httpPicture;
+    }
+
+    public void setHttpPicture(String httpPicture) {
+        this.httpPicture = httpPicture;
     }
 }

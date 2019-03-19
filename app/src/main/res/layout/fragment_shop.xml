@@ -5,158 +5,167 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <ScrollView
-        android:id="@+id/sl_shop_scrol"
+    <com.cdqf.plant_view.VerticalSwipeRefreshLayout
+        android:id="@+id/srl_shop_pull"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:scrollbars="none">>
+        android:background="@color/plant_ask_background"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/sl_shop_scrol"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/plant_ask_background"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#24C79F"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp">
-
-
-                <com.gcssloop.widget.RCRelativeLayout
-                    android:id="@+id/rcrl_shop_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="15dp"
-                    android:paddingLeft="15dp"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    app:round_corner="40dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="10dp">
-
-                        <ImageView
-                            android:id="@+id/plantscience_search"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_centerVertical="true"
-                            android:background="@color/white"
-                            android:src="@mipmap/plantscience_search" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:background="@color/white"
-                            android:gravity="center_vertical"
-                            android:hint="输入商品关键字"
-                            android:lines="1"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="8dp"
-                            android:textColor="#C8C8C8"
-                            android:textColorHint="#C8C8C8"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
-
-                </com.gcssloop.widget.RCRelativeLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#24C79F"
-                android:paddingBottom="10dp"
-                android:paddingTop="4dp">
-
-                <com.zhouwei.mzbanner.MZBannerView
-                    android:id="@+id/mbv_shop_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_centerVertical="true"
-                    android:background="#24C79F"
-                    app:canLoop="true"
-                    app:indicatorAlign="center"
-                    app:indicatorPaddingLeft="10dp"
-                    app:open_mz_mode="true" />
-            </RelativeLayout>
-
-            <com.cdqf.plant_view.MyGridView
-                android:id="@+id/mgv_shop_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:numColumns="4"
-                android:scrollbars="none"
-                android:verticalSpacing="10dp" />
+            android:background="@color/white"
+            android:scrollbars="none">>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:background="@color/white"
+                android:background="@color/plant_ask_background"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
+                    android:background="#24C79F"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
 
-                    <TextView
-                        android:id="@+id/tv_shop_recommended"
-                        android:layout_width="wrap_content"
+
+                    <com.gcssloop.widget.RCRelativeLayout
+                        android:id="@+id/rcrl_shop_search"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:background="@color/white"
-                        android:text="为您推荐"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="40dp"
-                        android:layout_height="1dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="15dp"
-                        android:layout_toLeftOf="@id/tv_shop_recommended"
-                        android:background="@color/black" />
+                        android:background="@android:color/transparent"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        app:round_corner="40dp">
 
-                    <TextView
-                        android:layout_width="40dp"
-                        android:layout_height="1dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/tv_shop_recommended"
-                        android:background="@color/black" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp">
+
+                            <ImageView
+                                android:id="@+id/plantscience_search"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_centerVertical="true"
+                                android:background="@color/white"
+                                android:src="@mipmap/plantscience_search" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:background="@color/white"
+                                android:gravity="center_vertical"
+                                android:hint="输入商品关键字"
+                                android:lines="1"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="8dp"
+                                android:textColor="#C8C8C8"
+                                android:textColorHint="#C8C8C8"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </com.gcssloop.widget.RCRelativeLayout>
 
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#24C79F"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="10dp">
+
+                    <com.zhouwei.mzbanner.MZBannerView
+                        android:id="@+id/mbv_shop_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_centerVertical="true"
+                        android:background="#24C79F"
+                        app:canLoop="true"
+                        app:indicatorAlign="center"
+                        app:indicatorPaddingLeft="10dp"
+                        app:open_mz_mode="true" />
+                </RelativeLayout>
+
                 <com.cdqf.plant_view.MyGridView
-                    android:id="@+id/mgv_shop_recommended"
+                    android:id="@+id/mgv_shop_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:numColumns="2"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="10dp"
+                    android:numColumns="4"
                     android:scrollbars="none"
-                    android:horizontalSpacing="10dp"
                     android:verticalSpacing="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
+                        <TextView
+                            android:id="@+id/tv_shop_recommended"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:background="@color/white"
+                            android:text="为您推荐"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="1dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="15dp"
+                            android:layout_toLeftOf="@id/tv_shop_recommended"
+                            android:background="@color/black" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="1dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@id/tv_shop_recommended"
+                            android:background="@color/black" />
+
+                    </RelativeLayout>
+
+                    <com.cdqf.plant_view.MyGridView
+                        android:id="@+id/mgv_shop_recommended"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:horizontalSpacing="10dp"
+                        android:numColumns="2"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="10dp"
+                        android:scrollbars="none"
+                        android:verticalSpacing="10dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </com.cdqf.plant_view.VerticalSwipeRefreshLayout>
 
 </LinearLayout>

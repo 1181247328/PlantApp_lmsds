@@ -15,22 +15,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#24C79F"
-            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:paddingRight="5dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="10dp">
 
             <LinearLayout
                 android:id="@+id/ll_goods_scan"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
                 android:background="#24C79F"
                 android:gravity="center_vertical|center"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="18dp"
+                    android:layout_height="17dp"
                     android:src="@mipmap/pldetails_return" />
 
 
@@ -45,7 +45,8 @@
                 android:background="#24C79F"
                 android:gravity="center_vertical|center"
                 android:orientation="vertical"
-                android:paddingLeft="7dp">
+                android:paddingLeft="7dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -67,7 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@id/ll_goods_message"
                 android:layout_toRightOf="@id/ll_goods_scan"
                 android:background="@android:color/transparent"
@@ -122,8 +124,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingBottom="3dp"
                 android:paddingTop="8dp"
+                android:paddingBottom="3dp"
                 android:text="综合排序"
                 android:textColor="#99ffffff"
                 android:textSize="14sp" />
@@ -134,8 +136,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingBottom="8dp"
                 android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="销售"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
@@ -202,19 +204,19 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:src="@mipmap/allorder_no"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:scaleType="fitXY" />
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/allorder_no" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:gravity="center|clip_vertical"
                     android:text="商城暂无商品~"
-                    android:layout_marginTop="15dp"
                     android:textColor="#474747"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -222,8 +224,8 @@
                 android:id="@+id/ptrl_goods_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <com.jingchen.pulltorefresh.PullableGridView
                     android:layout_width="match_parent"

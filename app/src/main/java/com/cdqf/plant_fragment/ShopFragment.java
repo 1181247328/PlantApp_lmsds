@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_utils.HttpRequestWrap;
 import com.cdqf.plant_view.MyGridView;
+import com.cdqf.plant_view.VerticalSwipeRefreshLayout;
 import com.gcssloop.widget.RCRelativeLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -67,6 +70,9 @@ public class ShopFragment extends Fragment {
     private ImageLoader imageLoader = ImageLoader.getInstance();
 
     private HttpRequestWrap httpRequestWrap = null;
+
+    @BindView(R.id.srl_shop_pull)
+    public VerticalSwipeRefreshLayout srlShopPull = null;
 
     //滚动页
     @BindView(R.id.sl_shop_scrol)
@@ -122,6 +128,15 @@ public class ShopFragment extends Fragment {
     }
 
     private void initListener() {
+
+        srlShopPull.setRefreshing(true);
+        srlShopPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initPictures(false);
+            }
+        });
+
         mbvShopBanner.setBannerPageClickListener(new MZBannerView.BannerPageClickListener() {
             @Override
             public void onPageClick(View view, int i) {
@@ -145,9 +160,10 @@ public class ShopFragment extends Fragment {
     }
 
     private void initBack() {
+        srlShopPull.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.immersion));
         slShopScrol.smoothScrollTo(0, 0);
         //首页
-        initPictures();
+        initPictures(true);
         mgvShopList.setOnScrollListener(new PauseOnScrollListener(plantState.getImageLoader(getContext()), true, false));
     }
 
@@ -189,7 +205,7 @@ public class ShopFragment extends Fragment {
     }
 
     //首页轮播图片
-    private void initPictures() {
+    private void initPictures(boolean isToast) {
 
         Map<String, Object> params = new HashMap<String, Object>();
         //随机数
@@ -213,7 +229,7 @@ public class ShopFragment extends Fragment {
         params.put("sign", signEncrypt);
 
         OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(getContext());
-        okHttpRequestWrap.post(PlantAddress.SHOP_HOME, true, "请稍候", params, new OnHttpRequest() {
+        okHttpRequestWrap.post(PlantAddress.SHOP_HOME, isToast, "请稍候", params, new OnHttpRequest() {
             @Override
             public void onOkHttpResponse(String response, int id) {
                 Log.e(TAG, "---onOkHttpResponse---" + response);
@@ -223,6 +239,7 @@ public class ShopFragment extends Fragment {
                     return;
                 }
                 Log.e(TAG, "---首页解密---" + data);
+                srlShopPull.setRefreshing(false);
                 //头部图片
                 JSONObject dataJSON = JSON.parseObject(data);
                 plantState.getBanners().clear();

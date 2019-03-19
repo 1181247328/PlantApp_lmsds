@@ -79,7 +79,7 @@ public class IntegralAdapter extends BaseAdapter {
             plantViewHolder = (PlantViewHolder) convertView.getTag();
         }
         //图片
-        imageLoader.displayImage(integralList.get(position).getPicture(), plantViewHolder.ivShopItemFigure, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+        imageLoader.displayImage(integralList.get(position).getHttpPicture(), plantViewHolder.ivShopItemFigure, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
         //名称
         plantViewHolder.tvShopItemTickets.setText(integralList.get(position).getCommName());
         //

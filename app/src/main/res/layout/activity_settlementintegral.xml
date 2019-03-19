@@ -259,9 +259,10 @@
 
                         <com.gcssloop.widget.RCRelativeLayout
                             android:layout_width="wrap_content"
+                            android:layout_marginLeft="8dp"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
-                            app:round_corner="5dp">
+                            app:round_corner="3dp">
 
                             <ImageView
                                 android:id="@+id/iv_settlement_item_figure"
@@ -359,7 +360,7 @@
                                 android:textSize="14sp" />
 
                             <ImageView
-                                android:layout_width="18dp"
+                                android:layout_width="17dp"
                                 android:layout_height="18dp"
                                 android:background="@android:color/transparent"
                                 android:scaleType="centerInside"

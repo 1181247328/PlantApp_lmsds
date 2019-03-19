@@ -1,39 +1,39 @@
 -- Merging decision tree log ---
 manifest
-ADDED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+ADDED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
 	package
-		ADDED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:11-49
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		ADDED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:11-49
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-		ADDED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		ADDED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+		ADDED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
 	android:versionCode
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-		ADDED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		ADDED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:1:1-5:12
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
 application
-ADDED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:3:5-20
+ADDED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml:3:5-20
 uses-sdk
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-		ADDED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		ADDED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-		ADDED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
-		INJECTED from F:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		ADDED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml
+		INJECTED from C:\Android Studio\lmsd\PlantApp\horizontallistview\src\main\AndroidManifest.xml

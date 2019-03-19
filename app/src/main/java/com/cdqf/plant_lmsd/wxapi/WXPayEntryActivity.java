@@ -36,9 +36,9 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG,"---微信支付---");
+        Log.e(TAG, "---微信支付---");
         iwxapi = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
-        iwxapi.handleIntent(getIntent(),this);
+        iwxapi.handleIntent(getIntent(), this);
         httpRequestWrap = new HttpRequestWrap(this);
     }
 
@@ -51,14 +51,14 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onResp(BaseResp baseResp) {
         String msg = "";
         String s = baseResp.errStr;
-        Log.e(TAG,"---errCode---"+baseResp.errCode);
-        Log.e(TAG,"---errStr---"+baseResp.errStr);
-        Log.e(TAG,"---transaction---"+baseResp.transaction);
-        Log.e(TAG,"---openId---"+baseResp.openId);
-        switch(baseResp.errCode){
+        Log.e(TAG, "---errCode---" + baseResp.errCode);
+        Log.e(TAG, "---errStr---" + baseResp.errStr);
+        Log.e(TAG, "---transaction---" + baseResp.transaction);
+        Log.e(TAG, "---openId---" + baseResp.openId);
+        switch (baseResp.errCode) {
             case 0:
                 msg = "支付成功";
-                Toast.makeText(WXPayEntryActivity.this,msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(WXPayEntryActivity.this, msg, Toast.LENGTH_SHORT).show();
                 eventBus.post(new WXReturnFind());
                 finish();
 //                httpRequestWrap.setMethod(HttpRequestWrap.POST);
@@ -69,18 +69,20 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 //                    }
 //                }));
 //                Map<String, Object> paramss = new HashMap<String, Object>();
-//                httpRequestWrap.send(DrunkAddress.HSOP, paramss);
+//                httpRequestWrap.send(DrunkAddress.HSOP, paramss);0
 //                finish();
                 break;
             case -1:
                 msg = "支付错误";
-                Toast.makeText(WXPayEntryActivity.this,msg,Toast.LENGTH_SHORT).show();
+                eventBus.post(new WXReturnFind());
+                Toast.makeText(WXPayEntryActivity.this, msg, Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case -2:
-                Log.e(TAG,"---支付取消---");
+                Log.e(TAG, "---支付取消---");
                 msg = "支付取消";
-                Toast.makeText(WXPayEntryActivity.this,msg,Toast.LENGTH_SHORT).show();
+                eventBus.post(new WXReturnFind());
+                Toast.makeText(WXPayEntryActivity.this, msg, Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }
@@ -90,6 +92,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        iwxapi.handleIntent(intent,this);
+        iwxapi.handleIntent(intent, this);
     }
 }

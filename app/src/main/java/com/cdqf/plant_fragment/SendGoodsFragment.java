@@ -241,7 +241,7 @@ public class SendGoodsFragment extends Fragment implements View.OnClickListener 
         //用户id
         int consumerId = plantState.getUser().getConsumerId();
         params.put("consumerId", consumerId);
-        //订单状态(待发货
+        //订单状态(待发货)
         int orderListStatus = 2;
         params.put("orderListStatus", orderListStatus);
         if (isIndex) {

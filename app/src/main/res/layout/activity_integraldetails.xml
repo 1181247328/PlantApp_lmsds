@@ -19,16 +19,16 @@
 
             <RelativeLayout
                 android:id="@+id/rl_indetails_return"
-                android:layout_width="50dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:background="@color/strategy_item_published"
                 android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
+                android:paddingLeft="5dp"
                 android:paddingTop="8dp">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="17dp"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/pldetails_return" />
 
@@ -62,7 +62,7 @@
                 android:paddingTop="10dp"
                 android:text="提交订单"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -135,7 +135,7 @@
                                 android:paddingLeft="8dp"
                                 android:text="积分/个"
                                 android:textColor="@color/black"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/tv_indetails_sale"
@@ -168,7 +168,7 @@
                             android:layout_height="wrap_content"
                             android:text="商品简介"
                             android:textColor="@color/black"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -212,7 +212,7 @@
                             android:layout_height="wrap_content"
                             android:text="规则说明"
                             android:textColor="@color/black"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="match_parent"

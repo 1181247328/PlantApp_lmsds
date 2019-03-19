@@ -6,11 +6,11 @@
     android:background="@color/white">
 
     <com.gcssloop.widget.RCRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/shop_item"
         app:stroke_color="#DDDDDD"
-        app:stroke_width="0.5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:stroke_width="0.5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,19 +20,17 @@
             <ImageView
                 android:id="@+id/iv_integral_item_figure"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/test6" />
+                android:layout_height="130dp"
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/iv_integral_item_tickets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
+                android:background="@android:color/transparent"
                 android:paddingLeft="6dp"
                 android:paddingTop="8dp"
-                android:text="广西药用植物园"
-                android:background="@android:color/transparent"
+                android:paddingBottom="5dp"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -40,10 +38,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:paddingBottom="5dp"
                 android:paddingLeft="6dp"
+                android:paddingTop="5dp"
                 android:paddingRight="10dp"
-                android:paddingTop="5dp">
+                android:paddingBottom="5dp">
 
                 <com.gcssloop.widget.RCRelativeLayout
                     android:id="@+id/rcrl_integral_item_rc"
@@ -51,20 +49,20 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
+                    android:visibility="gone"
                     app:round_corner="30dp">
 
                     <TextView
                         android:id="@+id/tv_integral_item_mail"
                         android:layout_width="60dp"
-                        android:gravity="center"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:padding="2dp"
-                        android:text="+50元"
                         android:background="#478D8D"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
@@ -74,10 +72,9 @@
                     android:id="@+id/tv_integral_item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentLeft="true"
                     android:textColor="#F7B70C"
-                    android:text="1000积分"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 

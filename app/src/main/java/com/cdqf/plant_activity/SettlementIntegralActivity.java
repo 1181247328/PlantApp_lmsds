@@ -203,7 +203,7 @@ public class SettlementIntegralActivity extends BaseActivity implements View.OnC
         commName = intent.getStringExtra("commName");
 
         //价格
-        unitPrice = intent.getIntExtra("unitPrice", 0);
+        unitPrice = intent.getDoubleExtra("unitPrice", 0);
     }
 
     private void initView() {
@@ -229,8 +229,8 @@ public class SettlementIntegralActivity extends BaseActivity implements View.OnC
         //名称
         tvSettlementItemName.setText(commName);
         //积分
-        tvSettlementItemPrice.setText(unitPrice + "");
-        tvSettlementAmount.setText(unitPrice + "");
+        tvSettlementItemPrice.setText(unitPrice + "积分");
+        tvSettlementAmount.setText(unitPrice + "积分");
     }
 
     private void initGoods() {

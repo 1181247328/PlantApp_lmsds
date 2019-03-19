@@ -396,6 +396,8 @@ public class RegisteredOneActivity extends BaseActivity implements View.OnClickL
     protected void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "---销毁---");
-        timers.cancel();
+        if (timers != null) {
+            timers.cancel();
+        }
     }
 }

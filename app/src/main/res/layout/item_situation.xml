@@ -15,8 +15,7 @@
                 android:layout_width="150dp"
                 android:layout_height="100dp"
                 android:layout_alignParentRight="true"
-                android:scaleType="fitXY"
-                android:src="@mipmap/test2" />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/tv_situation_item_context"
@@ -27,7 +26,6 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="8dp"
                 android:paddingTop="6dp"
-                android:text="加强药品监督,提升广西药用植物园园林绿化管理水平"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -40,7 +38,6 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="8dp"
                 android:paddingBottom="4dp"
-                android:text="2017-08-04"
                 android:layout_alignParentBottom="true"
                 android:textColor="#A3A3A3"
                 android:textSize="12sp" />

@@ -36,6 +36,7 @@ import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_utils.HttpRequestWrap;
 import com.cdqf.plant_view.ListViewForScrollView;
+import com.cdqf.plant_view.VerticalSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -77,7 +78,7 @@ public class AskFragment extends Fragment {
 
     //下拉刷新
     @BindView(R.id.srl_plant_pull)
-    public SwipeRefreshLayout srlPlantPull = null;
+    public VerticalSwipeRefreshLayout srlPlantPull = null;
 
     //滚动
     @BindView(R.id.sr_plant_scroll)

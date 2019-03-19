@@ -146,7 +146,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
     private void initBack() {
         imageLoader.displayImage(plantState.getUser().getImgAvatat(), ivPersonaldataHear, plantState.getImageLoaderOptions(R.mipmap.login_hear, R.mipmap.login_hear, R.mipmap.login_hear));
-        tvPersonaldataNick.setText(plantState.getUser().getUserName());
+        tvPersonaldataNick.setText(plantState.getUser().getNickName());
         userAge();
     }
 
@@ -155,7 +155,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    private void userAge(){
+    private void userAge() {
         String age;
         switch (plantState.getUser().getGender()) {
             case 0:
@@ -219,7 +219,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 picker.setOnItemPickListener(new OnItemPickListener<String>() {
                     @Override
                     public void onItemPicked(int index, String item) {
-                        final int gender=index+1;
+                        final int gender = index + 1;
+                        Log.e(TAG, "---性别修改---" + gender);
                         httpRequestWrap.setMethod(HttpRequestWrap.POST);
                         httpRequestWrap.setCallBack(new RequestHandler(context, 1, context.getResources().getString(R.string.nickname), new OnResponseHandler() {
                             @Override
@@ -230,10 +231,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                                     return;
                                 }
                                 Log.e(TAG, "---用户性别修改解密成功---" + data);
-                                plantState.getUser().setAge(gender);
-                                PlantPreferences.setLogUserComment(context,plantState.getUser());
+                                plantState.getUser().setGender(gender);
+                                PlantPreferences.setLogUserComment(context, plantState.getUser());
                                 userAge();
-                                plantState.initToast(context,data,true,0);
+                                plantState.initToast(context, data, true, 0);
                             }
                         }));
                         Map<String, Object> params = new HashMap<String, Object>();
@@ -326,18 +327,18 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 }
                 Log.e(TAG, "---用户头像成功---" + data);
                 User user = new User();
-                user = gson.fromJson(data,User.class);
+                user = gson.fromJson(data, User.class);
                 plantState.setUser(user);
-                PlantPreferences.setLogUserComment(context,user);
+                PlantPreferences.setLogUserComment(context, user);
                 imageLoader.displayImage(plantState.getUser().getImgAvatat(), ivPersonaldataHear, plantState.getImageLoaderOptions(R.mipmap.login_hear, R.mipmap.login_hear, R.mipmap.login_hear));
                 eventBus.post(new Login());
-                plantState.initToast(context,context.getResources().getString(R.string.login_complete),true,0);
+                plantState.initToast(context, context.getResources().getString(R.string.login_complete), true, 0);
             }
         }));
         Map<String, Object> params = new HashMap<String, Object>();
         int consumerId = plantState.getUser().getConsumerId();
         params.put("consumerId", consumerId);
-        String imageHear = "data:image/jpeg;base64,"+Base64Img.GetImageStrFromPath(FileUtil.IMG_CACHE4);
+        String imageHear = "data:image/jpeg;base64," + Base64Img.GetImageStrFromPath(FileUtil.IMG_CACHE4);
         Log.e(TAG, "---头像的base64---" + imageHear);
         params.put("image", imageHear);
         //随机数
@@ -362,8 +363,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         httpRequestWrap.send(PlantAddress.USER_HEAR, params);
     }
 
-    public void onEventMainThread(Login l){
-        imageLoader.displayImage(plantState.getUser().getImgAvatat(),ivPersonaldataHear, plantState.getImageLoaderOptions(R.mipmap.login_hear,R.mipmap.login_hear,R.mipmap.login_hear));
+    public void onEventMainThread(Login l) {
+        imageLoader.displayImage(plantState.getUser().getImgAvatat(), ivPersonaldataHear, plantState.getImageLoaderOptions(R.mipmap.login_hear, R.mipmap.login_hear, R.mipmap.login_hear));
         tvPersonaldataNick.setText(plantState.getUser().getNickName());
     }
 }
