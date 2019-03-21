@@ -1,13 +1,16 @@
 package com.cdqf.plant_activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,8 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_adapter.SettlementAdapter;
@@ -30,9 +35,14 @@ import com.cdqf.plant_find.SettlementFind;
 import com.cdqf.plant_find.WeChatFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_lmsd.wxapi.HttpWxPayWrap;
+import com.cdqf.plant_lmsd.wxapi.Util;
 import com.cdqf.plant_lmsd.wxapi.WXReturnFind;
+import com.cdqf.plant_okhttp.OKHttpRequestWrap;
+import com.cdqf.plant_okhttp.OnHttpRequest;
+import com.cdqf.plant_pay.CancelFind;
 import com.cdqf.plant_pay.HttpZFBPayWrap;
 import com.cdqf.plant_pay.ZFBFind;
+import com.cdqf.plant_pay.ZFBPayFind;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
@@ -43,11 +53,25 @@ import com.cdqf.plant_utils.OnResponseHandler;
 import com.cdqf.plant_utils.RequestHandler;
 import com.cdqf.plant_utils.RequestStatus;
 import com.cdqf.plant_view.ListViewForScrollView;
+import com.cdqf.wechtlocalpay.MD5;
+import com.cdqf.wechtlocalpay.WXPayLocalConstants;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.xmlpull.v1.XmlPullParser;
+
+import java.io.StringReader;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -192,7 +216,7 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
-        HttpWxPayWrap.isWxApp(context, "wx5048e518874eed43");
+//        HttpWxPayWrap.isWxApp(context, "wx5048e518874eed43");
         Intent intent = getIntent();
         commIds = intent.getStringExtra("commIds");
         numbers = intent.getStringExtra("numbers");
@@ -395,8 +419,9 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
                 }
                 //2017040706580188
                 Log.e(TAG, "---支付宝加签解密成功---" + data);
+                String d = gson.fromJson(data, String.class);
 //                HttpZFBPayWrap.zfbPayParamss(context,"2017040706580188","2014-07-24 22:22:22","0.01","测试",System.currentTimeMillis()+"");
-                HttpZFBPayWrap.zfbPayParamss(context, data);
+                HttpZFBPayWrap.zfbPayParamss(context, d);
             }
         }));
         Map<String, Object> params = new HashMap<String, Object>();
@@ -431,6 +456,68 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
      * @param pay
      */
     public void onEventMainThread(ZFBFind pay) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        //当前页
+        params.put("Orderid", orderIds);
+        //随机数
+        int random = plantState.getRandom();
+        String sign = random + "" + orderIds;
+        Log.e(TAG, "---明文---" + sign);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
+        }
+        if (signEncrypt == null) {
+            plantState.initToast(context, "加密失败", true, 0);
+        }
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+
+        OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(context);
+        okHttpRequestWrap.post(PlantAddress.RETURN_PAY, true, "请稍候", params, new OnHttpRequest() {
+            @Override
+            public void onOkHttpResponse(String response, int id) {
+                Log.e(TAG, "---onOkHttpResponse---" + response);
+                JSONObject resultJSON = JSON.parseObject(response);
+                int StatusCode = resultJSON.getInteger("StatusCode");
+                if (StatusCode != 0) {
+                    Log.e(TAG, "---待支付成功返回失败---" + StatusCode);
+                    return;
+                }
+                Log.e(TAG, "---待支付成功返回解密成功---" + StatusCode);
+                //关闭搜索界面
+                if (SearchShopActivity.searchShopActivity != null) {
+                    SearchShopActivity.searchShopActivity.finish();
+                }
+                //关闭分类商品界面
+                if (GoodsActivity.goodsActivity != null) {
+                    GoodsActivity.goodsActivity.finish();
+                }
+                //商品详情界面
+                if (GoodsDetailsActivity.goodsDetailsActivity != null) {
+                    GoodsDetailsActivity.goodsDetailsActivity.finish();
+                }
+                //购物车
+                if (CartActivity.cartActivity != null) {
+                    CartActivity.cartActivity.finish();
+                }
+                initIntent(MyOrderActivity.class, 2);
+                finish();
+            }
+
+            @Override
+            public void onOkHttpError(String error) {
+                Log.e(TAG, "---onOkHttpError---" + error);
+            }
+        });
+    }
+
+    public void onEventMainThread(CancelFind pay) {
         //关闭搜索界面
         if (SearchShopActivity.searchShopActivity != null) {
             SearchShopActivity.searchShopActivity.finish();
@@ -451,12 +538,23 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
         finish();
     }
 
+    public void onEventMainThread(ZFBPayFind pay) {
+        plantState.initToast(context, pay.toast, true, 0);
+    }
+
     /**
      * 微信操作
      *
      * @param w
      */
     public void onEventMainThread(WeChatFind w) {
+//        WXPay.openIWXAPI(SettlementActivity.this);
+//        WXPayIdAsyncTask wxPayIdAsyncTask = new WXPayIdAsyncTask(context);
+//        wxPayIdAsyncTask.execute(WXPayLocalConstants.URL_STRING);
+//        req = new PayReq();
+//        String urlString = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+//        PrePayIdAsyncTask prePayIdAsyncTask = new PrePayIdAsyncTask();
+//        prePayIdAsyncTask.execute(urlString);
         httpRequestWrap.setCallBack(new RequestHandler(context, 1, "订单创建中", new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {
@@ -467,8 +565,6 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
                 }
                 //2017040706580188
                 Log.e(TAG, "---微信成功---" + data);
-//                HttpZFBPayWrap.zfbPayParamss(context,"2017040706580188","2014-07-24 22:22:22","0.01","测试",System.currentTimeMillis()+"");
-//                HttpZFBPayWrap.zfbPayParamss(context, data);
                 HttpWxPayWrap.wxPostJSON(data);
             }
         }));
@@ -499,24 +595,65 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
     }
 
     public void onEventMainThread(WXReturnFind wx) {
-        //关闭搜索界面
-        if (SearchShopActivity.searchShopActivity != null) {
-            SearchShopActivity.searchShopActivity.finish();
+        Map<String, Object> params = new HashMap<String, Object>();
+        //当前页
+        params.put("OrderId", orderIds);
+        //随机数
+        int random = plantState.getRandom();
+        String sign = random + "" + orderIds;
+        Log.e(TAG, "---明文---" + sign);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
         }
-        //关闭分类商品界面
-        if (GoodsActivity.goodsActivity != null) {
-            GoodsActivity.goodsActivity.finish();
+        if (signEncrypt == null) {
+            plantState.initToast(context, "加密失败", true, 0);
         }
-        //商品详情界面
-        if (GoodsDetailsActivity.goodsDetailsActivity != null) {
-            GoodsDetailsActivity.goodsDetailsActivity.finish();
-        }
-        //购物车
-        if (CartActivity.cartActivity != null) {
-            CartActivity.cartActivity.finish();
-        }
-        initIntent(MyOrderActivity.class, 2);
-        finish();
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+
+        OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(context);
+        okHttpRequestWrap.post(PlantAddress.RETURN_PAY, true, "请稍候", params, new OnHttpRequest() {
+            @Override
+            public void onOkHttpResponse(String response, int id) {
+                Log.e(TAG, "---onOkHttpResponse---" + response);
+                JSONObject resultJSON = JSON.parseObject(response);
+                int StatusCode = resultJSON.getInteger("StatusCode");
+                if (StatusCode != 0) {
+                    Log.e(TAG, "---待支付成功返回失败---" + StatusCode);
+                    return;
+                }
+                Log.e(TAG, "---待支付成功返回解密成功---" + StatusCode);
+                //关闭搜索界面
+                if (SearchShopActivity.searchShopActivity != null) {
+                    SearchShopActivity.searchShopActivity.finish();
+                }
+                //关闭分类商品界面
+                if (GoodsActivity.goodsActivity != null) {
+                    GoodsActivity.goodsActivity.finish();
+                }
+                //商品详情界面
+                if (GoodsDetailsActivity.goodsDetailsActivity != null) {
+                    GoodsDetailsActivity.goodsDetailsActivity.finish();
+                }
+                //购物车
+                if (CartActivity.cartActivity != null) {
+                    CartActivity.cartActivity.finish();
+                }
+                initIntent(MyOrderActivity.class, 2);
+                finish();
+            }
+
+            @Override
+            public void onOkHttpError(String error) {
+                Log.e(TAG, "---onOkHttpError---" + error);
+            }
+        });
     }
 
     public void onEventMainThread(DissFind d) {
@@ -589,5 +726,229 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
         super.onDestroy();
         Log.e(TAG, "---销毁---");
         eventBus.unregister(this);
+    }
+
+    private PayReq req;
+
+    private final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
+
+    private Map<String, String> resultunifiedorder;
+
+    class PrePayIdAsyncTask extends AsyncTask<String, Void, Map<String, String>> {
+
+        private ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            dialog = new XProgressDialog(detailsContext, "提交订单中...");
+//            dialog.show();
+            dialog = ProgressDialog.show(context, "提示", "正在提交订单");
+        }
+
+        @Override
+        protected Map<String, String> doInBackground(String... params) {
+            String url = String.format(params[0]);
+            String entity = getProductArgs();
+            byte[] buf = Util.httpPost(url, entity);
+            String content = new String(buf);
+            Map<String, String> xml = decodeXml(content);
+            return xml;
+        }
+
+        @Override
+        protected void onPostExecute(Map<String, String> result) {
+            super.onPostExecute(result);
+            if (dialog != null) {
+                dialog.dismiss();
+            }
+            Set<String> r = result.keySet();
+            for (String s : r) {
+                Log.e(TAG, "---键---" + s + "---值---" + result.get(s));
+            }
+            resultunifiedorder = result;
+            Log.e(TAG, "---提交订单成功---");
+            //加签
+            genPayReq();
+            //调起微信
+            sendPayReq();
+        }
+    }
+
+    /**
+     * 调起微信支付
+     */
+    private void sendPayReq() {
+        msgApi.registerApp(Constants.APP_ID);
+        msgApi.sendReq(req);
+        Log.e(TAG, "---调起微信支付---" + req.partnerId);
+    }
+
+    private long genTimeStamp() {
+        return System.currentTimeMillis() / 1000;
+    }
+
+    /**
+     * 生成签名参数
+     */
+    private void genPayReq() {
+        req.appId = Constants.APP_ID;
+        req.partnerId = Constants.MCH_ID;
+        Log.e(TAG, "---生成签名参数");
+        if (resultunifiedorder != null) {
+            req.prepayId = resultunifiedorder.get("prepay_id");
+            req.packageValue = "prepay_id=" + resultunifiedorder.get("prepay_id");
+        } else {
+            Toast.makeText(SettlementActivity.this, "prepayid为空", Toast.LENGTH_SHORT).show();
+        }
+        req.nonceStr = getNonceStr();
+        req.timeStamp = String.valueOf(genTimeStamp());
+
+        List<NameValuePair> signParams = new LinkedList<NameValuePair>();
+        signParams.add(new BasicNameValuePair("appid", req.appId));
+        signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
+        signParams.add(new BasicNameValuePair("package", req.packageValue));
+        signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
+        signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
+        signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
+        req.sign = genAppSign(signParams);
+        Log.e(TAG, "----生成签名参数---" + req.sign);
+    }
+
+    private String genAppSign(List<NameValuePair> params) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < params.size(); i++) {
+            sb.append(params.get(i).getName());
+            sb.append('=');
+            sb.append(params.get(i).getValue());
+            sb.append('&');
+        }
+        sb.append("key=");
+        sb.append(Constants.API_KEY);
+        String appSign = MD5.getMessageDigest(sb.toString().getBytes());
+        Log.e(TAG, "----" + appSign);
+        return appSign;
+    }
+
+    public Map<String, String> decodeXml(String content) {
+        try {
+            Map<String, String> xml = new HashMap<String, String>();
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(new StringReader(content));
+            int event = parser.getEventType();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                String nodeName = parser.getName();
+                switch (event) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+
+                        if ("xml".equals(nodeName) == false) {
+                            //实例化student对象
+                            xml.put(nodeName, parser.nextText());
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                }
+                event = parser.next();
+            }
+            return xml;
+        } catch (Exception e) {
+            Log.e("Simon", "----" + e.toString());
+        }
+        return null;
+    }
+
+    /**
+     * 订单信息
+     *
+     * @return
+     */
+    private String getProductArgs() {
+        StringBuffer xml = new StringBuffer();
+        try {
+            String nonceStr = getNonceStr();
+            xml.append("<xml>");
+            List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
+            //开放平台APP_ID
+            packageParams.add(new BasicNameValuePair("appid", WXPayLocalConstants.APP_ID));
+            //商品名称
+            packageParams.add(new BasicNameValuePair("body", "hdsj ticket"));
+            //商户平台MCH_ID
+            packageParams.add(new BasicNameValuePair("mch_id", WXPayLocalConstants.MCH_ID));
+            //随机数防重发
+            packageParams.add(new BasicNameValuePair("nonce_str", nonceStr));
+            //回调地址
+            packageParams.add(new BasicNameValuePair("notify_url", "https://www.baidu.com"));//写你们的回调地址
+            //订单号
+            packageParams.add(new BasicNameValuePair("out_trade_no", genOutTradNo()));
+            //金额
+            packageParams.add(new BasicNameValuePair("total_fee", "1"));
+            //交易类型
+            packageParams.add(new BasicNameValuePair("trade_type", "APP"));
+            //生成签名
+            String sign = getPackageSign(packageParams);
+            packageParams.add(new BasicNameValuePair("sign", sign));
+            //转化为xml
+            String xmlString = toXml(packageParams);
+            return xmlString;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    //生成订单号,测试用，在客户端生成
+    private String genOutTradNo() {
+        Random random = new Random();
+        return MD5.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
+    }
+
+    //生成随机号，防重发
+    private String getNonceStr() {
+
+        Random random = new Random();
+
+        return MD5.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
+    }
+
+    /**
+     * 生成签名
+     */
+    private String getPackageSign(List<NameValuePair> params) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < params.size(); i++) {
+            sb.append(params.get(i).getName());
+            sb.append('=');
+            sb.append(params.get(i).getValue());
+            sb.append('&');
+        }
+        sb.append("key=");
+        sb.append(Constants.API_KEY);
+
+
+        String packageSign = MD5.getMessageDigest(sb.toString().getBytes()).toUpperCase();
+        Log.e(TAG, ">>>>" + packageSign);
+        return packageSign;
+    }
+
+    /*
+     * 转换成xml
+     */
+    private String toXml(List<NameValuePair> params) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<xml>");
+        for (int i = 0; i < params.size(); i++) {
+            sb.append("<" + params.get(i).getName() + ">");
+
+
+            sb.append(params.get(i).getValue());
+            sb.append("</" + params.get(i).getName() + ">");
+        }
+        sb.append("</xml>");
+
+        Log.e("Simon", ">>>>" + sb.toString());
+        return sb.toString();
     }
 }

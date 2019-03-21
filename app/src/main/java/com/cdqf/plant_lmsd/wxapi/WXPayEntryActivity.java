@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cdqf.plant_find.DissFind;
 import com.cdqf.plant_utils.HttpRequestWrap;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -74,14 +75,14 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 break;
             case -1:
                 msg = "支付错误";
-                eventBus.post(new WXReturnFind());
+                eventBus.post(new DissFind());
                 Toast.makeText(WXPayEntryActivity.this, msg, Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case -2:
                 Log.e(TAG, "---支付取消---");
                 msg = "支付取消";
-                eventBus.post(new WXReturnFind());
+                eventBus.post(new DissFind());
                 Toast.makeText(WXPayEntryActivity.this, msg, Toast.LENGTH_SHORT).show();
                 finish();
                 break;

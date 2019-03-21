@@ -337,8 +337,12 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
                 GoodsDetails goodsDetails = new GoodsDetails();
                 goodsDetails = gson.fromJson(data, GoodsDetails.class);
                 plantState.setGoodsDetails(goodsDetails);
-                //图片
-                imageLoader.displayImage(goodsDetails.getPicturelist().get(0).getImgpicture(), ivDetailsPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+                if (goodsDetails.getPicturelist().size() > 0) {
+                    //图片
+                    imageLoader.displayImage(goodsDetails.getPicturelist().get(0).getImgpicture(), ivDetailsPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+                } else {
+                    ivDetailsPicture.setImageResource(R.mipmap.not_loaded);
+                }
                 //商品名称
                 tvDetailsName.setText(goodsDetails.getCommName());
                 //价格

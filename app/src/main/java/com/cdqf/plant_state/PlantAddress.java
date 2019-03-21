@@ -235,4 +235,8 @@ public class PlantAddress {
 
     //确定兑换
     public static final String INTEGRAL_ORDER = ADDRESS + "/api/Order/SubIntegralOrder";
+
+    //支付返回
+    public static final String RETURN_PAY = ADDRESS + "/api/Order/UpOrderDealStatus";
 }
+

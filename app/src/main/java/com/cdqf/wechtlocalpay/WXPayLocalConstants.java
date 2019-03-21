@@ -1,12 +1,10 @@
-package com.cdqf.plant_3des;
+package com.cdqf.wechtlocalpay;
 
 /**
- * Created by liu on 2017/8/8.
+ * Created by liu on 2017/6/23.
  */
 
-public class Constants {
-    // 密钥
-    public final static String secretKey = "NjiaHotel";
+public class WXPayLocalConstants {
 
     //订单请求参数
     public static final String URL_STRING = "https://api.mch.weixin.qq.com/pay/unifiedorder";
