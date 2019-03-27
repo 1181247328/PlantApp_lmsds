@@ -136,7 +136,6 @@ public class ShopFragment extends Fragment {
                 initPictures(false);
             }
         });
-
         mbvShopBanner.setBannerPageClickListener(new MZBannerView.BannerPageClickListener() {
             @Override
             public void onPageClick(View view, int i) {

@@ -152,12 +152,12 @@ public class AskFragment extends Fragment {
     }
 
     private void initListener() {
-        srlPlantPull.setRefreshing(true);
+//        srlPlantPull.setRefreshing(true);
         srlPlantPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 //轮播图
-                banner();
+                banner(false);
 
                 //天气
                 //weather();
@@ -166,7 +166,7 @@ public class AskFragment extends Fragment {
                 //plants();
 
                 //新闻
-                news();
+                news(false);
             }
         });
 
@@ -201,7 +201,7 @@ public class AskFragment extends Fragment {
         srlPlantPull.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.immersion));
         srPlantScroll.smoothScrollTo(0, 0);
         //轮播图
-        banner();
+        banner(true);
 
         //天气
         //weather();
@@ -210,10 +210,10 @@ public class AskFragment extends Fragment {
         //plants();
 
         //新闻
-        news();
+        news(true);
     }
 
-    private void banner() {
+    private void banner(boolean isPull) {
 
         Map<String, Object> params = new HashMap<String, Object>();
         //随机数
@@ -236,7 +236,7 @@ public class AskFragment extends Fragment {
         params.put("random", random);
         params.put("sign", signEncrypt);
         OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(getContext());
-        okHttpRequestWrap.post(PlantAddress.ASK_NEWHEEL, true, "请稍候", params, new OnHttpRequest() {
+        okHttpRequestWrap.post(PlantAddress.ASK_NEWHEEL, isPull, "请稍候", params, new OnHttpRequest() {
             @Override
             public void onOkHttpResponse(String response, int id) {
                 Log.e(TAG, "---onOkHttpResponse---" + response);
@@ -397,7 +397,7 @@ public class AskFragment extends Fragment {
     /**
      * 新闻
      */
-    private void news() {
+    private void news(boolean isPull) {
         Map<String, Object> params = new HashMap<String, Object>();
         //当前页
         int pageIndex = 1;
@@ -424,7 +424,7 @@ public class AskFragment extends Fragment {
         params.put("random", random);
         params.put("sign", signEncrypt);
         OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(getContext());
-        okHttpRequestWrap.post(PlantAddress.ASK_NEWS, true, "请稍候", params, new OnHttpRequest() {
+        okHttpRequestWrap.post(PlantAddress.ASK_NEWS, isPull, "请稍候", params, new OnHttpRequest() {
             @Override
             public void onOkHttpResponse(String response, int id) {
                 Log.e(TAG, "---onOkHttpResponse---" + response);

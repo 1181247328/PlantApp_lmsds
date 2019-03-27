@@ -21,9 +21,9 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:background="@color/strategy_item_published"
-                android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
-                android:paddingTop="8dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="10dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -50,23 +50,22 @@
             android:layout_height="match_parent"
             android:background="@color/plant_ask_background"
             android:gravity="center_vertical|center"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/allorder_no" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center|clip_vertical"
                 android:text="暂无~"
                 android:textColor="#474747"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -74,7 +73,8 @@
             android:id="@+id/ptrl_record_pull"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/plant_ask_background">
+            android:background="@color/plant_ask_background"
+            android:visibility="gone">
 
             <com.jingchen.pulltorefresh.PullableListView
                 android:layout_width="match_parent"

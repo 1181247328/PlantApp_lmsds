@@ -76,7 +76,7 @@ public class SettlementAdapter extends BaseAdapter {
         imageLoader.displayImage(settlement.getCommList().get(position).getCommHttpPic(), plantViewHolder.ivSettlementItemFigure, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
         plantViewHolder.tvSettlementItemName.setText(settlement.getCommList().get(position).getCommName());
         plantViewHolder.tvSettlementItemPrice.setText((double) settlement.getCommList().get(position).getPrice() + "");
-        plantViewHolder.tvSettlementItemReduction.setText("X" + settlement.getCommList().get(position).getNumber());
+        plantViewHolder.tvSettlementItemReduction.setText("" + settlement.getCommList().get(position).getNumber());
         return convertView;
     }
 }

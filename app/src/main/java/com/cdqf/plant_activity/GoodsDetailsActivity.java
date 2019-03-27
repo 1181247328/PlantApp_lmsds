@@ -29,6 +29,7 @@ import com.cdqf.plant_adapter.GoodsQualityAdapter;
 import com.cdqf.plant_adapter.GoodsRecommendedAdapter;
 import com.cdqf.plant_class.Evaluation;
 import com.cdqf.plant_class.GoodsDetails;
+import com.cdqf.plant_class.Picturelist;
 import com.cdqf.plant_dilog.NumberDilogFragment;
 import com.cdqf.plant_dilog.PromptDilogFragment;
 import com.cdqf.plant_find.NumberSettFind;
@@ -51,6 +52,10 @@ import com.gcssloop.widget.RCRelativeLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
@@ -60,6 +65,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 import static com.cdqf.plant_lmsd.R.id.rl_details_cart;
@@ -89,6 +96,10 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private HttpRequestWrap httpRequestWrap = null;
 
+    //头部轮播图
+    @BindView(R.id.ba_details_carousel)
+    public Banner baAskCarousel = null;
+
     //滑动
     private ScrollView svDetailsSliding = null;
 
@@ -97,9 +108,6 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
 
     //购物车
     private RelativeLayout rlDetailsCart = null;
-
-    //图片
-    private ImageView ivDetailsPicture = null;
 
     //商品名
     private TextView tvDetailsName = null;
@@ -238,6 +246,7 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private void initAgo() {
         context = this;
+        ButterKnife.bind(this);
         goodsDetailsActivity = this;
         httpRequestWrap = new HttpRequestWrap(context);
         imageLoader = plantState.getImageLoader(context);
@@ -253,7 +262,6 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
         svDetailsSliding = this.findViewById(R.id.sv_details_sliding);
         rlDetailsReturn = this.findViewById(R.id.rl_details_return);
         rlDetailsCart = this.findViewById(rl_details_cart);
-        ivDetailsPicture = this.findViewById(R.id.iv_details_picture);
         tvDetailsName = this.findViewById(R.id.tv_details_name);
         tvDetailsPrice = this.findViewById(R.id.tv_details_price);
         tvDetailsOriginal = this.findViewById(R.id.tv_details_original);
@@ -337,12 +345,8 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
                 GoodsDetails goodsDetails = new GoodsDetails();
                 goodsDetails = gson.fromJson(data, GoodsDetails.class);
                 plantState.setGoodsDetails(goodsDetails);
-                if (goodsDetails.getPicturelist().size() > 0) {
-                    //图片
-                    imageLoader.displayImage(goodsDetails.getPicturelist().get(0).getImgpicture(), ivDetailsPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
-                } else {
-                    ivDetailsPicture.setImageResource(R.mipmap.not_loaded);
-                }
+                //商品图片
+                bannerCarousel(goodsDetails.getPicturelist());
                 //商品名称
                 tvDetailsName.setText(goodsDetails.getCommName());
                 //价格
@@ -351,7 +355,7 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
                 if (goodsDetails.isPostFree()) {
                     tvDetailsCourier.setText(context.getResources().getString(R.string.post_free));
                 } else {
-                    tvDetailsCourier.setText(context.getResources().getString(R.string.post_free_cost) + "15.0元");
+                    tvDetailsCourier.setText(context.getResources().getString(R.string.post_free_cost) + goodsDetails.getPostage() + "元");
                 }
                 //月销
                 tvDetailsPin.setText(context.getResources().getString(R.string.details_pin) + goodsDetails.getPayer() + "笔");
@@ -529,6 +533,23 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
         intent.putExtra("commIds", commIds);
         intent.putExtra("numbers", numbers);
         startActivity(intent);
+    }
+
+    private void bannerCarousel(List<Picturelist> picturelistList) {
+        baAskCarousel.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        baAskCarousel.setImageLoader(new GlideImageLoader());
+        baAskCarousel.setImages(picturelistList);
+        baAskCarousel.setBannerAnimation(Transformer.Default);
+        baAskCarousel.isAutoPlay(true);
+        baAskCarousel.setDelayTime(3000);
+        baAskCarousel.setIndicatorGravity(BannerConfig.CENTER);
+        baAskCarousel.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+//                forIntent(ForDetailsActivity.class, position, 0);
+            }
+        });
+        baAskCarousel.start();
     }
 
     @Override
@@ -786,6 +807,7 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
     protected void onStart() {
         super.onStart();
         Log.e(TAG, "---启动---");
+        baAskCarousel.startAutoPlay();//开始轮播
     }
 
     @Override
@@ -804,6 +826,7 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
     protected void onStop() {
         super.onStop();
         Log.e(TAG, "---停止---");
+        baAskCarousel.stopAutoPlay();//结束轮播
     }
 
     @Override
@@ -817,6 +840,21 @@ public class GoodsDetailsActivity extends BaseActivity implements View.OnClickLi
         super.onDestroy();
         Log.e(TAG, "---销毁---");
         eventBus.unregister(context);
+    }
+
+    class GlideImageLoader extends com.youth.banner.loader.ImageLoader {
+
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            Picturelist carousel = (Picturelist) path;
+            imageLoader.displayImage(
+                    carousel.getImgpicture(),
+                    imageView,
+                    plantState.getImageLoaderOptions(
+                            R.mipmap.not_loaded,
+                            R.mipmap.not_loaded,
+                            R.mipmap.not_loaded));
+        }
     }
 
     public void onEventMainThread(NumberSettFind t) {

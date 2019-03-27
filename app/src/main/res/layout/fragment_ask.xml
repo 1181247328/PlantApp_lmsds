@@ -24,7 +24,6 @@
                 android:background="@color/plant_ask_background"
                 android:orientation="vertical">
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="230dp">
@@ -41,7 +40,6 @@
                         app:indicator_width="6dp" />
 
                 </RelativeLayout>
-
 
                 <RelativeLayout
                     android:layout_width="match_parent"

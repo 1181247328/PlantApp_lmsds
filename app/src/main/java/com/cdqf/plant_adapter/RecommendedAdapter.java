@@ -33,7 +33,7 @@ public class RecommendedAdapter extends BaseAdapter {
 
     private List<Commlist> commlist = new CopyOnWriteArrayList<Commlist>();
 
-    public RecommendedAdapter(Context context,ImageLoader imageLoader,List<Commlist> commlist) {
+    public RecommendedAdapter(Context context, ImageLoader imageLoader, List<Commlist> commlist) {
         this.context = context;
         this.imageLoader = imageLoader;
         this.commlist = commlist;
@@ -42,7 +42,7 @@ public class RecommendedAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.e(TAG,"---商品数量---"+commlist.size());
+        Log.e(TAG, "---商品数量---" + commlist.size());
         return commlist.size();
     }
 
@@ -89,7 +89,7 @@ public class RecommendedAdapter extends BaseAdapter {
         //金额
         plantViewHolder.tvShopItemPrice.setText(commlist.get(position).getPrice() + "");
         //付款人
-        plantViewHolder.tvShopItemPayment.setText(commlist.get(position).getPayer()+"");
+        plantViewHolder.tvShopItemPayment.setText(commlist.get(position).getPayer() + "人付费");
         return convertView;
     }
 }

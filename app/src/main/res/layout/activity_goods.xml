@@ -232,11 +232,11 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:divider="@null"
-                    android:horizontalSpacing="10dp"
+                    android:horizontalSpacing="5dp"
                     android:numColumns="2"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:scrollbars="none"
-                    android:verticalSpacing="10dp" />
+                    android:verticalSpacing="5dp" />
 
             </com.jingchen.pulltorefresh.PullToRefreshLayout>
 

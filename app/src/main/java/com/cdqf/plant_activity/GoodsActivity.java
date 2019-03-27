@@ -106,10 +106,16 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
     //true = 按高排序
     private boolean isSelected = true;
 
-    //0综合排序 1销量 2价格升序 3价格降序
+    //0综合排序(默认) 1销量 2价格升序 3价格降序
+    private int orderBy = 0;
+
+    //0门票 1温泉 2酒店 3特产
     private int position = 0;
 
-    private int page = 2;
+    private int page = 1;
+
+    //搜索关键字
+    private String searchKey = "";
 
     private Handler goodsHandler = new Handler() {
         @Override
@@ -157,15 +163,17 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
 
         initListener();
 
-        initBack(position);
+        initBack();
     }
 
     private void initAgo() {
         context = this;
         goodsActivity = this;
         httpRequestWrap = new HttpRequestWrap(context);
+        //获得分类
         Intent intent = getIntent();
         position = intent.getIntExtra("position", 0);
+        Log.e(TAG, "---" + position);
     }
 
     private void initView() {
@@ -192,7 +200,7 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
         gvGoodsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                initIntent(GoodsDetailsActivity.class,position,1);
+                initIntent(GoodsDetailsActivity.class, position, 1);
             }
         });
         xetGoodsSearch.addTextChangedListener(new TextWatcher() {
@@ -208,7 +216,27 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                //排序方式改为初始化的综合排序
+                initBackOne(0);
+                //搜索前先将页数调为1
+                page = 1;
+                //关键字
+                searchKey = xetGoodsSearch.getText().toString();
+                httpRequestWrap.setMethod(HttpRequestWrap.POST);
+                httpRequestWrap.setCallBack(new RequestHandler(context, 1, "搜索中", new OnResponseHandler() {
+                    @Override
+                    public void onResponse(String result, RequestStatus status) {
+                        String data = Errer.isResult(context, result, status);
+                        if (data == null) {
+                            Log.e(TAG, "---搜索商品列表解密失败---" + data);
+                            //刷新失败
+                            return;
+                        }
+                        Log.e(TAG, "---搜索商品刷新列表解密---" + data);
+                        initJSON(data);
+                    }
+                }));
+                params();
             }
         });
         llGoodsMessage.setOnClickListener(this);
@@ -219,6 +247,8 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
             //下拉刷新
             @Override
             public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
+                //当前页
+                page = 1;
                 httpRequestWrap.setMethod(HttpRequestWrap.POST);
                 httpRequestWrap.setCallBack(new RequestHandler(context, new OnResponseHandler() {
                     @Override
@@ -232,33 +262,16 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
                         }
                         pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                         Log.e(TAG, "---商品刷新列表解密---" + data);
-                        page = 1;
                         initJSON(data);
                     }
                 }));
-                switch (position) {
-                    case 0:
-                        Log.e(TAG, "---当前为综合排序刷新----");
-                        params(0);
-                        break;
-                    case 1:
-                        Log.e(TAG, "---当前为销售排序刷新----");
-                        params(1);
-                        break;
-                    case 2:
-                        Log.e(TAG, "---当前为销售升序刷新----");
-                        params(2);
-                        break;
-                    case 3:
-                        Log.e(TAG, "---当前为销售降序刷新----");
-                        params(3);
-                        break;
-                }
+                params();
             }
 
             //加载更多
             @Override
             public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
+                page++;
                 httpRequestWrap.setMethod(HttpRequestWrap.POST);
                 httpRequestWrap.setCallBack(new RequestHandler(context, new OnResponseHandler() {
                     @Override
@@ -277,7 +290,6 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
                         }
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                         Log.e(TAG, "---商品加载列表解密---" + data);
-                        page++;
                         JSONObject dataJSON = JSON.parseObject(data);
                         JSONArray commList = dataJSON.getJSONArray("list");
                         if (commList.size() <= 0) {
@@ -293,30 +305,13 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
                         }
                     }
                 }));
-                switch (position) {
-                    case 0:
-                        Log.e(TAG, "---当前为综合排序加载----");
-                        params(0, page);
-                        break;
-                    case 1:
-                        Log.e(TAG, "---当前为销售排序加载----");
-                        params(1, page);
-                        break;
-                    case 2:
-                        Log.e(TAG, "---当前为销售升序加载----");
-                        params(2, page);
-                        break;
-                    case 3:
-                        Log.e(TAG, "---当前为销售降序加载----");
-                        params(3, page);
-                        break;
-                }
+                params();
                 pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
             }
         });
     }
 
-    private void initBack(int sorting) {
+    private void initBack() {
         httpRequestWrap.setMethod(HttpRequestWrap.POST);
         httpRequestWrap.setCallBack(new RequestHandler(context, 1, "获取商品中", new OnResponseHandler() {
             @Override
@@ -342,7 +337,7 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
                 initJSON(data);
             }
         }));
-        params(sorting);
+        params();
     }
 
     private void initBackOne(int position) {
@@ -352,22 +347,22 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
         tvGoodsLow.setTextColor(ContextCompat.getColor(context, R.color.white));
         switch (position) {
             case 0:
-                if (this.position == 0) {
+                if (this.orderBy == 0) {
                     return;
                 }
                 tvGoodsComprehensive.setTextColor(ContextCompat.getColor(context, R.color.selected_back));
                 tvGoodsSales.setTextColor(ContextCompat.getColor(context, R.color.white));
-                this.position = 0;
-                initBack(this.position);
+                this.orderBy = 0;
+                initBack();
                 break;
             case 1:
-                if (this.position == 1) {
+                if (this.orderBy == 1) {
                     return;
                 }
                 tvGoodsComprehensive.setTextColor(ContextCompat.getColor(context, R.color.white));
                 tvGoodsSales.setTextColor(ContextCompat.getColor(context, R.color.selected_back));
-                this.position = 1;
-                initBack(this.position);
+                this.orderBy = 1;
+                initBack();
                 break;
         }
     }
@@ -380,15 +375,15 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
             tvGoodsPrice.setTextColor(ContextCompat.getColor(context, R.color.selected_back));
             tvGoodsHigh.setTextColor(ContextCompat.getColor(context, R.color.selected_back));
             tvGoodsLow.setTextColor(ContextCompat.getColor(context, R.color.white));
-            this.position = 2;
-            initBack(this.position);
+            this.orderBy = 2;
+            initBack();
         } else {
             isSelected = true;
             tvGoodsPrice.setTextColor(ContextCompat.getColor(context, R.color.selected_back));
             tvGoodsHigh.setTextColor(ContextCompat.getColor(context, R.color.white));
             tvGoodsLow.setTextColor(ContextCompat.getColor(context, R.color.selected_back));
-            this.position = 3;
-            initBack(this.position);
+            this.orderBy = 3;
+            initBack();
         }
     }
 
@@ -397,7 +392,7 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
         startActivity(intent);
     }
 
-    private void initIntent(Class<?> activity, int position,int type) {
+    private void initIntent(Class<?> activity, int position, int type) {
         Intent intent = new Intent(context, activity);
         intent.putExtra("position", position);
         intent.putExtra("type", type);
@@ -428,27 +423,27 @@ public class GoodsActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    private void params(int sorting) {
-        params(sorting, 1);
-    }
-
-    private void params(int sorting, int index) {
+    private void params() {
         Map<String, Object> params = new HashMap<String, Object>();
         //商品分类ID
-        int cateId = position;
-        params.put("cateId", cateId);
+        Log.e(TAG, "当前的分类为---" + position);
+        params.put("cateId", position);
         //排序方式
-        int orderBy = sorting;
+        Log.e(TAG, "当前的排序方式为---" + orderBy);
         params.put("orderBy", orderBy);
         //当前页数
-        int pageIndex = index;
-        params.put("pageIndex", pageIndex);
+        Log.e(TAG, "当前是第" + page + "页");
+        params.put("pageIndex", page);
         //每页条数
         int pageCount = 10;
         params.put("pageCount", pageCount);
+        //搜索关键字
+        params.put("searchKey", searchKey);
+        Log.e(TAG, "---关键字---" + searchKey);
         //随机数
         int random = plantState.getRandom();
-        String sign = random + "" + cateId + orderBy + pageIndex + pageCount + "";
+        Log.e(TAG, "随机" + random);
+        String sign = random + "" + position + orderBy + page + pageCount + searchKey + "";
         Log.e(TAG, "---明文---" + sign);
         //加密文字
         String signEncrypt = null;

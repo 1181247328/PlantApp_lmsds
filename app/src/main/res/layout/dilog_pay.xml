@@ -10,9 +10,10 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingBottom="15dp"
         android:paddingLeft="15dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +66,6 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingRight="15dp"
             android:paddingTop="6dp">
 
             <TextView
@@ -98,7 +98,6 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:gravity="right"
-                    android:text="11"
                     android:textColor="#EE4E55"
                     android:textSize="19sp" />
 
@@ -109,7 +108,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
             android:background="@color/plant_ask_background" />
 
@@ -117,13 +115,12 @@
             android:id="@+id/ll_settlement_dilog_pay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
             android:background="@color/white"
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <ImageView
                 android:layout_width="35dp"
@@ -141,10 +138,10 @@
                 android:textSize="14sp" />
 
             <LinearLayout
-                android:background="@color/white"
-                android:gravity="right"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="right">
 
                 <ImageView
                     android:id="@+id/iv_settlement_dilog_one"
@@ -157,22 +154,19 @@
 
         <TextView
             android:layout_width="match_parent"
-
             android:layout_height="1dp"
-            android:layout_marginRight="15dp"
             android:background="@color/plant_ask_background" />
 
         <LinearLayout
             android:id="@+id/ll_settlement_dilog_wecnt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
             android:background="@color/white"
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <ImageView
                 android:layout_width="35dp"
@@ -190,10 +184,10 @@
                 android:textSize="14sp" />
 
             <LinearLayout
-                android:background="@color/white"
-               android:gravity="right"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="right">
 
                 <ImageView
                     android:id="@+id/iv_settlement_dilog_two"
@@ -206,18 +200,16 @@
 
         <TextView
             android:layout_width="match_parent"
-
             android:layout_height="1dp"
-            android:layout_marginRight="15dp"
             android:background="@color/plant_ask_background" />
 
         <com.gcssloop.widget.RCRelativeLayout
             android:id="@+id/rl_settlement_dilog_determine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
             android:background="@android:color/transparent"
             app:round_corner="6dp">
 
@@ -227,8 +219,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/strategy_item_published"
                 android:gravity="center"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 

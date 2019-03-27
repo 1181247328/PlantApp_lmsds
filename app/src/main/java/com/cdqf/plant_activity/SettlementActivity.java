@@ -216,7 +216,7 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
-//        HttpWxPayWrap.isWxApp(context, "wx5048e518874eed43");
+        HttpWxPayWrap.isWxApp(context, "wx5048e518874eed43");
         Intent intent = getIntent();
         commIds = intent.getStringExtra("commIds");
         numbers = intent.getStringExtra("numbers");

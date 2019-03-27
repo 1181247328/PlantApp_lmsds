@@ -327,6 +327,7 @@ public class IntegralFragment extends Fragment {
         }
         srIntegralScroll.smoothScrollTo(0, 0);
         ptrlIntegralScroll.setPullUpEnable(false);
+        ptrlIntegralScroll.setPullDownEnable(false);
         banner();
         initPictures();
     }

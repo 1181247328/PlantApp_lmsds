@@ -108,7 +108,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="7dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -152,13 +152,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:horizontalSpacing="10dp"
+                        android:horizontalSpacing="5dp"
                         android:numColumns="2"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="5dp"
                         android:scrollbars="none"
-                        android:verticalSpacing="10dp" />
+                        android:verticalSpacing="5dp" />
 
                 </LinearLayout>
 

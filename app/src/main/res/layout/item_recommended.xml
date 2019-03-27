@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
     <com.gcssloop.widget.RCRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/shop_item"
         app:stroke_color="#DDDDDD"
-        app:stroke_width="0.5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:stroke_width="0.5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,39 +22,39 @@
                 android:id="@+id/iv_shop_item_figure"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/test6" />
+                android:scaleType="fitXY" />
 
             <TextView
                 android:id="@+id/iv_shop_item_tickets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="6dp"
-                android:paddingTop="8dp"
                 android:background="@android:color/transparent"
-                android:text="广西药用植物园门票"
+                android:paddingLeft="6dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:paddingBottom="5dp"
                 android:paddingLeft="6dp"
+                android:paddingTop="5dp"
                 android:paddingRight="10dp"
-                android:paddingTop="5dp">
+                android:paddingBottom="5dp">
 
                 <com.gcssloop.widget.RCRelativeLayout
                     android:id="@+id/rcrl_shop_item_rc"
                     android:layout_width="55dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:background="@color/white"
+                    android:background="@android:color/transparent"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
                     app:round_corner="30dp"
                     app:stroke_color="#F8C230"
-                    app:stroke_width="1dp">
+                    app:stroke_width="0.5dp">
 
                     <TextView
                         android:id="@+id/tv_shop_item_mail"
@@ -62,9 +63,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:padding="2dp"
-                        android:text="包邮"
                         android:textColor="#F8C230"
-                        android:textSize="12sp" />
+                        android:textSize="11sp" />
 
                 </com.gcssloop.widget.RCRelativeLayout>
 
@@ -74,9 +74,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/rcrl_shop_item_rc"
                     android:layout_alignParentRight="true"
-                    android:text="50"
                     android:textColor="#EE4E55"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_shop_item_symbol"
@@ -86,17 +85,19 @@
                     android:layout_toLeftOf="@id/tv_shop_item_price"
                     android:text="￥"
                     android:textColor="#EE4E55"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/tv_shop_item_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/tv_shop_item_symbol"
-                    android:layout_marginRight="3dp"
+                    android:layout_marginRight="2dp"
                     android:layout_toLeftOf="@id/tv_shop_item_symbol"
-                    android:text="9999人付款"
                     android:textColor="#A5A5A5"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:lines="1"
                     android:textSize="10sp" />
 
             </RelativeLayout>

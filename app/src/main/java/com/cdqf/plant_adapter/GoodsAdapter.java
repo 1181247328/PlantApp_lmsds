@@ -34,7 +34,7 @@ public class GoodsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.e(TAG,"---商品列表---"+plantState.getGoodlist().size());
+        Log.e(TAG, "---商品列表---" + plantState.getGoodlist().size());
         return plantState.getGoodlist().size();
     }
 
@@ -81,7 +81,7 @@ public class GoodsAdapter extends BaseAdapter {
         //金额
         plantViewHolder.tvShopItemPrice.setText(plantState.getGoodlist().get(position).getPrice() + "");
         //付款人
-        plantViewHolder.tvShopItemPayment.setText(plantState.getGoodlist().get(position).getPayer()+"");
+        plantViewHolder.tvShopItemPayment.setText(plantState.getGoodlist().get(position).getPayer() + "人付费");
         return convertView;
     }
 }

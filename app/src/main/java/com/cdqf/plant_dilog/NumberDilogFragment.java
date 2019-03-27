@@ -71,7 +71,7 @@ public class NumberDilogFragment extends DialogFragment {
         window.setGravity(Gravity.BOTTOM);
         view = inflater.inflate(R.layout.dilog_number, null);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        ButterKnife.bind(this, view);
+
         //初始化前
         initAgo();
 
@@ -90,7 +90,7 @@ public class NumberDilogFragment extends DialogFragment {
      * 初始化前
      */
     private void initAgo() {
-        ButterKnife.bind(getContext(), view);
+        ButterKnife.bind(this, view);
     }
 
     /**
