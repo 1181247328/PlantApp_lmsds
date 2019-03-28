@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.cdqf.exception.CauchExceptionHandler;
+import com.cdqf.exception.LogToFile;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -20,6 +22,8 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+        CauchExceptionHandler.getInstance().setDefaultUnCachExceptionHandler();
+        LogToFile.init(getApplicationContext());
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
                 .readTimeout(10000L, TimeUnit.MILLISECONDS)

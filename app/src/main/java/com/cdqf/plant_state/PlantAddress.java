@@ -103,7 +103,7 @@ public class PlantAddress {
     public static final String WX_LOGIN = ADDRESS + "/api/Consumer/ConsumerRegisterWithOutMobile";
 
     //头像
-    public static final String USER_HEAR = ADDRESS + "/api/Consumer/UpdateConsumerAvatar";
+    public static final String USER_HEAR = ADDRESS + "/api/Consumer/UpdateConsumerAvatarForAndroid";
 
     //昵称
     public static final String USER_NICKNAME = ADDRESS + "/api/Consumer/UpdateConsumerNickName";

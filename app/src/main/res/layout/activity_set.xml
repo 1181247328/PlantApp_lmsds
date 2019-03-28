@@ -22,7 +22,7 @@
             <RelativeLayout
                 android:id="@+id/rl_set_return"
                 android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
                 android:background="@drawable/component_click"
                 android:clickable="true"
@@ -64,10 +64,10 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/strategy_item_published"
                 android:gravity="center"
-                android:padding="12dp"
+                android:padding="10dp"
                 android:text="退出当前账户"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -84,7 +84,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="0.5dp"
                         android:background="@color/plant_ask_background" />
 
 
@@ -93,8 +93,6 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:orientation="vertical">
-
-                        0
 
                         <LinearLayout
                             android:id="@+id/ll_set_nickname"
@@ -120,8 +118,7 @@
                                     android:layout_width="40dp"
                                     android:layout_height="40dp"
                                     android:background="@android:color/transparent"
-                                    android:scaleType="fitXY"
-                                    android:src="@mipmap/test5" />
+                                    android:scaleType="fitXY" />
 
                             </com.gcssloop.widget.RCRelativeLayout>
 
@@ -129,11 +126,12 @@
                                 android:id="@+id/tv_set_nickname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="12dp"
+                                android:lines="1"
+                                android:ellipsize="end"
                                 android:background="@android:color/transparent"
-                                android:text="57462839"
                                 android:textColor="#474747"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -176,7 +174,7 @@
                                 android:paddingBottom="15dp"
                                 android:text="我的收货地址"
                                 android:textColor="#474747"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -202,7 +200,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="7dp"
                         android:background="@color/white"
                         android:orientation="vertical">
 
@@ -224,7 +222,7 @@
                                 android:paddingBottom="15dp"
                                 android:text="修改手机号码"
                                 android:textColor="#474747"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -269,7 +267,7 @@
                                 android:paddingBottom="15dp"
                                 android:text="修改登录密码"
                                 android:textColor="#474747"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <LinearLayout
                                 android:layout_width="0dp"

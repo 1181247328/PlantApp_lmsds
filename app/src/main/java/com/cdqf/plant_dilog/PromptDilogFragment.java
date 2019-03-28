@@ -32,6 +32,7 @@ import com.cdqf.plant_find.NumberFind;
 import com.cdqf.plant_find.PlantCollectionFind;
 import com.cdqf.plant_find.PromptFind;
 import com.cdqf.plant_find.ScienceCollectionTwoFind;
+import com.cdqf.plant_find.SettIntegralFind;
 import com.cdqf.plant_find.SettlementFind;
 import com.cdqf.plant_find.StrategyColltionFind;
 import com.cdqf.plant_find.TraveReturnFind;
@@ -224,6 +225,9 @@ public class PromptDilogFragment extends DialogFragment implements View.OnClickL
             case 26:
                 tvPromapDilogContent.setText(context);
                 break;
+            case 27:
+                tvPromapDilogContent.setText(context);
+                break;
         }
     }
 
@@ -374,6 +378,10 @@ public class PromptDilogFragment extends DialogFragment implements View.OnClickL
                         break;
                     case 26:
                         eventBus.post(new CartDeteleFind());
+                        dismiss();
+                        break;
+                    case 27:
+                        eventBus.post(new SettIntegralFind());
                         dismiss();
                         break;
                 }

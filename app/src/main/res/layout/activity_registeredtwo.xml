@@ -19,14 +19,14 @@
 
             <RelativeLayout
                 android:id="@+id/rl_registeredtwo_return"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="17dp"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/plantscience_return" />
@@ -41,15 +41,20 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical|center"
-                android:paddingBottom="8dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingTop="8dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="8dp"
                 android:text="登录"
                 android:textColor="#474747"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/plant_ask_background" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -63,16 +68,16 @@
             android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="left"
-                android:text="密码："
-                android:layout_weight="1"
+                android:text="密码:"
                 android:textColor="#474747"
                 android:textSize="14sp" />
 
@@ -80,14 +85,14 @@
                 android:id="@+id/xet_registeredtwo_password"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_weight="3"
+                android:layout_weight="5"
                 android:background="@color/white"
                 android:gravity="center_vertical|left"
                 android:hint="请输入密码"
+                android:inputType="textPassword"
                 android:lines="1"
                 android:paddingLeft="5dp"
                 android:paddingRight="10dp"
-                android:inputType="textPassword"
                 android:textColor="#474747"
                 android:textColorHint="#CAC9CA"
                 android:textSize="14sp" />
@@ -98,8 +103,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@color/plant_ask_background" />
 
         <LinearLayout
@@ -108,18 +113,18 @@
             android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="40dp"
+            android:paddingLeft="20dp"
 
-            android:paddingRight="40dp">
+            android:paddingRight="20dp">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="left"
-                android:layout_weight="1"
-                android:text="确认密码："
+                android:text="请确认:"
                 android:textColor="#474747"
                 android:textSize="14sp" />
 
@@ -127,12 +132,12 @@
                 android:id="@+id/xet_registeredtwo_code"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_weight="3"
+                android:layout_weight="5"
                 android:background="@color/white"
                 android:gravity="center_vertical|left"
                 android:hint="请确认密码"
-                android:lines="1"
                 android:inputType="textPassword"
+                android:lines="1"
                 android:paddingLeft="5dp"
                 android:paddingRight="10dp"
                 android:textColor="#474747"
@@ -144,8 +149,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@color/plant_ask_background" />
 
         <TextView
@@ -153,13 +158,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
             android:background="@color/strategy_item_published"
             android:gravity="center_vertical|center"
             android:padding="10dp"
             android:text="注册"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
     </LinearLayout>
 

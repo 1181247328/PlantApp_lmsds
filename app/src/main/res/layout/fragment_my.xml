@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                android:paddingRight="15dp">
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_my_set"
@@ -32,13 +32,13 @@
                     android:background="@drawable/component_click"
                     android:clickable="true"
                     android:gravity="center"
-                    android:paddingLeft="15dp"
+                    android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:paddingRight="15dp"
+                    android:paddingRight="10dp"
                     android:paddingBottom="10dp"
                     android:text="设置"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="30dp"
@@ -48,6 +48,11 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/plant_ask_background" />
+
             <LinearLayout
                 android:id="@+id/ll_my_no"
                 android:layout_width="match_parent"
@@ -55,7 +60,7 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="15sp"
+                android:paddingLeft="10sp"
                 android:paddingTop="5dp">
 
 
@@ -76,15 +81,15 @@
 
                 <TextView
                     android:id="@+id/tv_my_login"
-                    android:layout_width="50dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:text="登录"
                     android:textColor="@color/planning_item_three"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="1dp"
@@ -93,14 +98,14 @@
 
                 <TextView
                     android:id="@+id/tv_my_registered"
-                    android:layout_width="50dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:text="注册"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -111,8 +116,9 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="15sp"
-                android:paddingTop="5dp">
+                android:paddingLeft="10sp"
+                android:paddingTop="5dp"
+                android:visibility="gone">
 
 
                 <com.gcssloop.widget.RCRelativeLayout
@@ -140,25 +146,25 @@
                         android:id="@+id/tv_my_login_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="10dp"
                         android:gravity="left"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
                         android:text="清叶-青铜会员"
                         android:textColor="@color/planning_item_three"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tv_my_registered_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="10dp"
                         android:gravity="left"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
                         android:text="13551021774"
                         android:textColor="@color/plant_address"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -167,7 +173,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -176,18 +182,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:paddingLeft="15dp"
+                    android:paddingLeft="10dp"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:text="我的订单"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-
                     android:gravity="right|center_vertical"
                     android:orientation="horizontal">
 
@@ -210,11 +215,11 @@
                             android:background="@color/white"
                             android:text="查看更多订单"
                             android:textColor="@color/plant_science"
-                            android:textSize="14sp" />
+                            android:textSize="12sp" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="18dp"
+                            android:layout_height="17dp"
                             android:background="@color/white"
                             android:scaleType="centerInside"
                             android:src="@mipmap/details_return" />
@@ -229,7 +234,7 @@
                 android:id="@+id/mgv_my_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="1dp"
                 android:background="@color/white"
                 android:numColumns="5"
                 android:scrollbars="none" />
@@ -237,19 +242,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/white"
-                android:paddingLeft="15dp"
+                android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="其它功能"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <com.cdqf.plant_view.MyGridView
                 android:id="@+id/mgv_my_other"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:background="@color/white"
                 android:numColumns="4"
                 android:paddingBottom="5dp"

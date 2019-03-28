@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -87,7 +88,7 @@ import java.util.regex.Pattern;
 
 public class PlantState {
 
-    private String TAG = PlantState.class.getSimpleName();
+    private static String TAG = PlantState.class.getSimpleName();
 
     //中间层
     private static PlantState plantState = new PlantState();
@@ -649,6 +650,7 @@ public class PlantState {
 
     /**
      * 判断是不是网络地址
+     *
      * @param url
      * @return
      */
@@ -683,10 +685,11 @@ public class PlantState {
 
     /**
      * 判断是否是正确的车牌号
+     *
      * @param license
      * @return
      */
-    public boolean licensePlate(String license){
+    public boolean licensePlate(String license) {
         // 验证规则
         String regEx = "^[\\u4e00-\\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}";
         // 编译正则表达式
@@ -712,6 +715,28 @@ public class PlantState {
             return sb.toString();
         }
         return null;
+    }
+
+    /**
+     * 打印数据过长时使用
+     *
+     * @param log
+     * @param showCount 1024
+     */
+    public static void showLogCompletion(String log, int showCount) {
+        if (log.length() > showCount) {
+            String show = log.substring(0, showCount);
+            Log.e(TAG, show + "");
+            if ((log.length() - showCount) > showCount) {//剩下的文本还是大于规定长度
+                String partLog = log.substring(showCount, log.length());
+                showLogCompletion(partLog, showCount);
+            } else {
+                String surplusLog = log.substring(showCount, log.length());
+                Log.e(TAG, surplusLog + "");
+            }
+        } else {
+            Log.e(TAG, log + "");
+        }
     }
 
     public List<Fragment> getFragments() {

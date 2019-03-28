@@ -21,7 +21,6 @@ import com.cdqf.plant_find.Login;
 import com.cdqf.plant_hear.FileUtil;
 import com.cdqf.plant_hear.PersonalDilogFragment;
 import com.cdqf.plant_hear.ShelvesImageFind;
-import com.cdqf.plant_image.Base64Img;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
@@ -36,6 +35,7 @@ import com.cdqf.plant_utils.RequestStatus;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -338,12 +338,12 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         Map<String, Object> params = new HashMap<String, Object>();
         int consumerId = plantState.getUser().getConsumerId();
         params.put("consumerId", consumerId);
-        String imageHear = "data:image/jpeg;base64," + Base64Img.GetImageStrFromPath(FileUtil.IMG_CACHE4);
-        Log.e(TAG, "---头像的base64---" + imageHear);
-        params.put("image", imageHear);
+//        String imageHear = "data:image/jpeg;base64," + Base64Img.GetImageStrFromPath(FileUtil.IMG_CACHE4);
+//        plantState.showLogCompletion(imageHear, 1023);
+        params.put("image", new File(FileUtil.IMG_CACHE4));
         //随机数
         int random = plantState.getRandom();
-        String sign = random + "" + consumerId + imageHear;
+        String sign = random + "" + consumerId;
         Log.e(TAG, "---明文---" + sign);
         //加密文字
         String signEncrypt = null;

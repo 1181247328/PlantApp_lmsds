@@ -22,7 +22,9 @@ import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_class.Address;
 import com.cdqf.plant_class.Settlement;
+import com.cdqf.plant_dilog.PromptDilogFragment;
 import com.cdqf.plant_find.DetailsFind;
+import com.cdqf.plant_find.SettIntegralFind;
 import com.cdqf.plant_find.SettlementFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.BaseActivity;
@@ -325,52 +327,9 @@ public class SettlementIntegralActivity extends BaseActivity implements View.OnC
                 break;
             //确定提交
             case R.id.tv_settlement_settlement:
-                httpRequestWrap.setCallBack(new RequestHandler(context, 1, plantState.getPlantString(context, R.string.please_while), new OnResponseHandler() {
-                    @Override
-                    public void onResponse(String result, RequestStatus status) {
-                        String data = Errer.isResult(context, result, status);
-                        if (data == null) {
-                            Log.e(TAG, "---提交订单解密失败---" + data);
-                            return;
-                        }
-                        Log.e(TAG, "---提交订单解密成功---" + data);
-                        IntegralDetailsActivity.integralDetailsActivity.finish();
-                        finish();
-                    }
-                }));
-                Map<String, Object> params = new HashMap<String, Object>();
-                //商品id
-                params.put("commId", commId);
-                //数量
-                int commNum = 1;
-                params.put("commNum", commNum);
-                //用户id
-                int consumerId = plantState.getUser().getConsumerId();
-                params.put("consumerId", consumerId);
-                //用户收货地址id
-                int consumerReceivingId = id;
-                params.put("consumerReceivingId", consumerReceivingId);
-                //随机数
-                int random = plantState.getRandom();
-                String sign = random + "" + commId + commNum + consumerId + consumerReceivingId;
-                Log.e(TAG, "---commId---" + commId + "---commNum---" + commNum + "---consumerId---" + consumerId + "---consumerReceivingId---" + consumerReceivingId);
-                Log.e(TAG, "---明文---" + random);
-                //加密文字
-                String signEncrypt = null;
-                try {
-                    signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
-                    Log.e(TAG, "---加密成功---" + signEncrypt);
-                } catch (Exception e) {
-                    Log.e(TAG, "---加密失败---");
-                    e.printStackTrace();
-                }
-                if (signEncrypt == null) {
-                    plantState.initToast(context, "加密失败", true, 0);
-                }
-                //随机数
-                params.put("random", random);
-                params.put("sign", signEncrypt);
-                httpRequestWrap.send(PlantAddress.INTEGRAL_ORDER, params);
+                PromptDilogFragment promptDilogFragment = new PromptDilogFragment();
+                promptDilogFragment.initPrompt("是否确定兑换", 27);
+                promptDilogFragment.show(getSupportFragmentManager(), "是否确定兑换");
                 break;
         }
     }
@@ -428,5 +387,61 @@ public class SettlementIntegralActivity extends BaseActivity implements View.OnC
         super.onDestroy();
         Log.e(TAG, "---销毁---");
         eventBus.unregister(this);
+    }
+
+
+    /**
+     * 确定兑换
+     *
+     * @param i
+     */
+    public void onEventMainThread(SettIntegralFind i) {
+        httpRequestWrap.setCallBack(new RequestHandler(context, 1, plantState.getPlantString(context, R.string.please_while), new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                String data = Errer.isSett(context, result, status);
+                if (data == null) {
+                    Log.e(TAG, "---提交订单解密失败---" + data);
+                    return;
+                }
+                Log.e(TAG, "---提交订单解密成功---" + data);
+                plantState.initToast(context, "兑换成功", true, 0);
+                IntegralDetailsActivity.integralDetailsActivity.finish();
+                finish();
+            }
+        }));
+        Map<String, Object> params = new HashMap<String, Object>();
+        //商品id
+        params.put("commId", commId);
+        //数量
+        int commNum = 1;
+        params.put("commNum", commNum);
+        //用户id
+        int consumerId = plantState.getUser().getConsumerId();
+        params.put("consumerId", consumerId);
+        //用户收货地址id
+        int consumerReceivingId = id;
+        params.put("consumerReceivingId", consumerReceivingId);
+        //随机数
+        int random = plantState.getRandom();
+        String sign = random + "" + commId + commNum + consumerId + consumerReceivingId;
+        Log.e(TAG, "---commId---" + commId + "---commNum---" + commNum + "---consumerId---" + consumerId + "---consumerReceivingId---" + consumerReceivingId);
+        Log.e(TAG, "---明文---" + random);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
+        }
+        if (signEncrypt == null) {
+            plantState.initToast(context, "加密失败", true, 0);
+        }
+        //随机数
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+        httpRequestWrap.send(PlantAddress.INTEGRAL_ORDER, params);
     }
 }

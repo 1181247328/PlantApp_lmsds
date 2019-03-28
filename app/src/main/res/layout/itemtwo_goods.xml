@@ -9,9 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp">
+        android:paddingBottom="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,8 +28,7 @@
                     android:id="@+id/iv_order_item_icon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/test4" />
+                    android:scaleType="fitXY" />
 
             </com.gcssloop.widget.RCRelativeLayout>
 
@@ -42,8 +39,7 @@
                 android:layout_alignTop="@id/rctl_forpayment_item_icon"
                 android:layout_toRightOf="@id/rctl_forpayment_item_icon"
                 android:lineSpacingExtra="1dp"
-                android:paddingLeft="10dp"
-                android:text="大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针"
+                android:paddingLeft="7dp"
                 android:textColor="#232326"
                 android:textSize="14sp" />
 
@@ -55,7 +51,7 @@
                 android:background="@color/white"
                 android:gravity="left|bottom"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp">
+                android:paddingLeft="7dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -69,7 +65,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="108.00"
                     android:textColor="#F23030"
                     android:textSize="16sp" />
 
@@ -92,7 +87,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
-                        android:text="1"
                         android:textColor="#232326"
                         android:textSize="16sp" />
 

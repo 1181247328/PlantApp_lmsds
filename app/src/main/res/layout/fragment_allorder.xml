@@ -15,8 +15,8 @@
 
         <ImageView
             android:src="@mipmap/allorder_no"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:scaleType="fitXY" />
 
         <TextView
@@ -24,18 +24,18 @@
             android:layout_height="wrap_content"
             android:gravity="center|clip_vertical"
             android:text="您还没有相关的订单"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="8dp"
             android:textColor="#474747"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center|clip_vertical"
-            android:text="可以去看看有哪些想买的"
+            android:text="可以去商城瞧瞧"
             android:textColor="@color/plant_science"
             android:layout_marginTop="2dp"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -57,7 +57,7 @@
                 android:scrollbars="none"
                 android:background="@color/white"
                 android:divider="@color/plant_ask_background"
-                android:dividerHeight="15dp"
+                android:dividerHeight="10dp"
                 android:layout_height="match_parent"/>
 
         </com.jingchen.pulltorefresh.PullToRefreshLayout>

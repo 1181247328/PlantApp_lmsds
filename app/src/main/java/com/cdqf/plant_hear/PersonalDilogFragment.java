@@ -72,7 +72,7 @@ public class PersonalDilogFragment extends DialogFragment implements View.OnClic
     //拍照上传
     private TextView tvSeabedHeadTake = null;
 
-    private boolean cropCircle = false;
+    private boolean cropCircle = true;
 
     @Nullable
     @Override

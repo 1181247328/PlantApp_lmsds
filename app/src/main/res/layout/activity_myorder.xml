@@ -20,14 +20,14 @@
 
             <RelativeLayout
                 android:id="@+id/rl_myorder_return"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="17dp"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/pldetails_return" />
@@ -40,8 +40,8 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical|center"
-                android:paddingBottom="8dp"
                 android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="我的订单"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -51,8 +51,9 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:paddingTop="8dp">
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"

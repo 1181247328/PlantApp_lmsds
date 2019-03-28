@@ -91,6 +91,50 @@ public class Errer {
         }
     }
 
+    public static String isSett(Context context, String result, RequestStatus status) {
+        Log.e(TAG, "---Errer---" + result);
+        if (status == RequestStatus.SUCCESS) {
+            if (result != null) {
+                JSONObject resultJSON = JSON.parseObject(result);
+                //状态
+                boolean isStatus = resultJSON.getBoolean("Status");
+                //提示
+                String message = resultJSON.getString("Message");
+                if (isStatus) {
+                    String dataJSON = null;
+                    int statusCode = resultJSON.getInteger("StatusCode");
+                    if (!code(context, statusCode)) {
+                        if (statusCode == 1001) {
+                            return 1001 + "";
+                        }
+                        return null;
+                    }
+                    try {
+                        dataJSON = DESUtils.decodeDES(resultJSON.getString("Data"), Constants.secretKey.substring(0, 8));
+                        Log.e(TAG, "---解密成功---" + dataJSON);
+                    } catch (Exception e) {
+                        Log.e(TAG, "---解密失败---" + dataJSON);
+                        e.printStackTrace();
+                    }
+                    if (dataJSON == null) {
+                        plantState.initToast(context, "解密失败", true, 0);
+                        return null;
+                    }
+                    return dataJSON;
+                } else {
+                    plantState.initToast(context, message, true, 0);
+                    return null;
+                }
+            } else {
+                plantState.initToast(context, "获取数据失败,请检查网络", true, 0);
+                return null;
+            }
+        } else {
+            plantState.initToast(context, "请求失败,请检查网络", true, 0);
+            return null;
+        }
+    }
+
     /**
      * 状态码提示
      *

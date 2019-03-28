@@ -20,7 +20,7 @@
             <RelativeLayout
                 android:id="@+id/rl_indetails_return"
                 android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:background="@color/strategy_item_published"
                 android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
