@@ -152,7 +152,7 @@ public class PlantAddress {
 
     //查询快递
     public static final String USER_LOGISTICS = ADDRESS + "/api/Order/GetExpressParameter";
-    public static final String LOGISTICS = "http://poll.kuaidi100.com/poll/query.do";
+    public static final String LOGISTICS = "https://poll.kuaidi100.com/poll/query.do";
 
     //订单详情
     public static final String USER_DETAILSORDER = ADDRESS + "/api/Order/GetOrderDetaills_PC";

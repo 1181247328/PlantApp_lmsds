@@ -2,6 +2,7 @@ package com.cdqf.plant_adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_activity.LogisticsActivity;
 import com.cdqf.plant_find.ForGoddsFind;
+import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_state.PlantViewHolder;
 import com.cdqf.plant_view.ListViewForScrollView;
@@ -26,13 +27,15 @@ import de.greenrobot.event.EventBus;
 
 public class ForGoodsAdapter extends BaseAdapter {
 
+    private String TAG = ForGoodsAdapter.class.getSimpleName();
+
     private Context context = null;
 
     private EventBus eventBus = EventBus.getDefault();
 
-    private PlantState plantState= PlantState.getPlantState();
+    private PlantState plantState = PlantState.getPlantState();
 
-    private ImageLoader imageLoader= ImageLoader.getInstance();
+    private ImageLoader imageLoader = ImageLoader.getInstance();
 
     public ForGoodsAdapter(Context context) {
         this.context = context;
@@ -41,6 +44,7 @@ public class ForGoodsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        Log.e(TAG, "---待收货---" + plantState.getForGoodsList().size());
         return plantState.getForGoodsList().size();
     }
 
@@ -57,8 +61,8 @@ public class ForGoodsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         PlantViewHolder plantViewHolder = null;
-        if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_forgoods,null);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_forgoods, null);
             plantViewHolder = new PlantViewHolder();
             plantViewHolder.lvOrderItemList = (ListViewForScrollView) convertView.findViewById(R.id.lv_order_item_list);
             //合计
@@ -68,7 +72,7 @@ public class ForGoodsAdapter extends BaseAdapter {
             //查看物流
             plantViewHolder.rcrlOrderItemTwo = (RCRelativeLayout) convertView.findViewById(R.id.rcrl_order_item_two);
             //确认收货
-            plantViewHolder.rcrlOrderItemThree =(RCRelativeLayout) convertView.findViewById(R.id.rcrl_order_item_three);
+            plantViewHolder.rcrlOrderItemThree = (RCRelativeLayout) convertView.findViewById(R.id.rcrl_order_item_three);
             convertView.setTag(plantViewHolder);
         } else {
             plantViewHolder = (PlantViewHolder) convertView.getTag();
@@ -86,7 +90,7 @@ public class ForGoodsAdapter extends BaseAdapter {
     /**
      * 查看物流
      */
-    class OnLogisticsListener implements View.OnClickListener{
+    class OnLogisticsListener implements View.OnClickListener {
 
         private int position;
 
@@ -97,8 +101,8 @@ public class ForGoodsAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(context, LogisticsActivity.class);
-            intent.putExtra("type",1);
-            intent.putExtra("position",position);
+            intent.putExtra("type", 1);
+            intent.putExtra("position", position);
             context.startActivity(intent);
         }
     }
@@ -107,7 +111,7 @@ public class ForGoodsAdapter extends BaseAdapter {
     /**
      * 确认收货
      */
-    class OnOrderListener implements View.OnClickListener{
+    class OnOrderListener implements View.OnClickListener {
 
         private int position;
 

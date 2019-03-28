@@ -15,6 +15,8 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_adapter.OrderDetailsAdapter;
@@ -26,6 +28,7 @@ import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
 import com.cdqf.plant_state.StatusBarCompat;
 import com.cdqf.plant_utils.HttpRequestWrap;
+import com.cdqf.plant_utils.MD5Utils;
 import com.cdqf.plant_utils.OnResponseHandler;
 import com.cdqf.plant_utils.RequestHandler;
 import com.cdqf.plant_utils.RequestStatus;
@@ -146,7 +149,7 @@ public class OrderDetailsActivity extends BaseActivity {
                     break;
                 //待发货
                 case 0x02:
-                    rlOrderdetailsLayout.setVisibility(View.GONE);
+                    rlOrderdetailsLayout.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -298,6 +301,19 @@ public class OrderDetailsActivity extends BaseActivity {
 
                 //创建时间
                 tvOrderdetailsCreationtime.setText(orderDetails.getOrderDate());
+                //是否要查询快递
+                int orderId = 0;
+                if (isAllOrder) {
+                    if (type == 3) {
+                        orderId = plantState.getAllOrderList().get(position).getOrderId();
+                        initLogistics(orderId);
+                    }
+                } else {
+                    if (type == 3) {
+                        orderId = plantState.getForGoodsList().get(position).getOrderId();
+                        initLogistics(orderId);
+                    }
+                }
             }
         }));
         initPut();
@@ -316,15 +332,15 @@ public class OrderDetailsActivity extends BaseActivity {
                     break;
                 //待发货
                 case 2:
-                    handler.sendEmptyMessage(0x02);
+                    handler.sendEmptyMessage(0x01);
                     break;
                 //待收货
                 case 3:
-                    handler.sendEmptyMessage(0x01);
+                    handler.sendEmptyMessage(0x02);
                     break;
                 //交易成功
                 case 4:
-                    handler.sendEmptyMessage(0x02);
+                    handler.sendEmptyMessage(0x01);
                     break;
             }
         } else {
@@ -336,17 +352,17 @@ public class OrderDetailsActivity extends BaseActivity {
                     break;
                 //待发货
                 case 2:
-                    handler.sendEmptyMessage(0x02);
+                    handler.sendEmptyMessage(0x01);
                     orderId = plantState.getSendGoodsList().get(position).getOrderId();
                     break;
                 //待收货
                 case 3:
-                    handler.sendEmptyMessage(0x01);
+                    handler.sendEmptyMessage(0x02);
                     orderId = plantState.getForGoodsList().get(position).getOrderId();
                     break;
                 //交易成功
                 case 4:
-                    handler.sendEmptyMessage(0x02);
+                    handler.sendEmptyMessage(0x01);
                     orderId = plantState.getEvaluateList().get(position).getOrderId();
                     break;
             }
@@ -375,6 +391,99 @@ public class OrderDetailsActivity extends BaseActivity {
         params.put("random", random);
         params.put("sign", signEncrypt);
         httpRequestWrap.send(PlantAddress.USER_DETAILSORDER, params);
+    }
+
+    private void initLogistics(int orderId) {
+        httpRequestWrap.setCallBack(new RequestHandler(context, 1, "获取快递信息中", new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                String data = Errer.isResult(context, result, status);
+                if (data == null) {
+                    Log.e(TAG, "---获取物流信息解密失败---" + data);
+                    return;
+                }
+                Log.e(TAG, "---获取物流信息解密成功---" + data);
+                JSONObject resultJSON = JSON.parseObject(data);
+                //快递公司拼音
+                String expressCode = resultJSON.getString("expressCode");
+                //快递单号
+                String logisticsNum = resultJSON.getString("logisticsNum");
+                //快递公司中文
+                String expressName = resultJSON.getString("expressName");
+                //密钥
+                String key = resultJSON.getString("key");
+                //分配给贵司的的公司编号
+                String customer = resultJSON.getString("customer");
+                Param p = new Param();
+                p.setCom(expressCode);
+                p.setNum(logisticsNum);
+                String param = gson.toJson(p);
+                String md5 = param + key + customer;
+                String sign = (MD5Utils.getMD5Single(md5)).toUpperCase();
+                Log.e(TAG, "---快递---" + sign);
+                //获取快递流水单
+                initLogistics(customer, sign, param);
+            }
+        }));
+        Map<String, Object> params = new HashMap<String, Object>();
+        int qId = 0;
+        //订单id
+        params.put("qId", orderId);
+        //查询状态
+        int qType = 0;
+        params.put("qType", qType);
+
+        //随机数
+        int random = plantState.getRandom();
+        String sign = random + "" + orderId + qType;
+        Log.e(TAG, "---明文---" + random + "---" + orderId + "---" + qType);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
+        }
+        if (signEncrypt == null) {
+            plantState.initToast(context, "加密失败", true, 0);
+        }
+        //随机数
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+        httpRequestWrap.send(PlantAddress.USER_LOGISTICS, params);
+    }
+
+    /**
+     * 获取快递流水号
+     *
+     * @param customer
+     * @param sign
+     */
+    private void initLogistics(String customer, String sign, String param) {
+        Log.e(TAG, "---快递---" + customer + "---" + sign + "---" + param);
+        httpRequestWrap.setMethod(HttpRequestWrap.POST);
+        httpRequestWrap.setCallBack(new RequestHandler(context, 1, "查询中", new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                Log.e(TAG, "---查询快递---" + result);
+                JSONObject jsonObject = JSON.parseObject(result);
+                String message = jsonObject.getString("message");
+                if (TextUtils.equals(message, "ok")) {
+                    handler.sendEmptyMessage(0x001);
+                    String data = jsonObject.getString("data");
+                } else {
+                    handler.sendEmptyMessage(0x002);
+                    plantState.initToast(context, message, true, 0);
+                }
+            }
+        }));
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("customer", customer);
+        params.put("sign", sign);
+        params.put("param", param);
+        httpRequestWrap.send(PlantAddress.LOGISTICS, params);
     }
 
     private void initIntent(Class<?> activity) {
@@ -459,5 +568,62 @@ public class OrderDetailsActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "---销毁---");
+    }
+
+    class Param {
+        String com = "";
+        String num = "";
+        String phone = "";
+        String from = "";
+        String to = "";
+        String resultv2 = "1";
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getCom() {
+            return com;
+        }
+
+        public void setCom(String com) {
+            this.com = com;
+        }
+
+        public String getResultv2() {
+            return resultv2;
+        }
+
+        public void setResultv2(String resultv2) {
+            this.resultv2 = resultv2;
+        }
+
+        public String getTo() {
+            return to;
+        }
+
+        public void setTo(String to) {
+            this.to = to;
+        }
+
+        public String getFrom() {
+            return from;
+        }
+
+        public void setFrom(String from) {
+            this.from = from;
+        }
+
+        public String getNum() {
+            return num;
+        }
+
+        public void setNum(String num) {
+            this.num = num;
+        }
     }
 }

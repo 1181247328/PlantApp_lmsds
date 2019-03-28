@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -81,6 +84,9 @@ public class LogisticsActivity extends BaseActivity {
     @BindView(R.id.tv_logistics_phone)
     public TextView tvLogisticsPhone = null;
 
+    @BindView(R.id.ll_logistics_there)
+    public LinearLayout llLogisticsThere = null;
+
     //快递状态集合
     @BindView(R.id.lv_logistics_list)
     public ListViewForScrollView lvLogisticsList = null;
@@ -92,6 +98,24 @@ public class LogisticsActivity extends BaseActivity {
     private int position;
 
     private Gson gson = new Gson();
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0x001:
+                    //有快递信息显示
+                    llLogisticsThere.setVisibility(View.GONE);
+                    lvLogisticsList.setVisibility(View.VISIBLE);
+                    break;
+                case 0x002:
+                    //无快递信息显示
+                    llLogisticsThere.setVisibility(View.VISIBLE);
+                    lvLogisticsList.setVisibility(View.GONE);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,10 +192,15 @@ public class LogisticsActivity extends BaseActivity {
                 }
                 Log.e(TAG, "---获取物流信息解密成功---" + data);
                 JSONObject resultJSON = JSON.parseObject(data);
-                String logisticsNum = resultJSON.getString("logisticsNum");
-                String expressName = resultJSON.getString("expressName");
+                //快递公司拼音
                 String expressCode = resultJSON.getString("expressCode");
+                //快递单号
+                String logisticsNum = resultJSON.getString("logisticsNum");
+                //快递公司中文
+                String expressName = resultJSON.getString("expressName");
+                //密钥
                 String key = resultJSON.getString("key");
+                //分配给贵司的的公司编号
                 String customer = resultJSON.getString("customer");
                 tvLogisticsCourier.setText(expressName + ":" + logisticsNum);
                 Param p = new Param();
@@ -240,11 +269,13 @@ public class LogisticsActivity extends BaseActivity {
                 JSONObject jsonObject = JSON.parseObject(result);
                 String message = jsonObject.getString("message");
                 if(TextUtils.equals(message,"ok")){
+                    handler.sendEmptyMessage(0x001);
                     String data = jsonObject.getString("data");
                     List<Data> dataList = gson.fromJson(data,new TypeToken<List<Data>>(){}.getType());
                     tvLogisticsDeliverystatus.setText(dataList.get(0).getStatus());
                     logisticsAdapter.setDataList(dataList);
                 } else {
+                    handler.sendEmptyMessage(0x002);
                     plantState.initToast(context,message,true,0);
                 }
             }
@@ -315,9 +346,18 @@ public class LogisticsActivity extends BaseActivity {
     class Param {
         String com = "";
         String num = "";
+        String phone = "";
         String from = "";
         String to = "";
         String resultv2 = "1";
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
 
         public String getCom() {
             return com;

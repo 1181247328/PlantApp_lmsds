@@ -57,7 +57,7 @@
                 android:scrollbars="none"
                 android:background="@color/white"
                 android:divider="@color/plant_ask_background"
-                android:dividerHeight="10dp"
+                android:dividerHeight="8dp"
                 android:layout_height="match_parent"/>
 
         </com.jingchen.pulltorefresh.PullToRefreshLayout>

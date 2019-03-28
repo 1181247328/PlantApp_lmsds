@@ -19,16 +19,16 @@
 
             <RelativeLayout
                 android:id="@+id/rl_logistics_return"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@color/white"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
+                android:paddingLeft="5dp"
                 android:paddingTop="8dp">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="17dp"
+                    android:layout_centerVertical="true"
                     android:src="@mipmap/plantscience_return" />
 
             </RelativeLayout>
@@ -38,11 +38,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
                 android:text="查看物流"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 
@@ -67,17 +65,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="15dp">
+                    android:paddingLeft="5dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="10dp">
 
                     <com.gcssloop.widget.RCRelativeLayout
                         android:id="@+id/rcrl_logistics_picture"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:background="@android:color/transparent"
-                        app:round_corner="4dp">
+                        app:round_corner="3dp">
 
                         <ImageView
                             android:id="@+id/iv_logistics_picture"
@@ -95,11 +93,11 @@
                         android:layout_alignTop="@id/rcrl_logistics_picture"
                         android:layout_toRightOf="@id/rcrl_logistics_picture"
                         android:lines="1"
-                        android:paddingLeft="15dp"
+                        android:paddingLeft="10dp"
                         android:singleLine="true"
                         android:text="运输中"
                         android:textColor="@color/strategy_item_published"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_logistics_phone"
@@ -108,7 +106,7 @@
                         android:layout_alignBottom="@id/rcrl_logistics_picture"
                         android:layout_toRightOf="@id/rcrl_logistics_picture"
                         android:lines="1"
-                        android:paddingLeft="15dp"
+                        android:paddingLeft="10dp"
                         android:singleLine="true"
                         android:text="官方电话：暂无"
                         android:textColor="#9A9CA5"
@@ -121,8 +119,8 @@
                         android:layout_above="@id/tv_logistics_phone"
                         android:layout_toRightOf="@id/rcrl_logistics_picture"
                         android:lines="1"
+                        android:paddingLeft="10dp"
                         android:paddingBottom="5dp"
-                        android:paddingLeft="15dp"
                         android:singleLine="true"
                         android:text="圆通快递：888888888888888888888"
                         android:textColor="#9A9CA5"
@@ -130,15 +128,43 @@
 
                 </RelativeLayout>
 
+                <LinearLayout
+                    android:id="@+id/ll_logistics_there"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical|center"
+                    android:orientation="vertical"
+                    android:paddingTop="100dp">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/allorder_no" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center|clip_vertical"
+                        android:text="暂无快递信息~"
+                        android:textColor="#474747"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
                 <com.cdqf.plant_view.ListViewForScrollView
                     android:id="@+id/lv_logistics_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:background="@color/white"
                     android:divider="@null"
-                    android:padding="10dp"
-                    android:scrollbars="none" />
+                    android:padding="5dp"
+                    android:scrollbars="none"
+                    android:visibility="gone" />
 
             </LinearLayout>
         </ScrollView>

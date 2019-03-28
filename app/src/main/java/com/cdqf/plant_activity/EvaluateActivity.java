@@ -33,7 +33,6 @@ import com.cdqf.plant_utils.RequestHandler;
 import com.cdqf.plant_utils.RequestStatus;
 import com.cdqf.plant_view.MyGridView;
 import com.google.gson.Gson;
-import com.hedgehog.ratingbar.RatingBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
@@ -96,22 +95,6 @@ public class EvaluateActivity extends BaseActivity {
 
     private EvaluateCommentAdapter evaluateCommentAdapter = null;
 
-    //品质评分
-    @BindView(R.id.rb_evaluate_quality)
-    public RatingBar rbEvaluateQuality = null;
-
-    //快递评分
-    @BindView(R.id.rb_evaluate_courier)
-    public RatingBar rbEvaluateCourier = null;
-
-    //包装评分
-    @BindView(R.id.rb_evaluate_packaging)
-    public RatingBar rbEvaluatePackaging = null;
-
-    //商务评分
-    @BindView(R.id.rb_evaluate_service)
-    public RatingBar rbEvaluateService = null;
-
     private int position;
 
     @Override
@@ -157,6 +140,7 @@ public class EvaluateActivity extends BaseActivity {
     }
 
     private void initView() {
+
     }
 
     private void initAdapter() {
@@ -165,34 +149,7 @@ public class EvaluateActivity extends BaseActivity {
     }
 
     private void initListener() {
-        //品质评分
-        rbEvaluateQuality.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
-            @Override
-            public void onRatingChange(float RatingCount) {
-                Log.e(TAG, "---品质评分---" + RatingCount);
-            }
-        });
-        //快递评分
-        rbEvaluateCourier.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
-            @Override
-            public void onRatingChange(float RatingCount) {
-                Log.e(TAG, "---快递评分---" + RatingCount);
-            }
-        });
-        //包装评分
-        rbEvaluatePackaging.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
-            @Override
-            public void onRatingChange(float RatingCount) {
-                Log.e(TAG, "---包装评分---" + RatingCount);
-            }
-        });
-        //服务评分
-        rbEvaluateService.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
-            @Override
-            public void onRatingChange(float RatingCount) {
-                Log.e(TAG, "---服务评分---" + RatingCount);
-            }
-        });
+
     }
 
     private void initBack() {
@@ -260,7 +217,6 @@ public class EvaluateActivity extends BaseActivity {
                 for (int i = 0; i < pictureHttpList.size(); i++) {
                     params.put(imageNameList.get(i), new File(pictureHttpList.get(i)));
                 }
-
                 //随机数
                 int random = plantState.getRandom();
                 String sign = random + "" + orderId + consumerId + commentContent + imageNameList;

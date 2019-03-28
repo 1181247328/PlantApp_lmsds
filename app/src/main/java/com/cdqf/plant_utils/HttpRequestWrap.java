@@ -179,6 +179,7 @@ public class HttpRequestWrap {
 				} else if(value.getClass() == Boolean.class){
 					params.addBodyParameter(key, String.valueOf(value));
 				} else {
+					Log.e("经过", "经过");
 					//TODO
 				}
 			}

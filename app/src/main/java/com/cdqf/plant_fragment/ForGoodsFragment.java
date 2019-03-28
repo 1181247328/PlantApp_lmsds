@@ -155,6 +155,7 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
                             handler.sendEmptyMessage(0x01);
                             return;
                         }
+                        handler.sendEmptyMessage(0x00);
                         data = JSON.parseObject(data).getString("list");
                         plantState.getForGoodsList().clear();
                         eventBus.post(new TypeFind());
@@ -202,7 +203,7 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
         llAllorderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                initIntent(OrderDetailsActivity.class,position);
+                initIntent(OrderDetailsActivity.class, position);
             }
         });
     }
@@ -225,6 +226,7 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
                     handler.sendEmptyMessage(0x01);
                     return;
                 }
+                handler.sendEmptyMessage(0x00);
                 data = JSON.parseObject(data).getString("list");
                 plantState.getForGoodsList().clear();
                 List<ForGoods> forPaymentList = gson.fromJson(data, new TypeToken<List<ForGoods>>() {
@@ -233,7 +235,7 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
                 if (forPaymentAdapter != null) {
                     forPaymentAdapter.notifyDataSetChanged();
                 }
-                handler.sendEmptyMessage(0x00);
+
             }
         }));
         initPut(true);
@@ -284,10 +286,10 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
         startActivity(intent);
     }
 
-    private void initIntent(Class<?> activity,int position) {
+    private void initIntent(Class<?> activity, int position) {
         Intent intent = new Intent(getContext(), activity);
-        intent.putExtra("type",3);
-        intent.putExtra("position",position);
+        intent.putExtra("type", 3);
+        intent.putExtra("position", position);
         intent.putExtra("isAllOrder", false);
         startActivity(intent);
     }
@@ -326,6 +328,7 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 确认收货
+     *
      * @param g
      */
     public void onEventMainThread(ForGoddsFind g) {
@@ -336,9 +339,10 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 确认收货第二次
+     *
      * @param g
      */
-    public void onEventMainThread(final ForGoodsOneFind g){
+    public void onEventMainThread(final ForGoodsOneFind g) {
         httpRequestWrap.setCallBack(new RequestHandler(getContext(), 1, plantState.getPlantString(getContext(), R.string.goods), new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {
@@ -348,6 +352,7 @@ public class ForGoodsFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
                 Log.e(TAG, "---确认收货解密成功---" + data);
+                eventBus.post(new TypeFind());
                 initPull();
             }
         }));
