@@ -241,8 +241,8 @@ public class RefundetailsActivity extends BaseActivity {
                 Log.e(TAG, "---获取退款详情解密成功---" + data);
                 refundetails = new Refundetails();
                 refundetails = gson.fromJson(data, Refundetails.class);
-//                switch (refundetails.getStatus()) {
-                switch (4) {
+                switch (refundetails.getStatus()) {
+//                switch (4) {
                     //提交退款申请
                     case 0:
                         handler.sendEmptyMessage(0x00);

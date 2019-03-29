@@ -165,7 +165,7 @@ public class PhotoAdapter extends BaseAdapter {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             Log.e(TAG, "---" + position + "---" + isChecked);
             if (isChecked) {
-                photoState.getPictureHttpList().add("file://" + photoList.get(position));
+                photoState.getPictureHttpList().add(photoList.get(position));
                 photoState.getPhotoMap().put(position, photoList.get(position));
                 photoEventBus.post(new PhotoSelectNumberFind(photoState.getPhotoMap().size()));
                 if (photoState.getPhotoMap().size() > number) {

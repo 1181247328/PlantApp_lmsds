@@ -353,6 +353,7 @@ public class TypeActivity extends BaseActivity {
                 OrderDetailsActivity.orderDetailsActivity.finish();
                 ServiceActivity.serviceActivity.finish();
                 eventBus.post(new TypeFind());
+
                 finish();
             }
         }));
@@ -376,7 +377,7 @@ public class TypeActivity extends BaseActivity {
         params.put("money", money);
         Log.e(TAG, "---金额---" + money);
         //退款原因
-        params.put("returnGoodsReason", returnGoodsReason);
+        params.put("returnGoodsReason", returnGoodsReason+1);
         Log.e(TAG, "---退款原因---" + returnGoodsReason);
         //说明
         params.put("remark", remark);

@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +69,7 @@ public class EvaluateActivity extends BaseActivity {
 
     private HttpRequestWrap httpRequestWrap = null;
 
-    private List<String> pictureHttpList = new ArrayList<String>();
+    private List<String> pictureHttpList = new CopyOnWriteArrayList<>();
 
     private Gson gson = new Gson();
 
@@ -252,6 +253,7 @@ public class EvaluateActivity extends BaseActivity {
     }
 
     public void onEventMainThread(ImageDeleteFind i) {
+        Log.e(TAG, "---数量---" + pictureHttpList.size() + "---删除位置---" + i.position);
         pictureHttpList.remove(i.position);
         evaluateCommentAdapter.setPictureHttpList(pictureHttpList);
         evaluateCommentAdapter.notifyDataSetChanged();

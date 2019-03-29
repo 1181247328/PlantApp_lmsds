@@ -159,6 +159,7 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener,
      * 初始化后
      */
     private void initPhotoBack() {
+        photoState.getPictureHttpList().clear();
         gvSeabedPhotoList.setOnScrollListener(new PauseOnScrollListener(photoState.getImageLoader(photoContext), true, false));
     }
 

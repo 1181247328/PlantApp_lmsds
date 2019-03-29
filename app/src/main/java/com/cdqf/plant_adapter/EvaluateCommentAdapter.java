@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.cdqf.plant_find.ImageDeleteFind;
 import com.cdqf.plant_lmsd.R;
@@ -84,11 +85,13 @@ public class EvaluateCommentAdapter extends BaseAdapter {
             case 0:
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_comment, null);
                 plantViewHolder = new ViewHolder(convertView);
-                imageLoader.displayImage(pictureHttpList.get(position), plantViewHolder.ivEvaluateItemImage, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+                imageLoader.displayImage("file://" + pictureHttpList.get(position), plantViewHolder.ivEvaluateItemImage, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
                 plantViewHolder.rcrlEvaluateItemDelete.setOnClickListener(new OnImageDeleteListener(position));
                 break;
             case 1:
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_comment_add, null);
+                LinearLayout llCommentItemAdd = convertView.findViewById(R.id.ll_comment_item_add);
+
                 break;
         }
         return convertView;

@@ -51,7 +51,7 @@ import de.greenrobot.event.EventBus;
  * Created by liu on 2017/12/29.
  */
 
-public class RefundActivity extends BaseActivity{
+public class RefundActivity extends BaseActivity {
     private String TAG = RefundActivity.class.getSimpleName();
 
     private Context context = null;
@@ -135,7 +135,7 @@ public class RefundActivity extends BaseActivity{
         context = this;
         httpRequestWrap = new HttpRequestWrap(context);
         httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        if(!eventBus.isRegistered(this)){
+        if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
         ButterKnife.bind(this);
@@ -153,20 +153,23 @@ public class RefundActivity extends BaseActivity{
     private void initListener() {
         ptrlRefundPull.setOnPullListener(new PullToRefreshLayout.OnPullListener() {
             @Override
-            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+            public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
                 httpRequestWrap.setCallBack(new RequestHandler(context, new OnResponseHandler() {
                     @Override
                     public void onResponse(String result, RequestStatus status) {
                         String data = Errer.isResult(context, result, status);
                         if (data == null) {
                             Log.e(TAG, "---获取退款列表解密失败---" + data);
+                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
                             return;
                         }
                         Log.e(TAG, "---获取退款列表解密成功---" + data);
                         if (TextUtils.equals(data, "1001")) {
                             handler.sendEmptyMessage(0x01);
+                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
                             return;
                         }
+                        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                         data = JSON.parseObject(data).getString("list");
                         plantState.getRefundList().clear();
                         List<Refund> refundList = gson.fromJson(data, new TypeToken<List<Refund>>() {
@@ -182,20 +185,23 @@ public class RefundActivity extends BaseActivity{
             }
 
             @Override
-            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+            public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
                 httpRequestWrap.setCallBack(new RequestHandler(context, 1, plantState.getPlantString(context, R.string.please_while), new OnResponseHandler() {
                     @Override
                     public void onResponse(String result, RequestStatus status) {
                         String data = Errer.isResult(context, result, status);
                         if (data == null) {
                             Log.e(TAG, "---获取退款列表解密失败---" + data);
+                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
                             return;
                         }
                         Log.e(TAG, "---获取退款列表解密成功---" + data);
                         if (TextUtils.equals(data, "1001")) {
                             handler.sendEmptyMessage(0x01);
+                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
                             return;
                         }
+                        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                         data = JSON.parseObject(data).getString("list");
                         List<Refund> refundList = gson.fromJson(data, new TypeToken<List<Refund>>() {
                         }.getType());
@@ -206,7 +212,7 @@ public class RefundActivity extends BaseActivity{
                         handler.sendEmptyMessage(0x00);
                     }
                 }));
-                initPut(true);
+                initPut(false);
             }
         });
     }
@@ -260,8 +266,8 @@ public class RefundActivity extends BaseActivity{
         params.put("pageCount", pageCount);
         //随机数
         int random = plantState.getRandom();
-        String sign = random + "" + consumerId + + pageIndex + pageCount;
-        Log.e(TAG, "---明文---" + random + "---" + consumerId  + "---" + pageIndex + "---" + pageCount);
+        String sign = random + "" + consumerId + +pageIndex + pageCount;
+        Log.e(TAG, "---明文---" + random + "---" + consumerId + "---" + pageIndex + "---" + pageCount);
         //加密文字
         String signEncrypt = null;
         try {
@@ -287,8 +293,8 @@ public class RefundActivity extends BaseActivity{
     }
 
     @OnClick({R.id.rl_refund_return})
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.rl_refund_return:
                 finish();
                 break;
@@ -337,7 +343,7 @@ public class RefundActivity extends BaseActivity{
         eventBus.unregister(this);
     }
 
-    public void onEventMainThread(RefundFind r){
+    public void onEventMainThread(RefundFind r) {
         initPull();
     }
 }

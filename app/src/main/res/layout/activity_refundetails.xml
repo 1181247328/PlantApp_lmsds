@@ -238,7 +238,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="@color/white"
-                        app:round_corner="8dp">
+                        app:round_corner="3dp">
 
                         <ImageView
                             android:id="@+id/iv_refundetails_item_icon"

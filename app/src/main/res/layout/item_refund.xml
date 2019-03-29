@@ -4,20 +4,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
 
 
-    <com.cdqf.plant_view.ListViewForScrollView
-        android:id="@+id/lv_refund_item_list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:divider="@color/plant_ask_background"
-        android:dividerHeight="1dp"
-        android:scrollbars="none" />
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/white">
+
+        <com.gcssloop.widget.RCRelativeLayout
+            android:id="@+id/rctl_forpayment_item_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            app:round_corner="3dp">
+
+            <ImageView
+                android:id="@+id/iv_order_item_icon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop" />
+
+        </com.gcssloop.widget.RCRelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_order_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/rctl_forpayment_item_icon"
+            android:layout_toRightOf="@id/rctl_forpayment_item_icon"
+            android:lineSpacingExtra="1dp"
+            android:paddingLeft="5dp"
+            android:textColor="#232326"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/rctl_forpayment_item_icon"
+            android:layout_toRightOf="@id/rctl_forpayment_item_icon"
+            android:background="@color/white"
+            android:gravity="left|bottom"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:gravity="bottom|left"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="X"
+                    android:textColor="#232326"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_order_item_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:textColor="#232326"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/plant_ask_background" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,8 +93,8 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <ImageView
             android:layout_width="18dp"
@@ -40,40 +108,40 @@
             android:paddingLeft="10dp"
             android:text="仅退款"
             android:textColor="#232326"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
-    
+
     <TextView
-        android:background="@color/plant_ask_background"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp"
+        android:background="@color/plant_ask_background" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right|center_vertical"
-        android:paddingBottom="12dp"
+        android:orientation="horizontal"
         android:paddingTop="12dp"
-        android:orientation="horizontal">
+        android:paddingBottom="12dp">
 
         <com.gcssloop.widget.RCRelativeLayout
-            android:layout_width="90dp"
             android:id="@+id/rcrl_refund_details"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
-            app:stroke_color="@color/strategy_item_published"
             app:round_corner="3dp"
+            app:stroke_color="@color/strategy_item_published"
             app:stroke_width="1dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingBottom="8dp"
-                android:textSize="12sp"
                 android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="查看详情"
-                android:textColor="@color/strategy_item_published" />
+                android:textColor="@color/strategy_item_published"
+                android:textSize="12sp" />
 
         </com.gcssloop.widget.RCRelativeLayout>
 

@@ -7,12 +7,12 @@ package com.cdqf.plant_class;
 public class Refundetails {
     private int rgId;
     private String commName;
-    private int unitPrice;
+    private double unitPrice;
     private String pic;
     private String httpPic;
     private int returnGoodsReasonType;
     private String strReturnGoodsType;
-    private int money;
+    private double money;
     private int num;
     private String addDate;
     private String strAddDate;
@@ -43,11 +43,11 @@ public class Refundetails {
         this.commName = commName;
     }
 
-    public int getUnitPrice() {
+    public double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(int unitPrice) {
+    public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -83,11 +83,11 @@ public class Refundetails {
         this.strReturnGoodsType = strReturnGoodsType;
     }
 
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 

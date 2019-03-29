@@ -2,6 +2,7 @@ package com.cdqf.plant_adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class RefundAdapter extends BaseAdapter {
 
-    private Context context =null;
+    private String TAG = RefundAdapter.class.getSimpleName();
+
+    private Context context = null;
 
     private PlantState plantState = PlantState.getPlantState();
 
@@ -32,6 +35,7 @@ public class RefundAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        Log.e(TAG, "---退款数量---" + plantState.getRefundList().size());
         return plantState.getRefundList().size();
     }
 
@@ -48,26 +52,33 @@ public class RefundAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         PlantViewHolder plantViewHolder = null;
-        if(convertView == null){
-            convertView= LayoutInflater.from(context).inflate(R.layout.item_refund,null);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_refund, null);
             plantViewHolder = new PlantViewHolder();
-            //集合
-            plantViewHolder.lvRefundItemList = convertView.findViewById(R.id.lv_refund_item_list);
+            //图标
+            plantViewHolder.ivOrderItemIcon = convertView.findViewById(R.id.iv_order_item_icon);
+            //商品名称
+            plantViewHolder.tvOrderItemTitle = convertView.findViewById(R.id.tv_order_item_title);
+            //数量
+            plantViewHolder.tvOrderItemNumber = convertView.findViewById(R.id.tv_order_item_number);
             //状态
             plantViewHolder.tvRefundItemState = convertView.findViewById(R.id.tv_refund_item_state);
             //查看详情
             plantViewHolder.rcrlRefundDetails = convertView.findViewById(R.id.rcrl_refund_details);
             convertView.setTag(plantViewHolder);
-        } else{
+        } else {
             plantViewHolder = (PlantViewHolder) convertView.getTag();
         }
-        plantViewHolder.lvRefundItemList.setAdapter(new GoodsAdapter(position));
+//        plantViewHolder.lvRefundItemList.setAdapter(new GoodsAdapter(position));
+        imageLoader.displayImage(plantState.getRefundList().get(position).getHttpPic(), plantViewHolder.ivOrderItemIcon, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+        plantViewHolder.tvOrderItemTitle.setText(plantState.getRefundList().get(position).getCommName() + "");
+        plantViewHolder.tvOrderItemNumber.setText(plantState.getRefundList().get(position).getCommNum() + "");
         plantViewHolder.tvRefundItemState.setText(plantState.getRefundList().get(position).getStrReturnGoodsType());
         plantViewHolder.rcrlRefundDetails.setOnClickListener(new OnDetailsListener(position));
         return convertView;
     }
 
-    class OnDetailsListener implements View.OnClickListener{
+    class OnDetailsListener implements View.OnClickListener {
 
         private int position;
 
@@ -78,7 +89,7 @@ public class RefundAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(context, RefundetailsActivity.class);
-            intent.putExtra("position",position);
+            intent.putExtra("position", position);
             context.startActivity(intent);
         }
     }
@@ -124,9 +135,9 @@ public class RefundAdapter extends BaseAdapter {
 
             imageLoader.displayImage(plantState.getRefundList().get(position).getHttpPic(), plantViewHolder.ivOrderItemIcon, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
 
-            plantViewHolder.tvOrderItemTitle.setText(plantState.getRefundList().get(position).getCommName()+"");
+            plantViewHolder.tvOrderItemTitle.setText(plantState.getRefundList().get(position).getCommName() + "");
 
-            plantViewHolder.tvOrderItemNumber.setText(plantState.getRefundList().get(position).getCommNum()+"");
+            plantViewHolder.tvOrderItemNumber.setText(plantState.getRefundList().get(position).getCommNum() + "");
 
             return convertView;
         }

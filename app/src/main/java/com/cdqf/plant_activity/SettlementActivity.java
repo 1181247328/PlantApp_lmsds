@@ -360,18 +360,22 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
                 Map<String, Object> params = new HashMap<String, Object>();
                 //商品id
                 params.put("commIds", commIds);
+                Log.e(TAG,"---商品id---"+commIds);
                 //商品id对应数量
                 params.put("commNums", numbers);
+                Log.e(TAG,"---商品id对应数量---"+numbers);
                 //用户id(测试id=1)
                 int consumerId = plantState.getUser().getConsumerId();
                 params.put("consumerId", consumerId);
+                Log.e(TAG,"---用户id---"+consumerId);
                 //用户收货地址id
                 int consumerReceivingId = settlement.getReceivingAddress().getCrId();
                 params.put("consumerReceivingId", consumerReceivingId);
+                Log.e(TAG,"---用户收货地址id---"+consumerReceivingId);
                 //随机数
                 int random = plantState.getRandom();
                 String sign = random + "" + commIds + numbers + consumerId + consumerReceivingId;
-                Log.e(TAG, "---明文---" + sign);
+                Log.e(TAG, "---随机数---" + random);
                 //加密文字
                 String signEncrypt = null;
                 try {
