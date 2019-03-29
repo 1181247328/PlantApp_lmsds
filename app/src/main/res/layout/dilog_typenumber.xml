@@ -24,16 +24,14 @@
         android:layout_above="@id/tv_why_dilog_submit"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingLeft="8dp"
-        android:paddingTop="8dp"
-        android:paddingRight="8dp">
+        android:paddingTop="8dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:gravity="center"
-            android:text="退款原因"
+            android:text="请选择退款商品数量"
             android:textColor="@color/black"
             android:textSize="15sp" />
 

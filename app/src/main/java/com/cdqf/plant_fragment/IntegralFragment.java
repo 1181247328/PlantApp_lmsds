@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,9 +38,9 @@ import com.cdqf.plant_utils.OnResponseHandler;
 import com.cdqf.plant_utils.RequestHandler;
 import com.cdqf.plant_utils.RequestStatus;
 import com.cdqf.plant_view.MyGridView;
+import com.cdqf.plant_view.VerticalSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jingchen.pulltorefresh.PullToRefreshLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -76,11 +77,11 @@ public class IntegralFragment extends Fragment {
 
     private HttpRequestWrap httpRequestWrap = null;
 
-    //滑动器
-    @BindView(R.id.ptrl_integral_scroll)
-    public PullToRefreshLayout ptrlIntegralScroll = null;
+    @BindView(R.id.srl_integral_pull)
+    public VerticalSwipeRefreshLayout srlIntegralPull = null;
 
-    private ScrollView srIntegralScroll = null;
+    @BindView(R.id.ptrl_integral_scroll)
+    public ScrollView srIntegralScroll = null;
 
     //轮播图
     @BindView(R.id.ba_integral_carousel)
@@ -116,12 +117,12 @@ public class IntegralFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0x001:
-                    ptrlIntegralScroll.setPullDownEnable(true);
+//                    ptrlIntegralScroll.setPullDownEnable(true);
                     tvIntegralNo.setVisibility(View.GONE);
                     mgvIntegralRecommended.setVisibility(View.VISIBLE);
                     break;
                 case 0x002:
-                    ptrlIntegralScroll.setPullDownEnable(false);
+//                    ptrlIntegralScroll.setPullDownEnable(false);
                     tvIntegralNo.setVisibility(View.VISIBLE);
                     mgvIntegralRecommended.setVisibility(View.GONE);
                     break;
@@ -158,7 +159,6 @@ public class IntegralFragment extends Fragment {
     }
 
     private void initView() {
-        srIntegralScroll = (ScrollView) ptrlIntegralScroll.getPullableView();
     }
 
     private void initAdapter() {
@@ -166,159 +166,166 @@ public class IntegralFragment extends Fragment {
     }
 
     private void initListener() {
+        srlIntegralPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                banner();
+                initPictures();
+            }
+        });
         mgvIntegralRecommended.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 initIntent(IntegralDetailsActivity.class, position);
             }
         });
-        ptrlIntegralScroll.setOnPullListener(new PullToRefreshLayout.OnPullListener() {
-            @Override
-            public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
-                banner();
-                httpRequestWrap.setMethod(HttpRequestWrap.POST);
-                httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
-                    @Override
-                    public void onResponse(String result, RequestStatus status) {
-                        String data = Errer.isResult(getContext(), result, status);
-                        if (data == null) {
-                            Log.e(TAG, "---积分商城列表解密失败---" + data);
-                            handler.sendEmptyMessage(0x002);
-                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
-                            return;
-                        }
-                        if (TextUtils.equals(data, "1001")) {
-                            plantState.initToast(getContext(), "没有更多了", true, 0);
-                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                            return;
-                        }
-                        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                        Log.e(TAG, "---积分商城列表商品解密---" + data);
-                        data = JSON.parseObject(data).getString("list");
-                        plantState.getIntegralList().clear();
-                        List<Integral> integralList = gson.fromJson(data, new TypeToken<List<Integral>>() {
-                        }.getType());
-                        plantState.setIntegralList(integralList);
-                        integralAdapter = new IntegralAdapter(getContext(), integralList);
-                        mgvIntegralRecommended.setAdapter(integralAdapter);
-//                if (integralAdapter != null) {
-//                    integralAdapter.notifyDataSetChanged();
+//        ptrlIntegralScroll.setOnPullListener(new PullToRefreshLayout.OnPullListener() {
+//            @Override
+//            public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
+//                banner();
+//                httpRequestWrap.setMethod(HttpRequestWrap.POST);
+//                httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
+//                    @Override
+//                    public void onResponse(String result, RequestStatus status) {
+//                        String data = Errer.isResult(getContext(), result, status);
+//                        if (data == null) {
+//                            Log.e(TAG, "---积分商城列表解密失败---" + data);
+//                            handler.sendEmptyMessage(0x002);
+//                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
+//                            return;
+//                        }
+//                        if (TextUtils.equals(data, "1001")) {
+//                            plantState.initToast(getContext(), "没有更多了", true, 0);
+//                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+//                            return;
+//                        }
+//                        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+//                        Log.e(TAG, "---积分商城列表商品解密---" + data);
+//                        data = JSON.parseObject(data).getString("list");
+//                        plantState.getIntegralList().clear();
+//                        List<Integral> integralList = gson.fromJson(data, new TypeToken<List<Integral>>() {
+//                        }.getType());
+//                        plantState.setIntegralList(integralList);
+//                        integralAdapter = new IntegralAdapter(getContext(), integralList);
+//                        mgvIntegralRecommended.setAdapter(integralAdapter);
+////                if (integralAdapter != null) {
+////                    integralAdapter.notifyDataSetChanged();
+////                }
+//                        handler.sendEmptyMessage(0x001);
+//                    }
+//                }));
+//                Map<String, Object> params = new HashMap<String, Object>();
+//                pageIndex = 1;
+//                //页数
+//                params.put("pageIndex", pageIndex);
+//                //条数
+//                int pageCount = 8;
+//                params.put("pageCount", pageCount);
+//                //加载全部
+//                boolean isAll = true;
+//                params.put("isAll", isAll);
+//                //商品类型id
+//                int commTypeId = 0;
+//                params.put("commTypeId", commTypeId);
+//                //排序方式
+//                int orderBy = 0;
+//                params.put("orderBy", orderBy);
+//                //关键字
+//                String searchKey = "";
+//                params.put("searchKey", searchKey);
+//                //随机数
+//                int random = plantState.getRandom();
+//                String sign = random + "" + pageIndex + pageCount + String.valueOf(isAll) + commTypeId + orderBy + searchKey;
+//                Log.e(TAG, "---明文---" + sign);
+//                //加密文字
+//                String signEncrypt = null;
+//                try {
+//                    signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+//                    Log.e(TAG, "---加密成功---" + signEncrypt);
+//                } catch (Exception e) {
+//                    Log.e(TAG, "---加密失败---");
+//                    e.printStackTrace();
 //                }
-                        handler.sendEmptyMessage(0x001);
-                    }
-                }));
-                Map<String, Object> params = new HashMap<String, Object>();
-                pageIndex = 1;
-                //页数
-                params.put("pageIndex", pageIndex);
-                //条数
-                int pageCount = 8;
-                params.put("pageCount", pageCount);
-                //加载全部
-                boolean isAll = true;
-                params.put("isAll", isAll);
-                //商品类型id
-                int commTypeId = 0;
-                params.put("commTypeId", commTypeId);
-                //排序方式
-                int orderBy = 0;
-                params.put("orderBy", orderBy);
-                //关键字
-                String searchKey = "";
-                params.put("searchKey", searchKey);
-                //随机数
-                int random = plantState.getRandom();
-                String sign = random + "" + pageIndex + pageCount + String.valueOf(isAll) + commTypeId + orderBy + searchKey;
-                Log.e(TAG, "---明文---" + sign);
-                //加密文字
-                String signEncrypt = null;
-                try {
-                    signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
-                    Log.e(TAG, "---加密成功---" + signEncrypt);
-                } catch (Exception e) {
-                    Log.e(TAG, "---加密失败---");
-                    e.printStackTrace();
-                }
-                if (signEncrypt == null) {
-                    plantState.initToast(getContext(), "加密失败", true, 0);
-                }
-                //随机数
-                params.put("random", random);
-                params.put("sign", signEncrypt);
-                httpRequestWrap.send(PlantAddress.COMMLIST, params);
-            }
-
-            @Override
-            public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-                //上拉加载
-                httpRequestWrap.setMethod(HttpRequestWrap.POST);
-                httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
-                    @Override
-                    public void onResponse(String result, RequestStatus status) {
-                        String data = Errer.isResult(getContext(), result, status);
-                        if (data == null) {
-                            Log.e(TAG, "---积分商城列表解密失败---" + data);
-                            handler.sendEmptyMessage(0x002);
-                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
-                            return;
-                        }
-                        if (TextUtils.equals(data, "1001")) {
-                            handler.sendEmptyMessage(0x002);
-                            plantState.initToast(getContext(), "没有更多了", true, 0);
-                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                            return;
-                        }
-                        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                        Log.e(TAG, "---积分商城列表商品解密---" + data);
-                        data = JSON.parseObject(data).getString("list");
-                        List<Integral> integralList = gson.fromJson(data, new TypeToken<List<Integral>>() {
-                        }.getType());
-                        integralAdapter.setIntegralList(integralList);
-                    }
-                }));
-                Map<String, Object> params = new HashMap<String, Object>();
-                pageIndex++;
-                //页数
-                params.put("pageIndex", pageIndex);
-
-                Log.e(TAG, "---上拉---" + pageIndex);
-                //条数
-                int pageCount = 8;
-                params.put("pageCount", pageCount);
-                //加载全部
-                boolean isAll = false;
-                params.put("isAll", isAll);
-                //商品类型id
-                int commTypeId = 0;
-                params.put("commTypeId", commTypeId);
-                //排序方式
-                int orderBy = 0;
-                params.put("orderBy", orderBy);
-                //关键字
-                String searchKey = "";
-                params.put("searchKey", searchKey);
-                //随机数
-                int random = plantState.getRandom();
-                String sign = random + "" + pageIndex + pageCount + String.valueOf(isAll) + commTypeId + orderBy + searchKey;
-                Log.e(TAG, "---明文---" + sign);
-                //加密文字
-                String signEncrypt = null;
-                try {
-                    signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
-                    Log.e(TAG, "---加密成功---" + signEncrypt);
-                } catch (Exception e) {
-                    Log.e(TAG, "---加密失败---");
-                    e.printStackTrace();
-                }
-                if (signEncrypt == null) {
-                    plantState.initToast(getContext(), "加密失败", true, 0);
-                }
-                //随机数
-                params.put("random", random);
-                params.put("sign", signEncrypt);
-                httpRequestWrap.send(PlantAddress.COMMLIST, params);
-            }
-        });
+//                if (signEncrypt == null) {
+//                    plantState.initToast(getContext(), "加密失败", true, 0);
+//                }
+//                //随机数
+//                params.put("random", random);
+//                params.put("sign", signEncrypt);
+//                httpRequestWrap.send(PlantAddress.COMMLIST, params);
+//            }
+//
+//            @Override
+//            public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
+//                //上拉加载
+//                httpRequestWrap.setMethod(HttpRequestWrap.POST);
+//                httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
+//                    @Override
+//                    public void onResponse(String result, RequestStatus status) {
+//                        String data = Errer.isResult(getContext(), result, status);
+//                        if (data == null) {
+//                            Log.e(TAG, "---积分商城列表解密失败---" + data);
+//                            handler.sendEmptyMessage(0x002);
+//                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
+//                            return;
+//                        }
+//                        if (TextUtils.equals(data, "1001")) {
+//                            handler.sendEmptyMessage(0x002);
+//                            plantState.initToast(getContext(), "没有更多了", true, 0);
+//                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+//                            return;
+//                        }
+//                        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+//                        Log.e(TAG, "---积分商城列表商品解密---" + data);
+//                        data = JSON.parseObject(data).getString("list");
+//                        List<Integral> integralList = gson.fromJson(data, new TypeToken<List<Integral>>() {
+//                        }.getType());
+//                        integralAdapter.setIntegralList(integralList);
+//                    }
+//                }));
+//                Map<String, Object> params = new HashMap<String, Object>();
+//                pageIndex++;
+//                //页数
+//                params.put("pageIndex", pageIndex);
+//
+//                Log.e(TAG, "---上拉---" + pageIndex);
+//                //条数
+//                int pageCount = 8;
+//                params.put("pageCount", pageCount);
+//                //加载全部
+//                boolean isAll = false;
+//                params.put("isAll", isAll);
+//                //商品类型id
+//                int commTypeId = 0;
+//                params.put("commTypeId", commTypeId);
+//                //排序方式
+//                int orderBy = 0;
+//                params.put("orderBy", orderBy);
+//                //关键字
+//                String searchKey = "";
+//                params.put("searchKey", searchKey);
+//                //随机数
+//                int random = plantState.getRandom();
+//                String sign = random + "" + pageIndex + pageCount + String.valueOf(isAll) + commTypeId + orderBy + searchKey;
+//                Log.e(TAG, "---明文---" + sign);
+//                //加密文字
+//                String signEncrypt = null;
+//                try {
+//                    signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+//                    Log.e(TAG, "---加密成功---" + signEncrypt);
+//                } catch (Exception e) {
+//                    Log.e(TAG, "---加密失败---");
+//                    e.printStackTrace();
+//                }
+//                if (signEncrypt == null) {
+//                    plantState.initToast(getContext(), "加密失败", true, 0);
+//                }
+//                //随机数
+//                params.put("random", random);
+//                params.put("sign", signEncrypt);
+//                httpRequestWrap.send(PlantAddress.COMMLIST, params);
+//            }
+//        });
     }
 
     private void initBack() {
@@ -326,8 +333,8 @@ public class IntegralFragment extends Fragment {
             tvIntegralNumber.setText(plantState.getUser().getIntegralNumber() + "");
         }
         srIntegralScroll.smoothScrollTo(0, 0);
-        ptrlIntegralScroll.setPullUpEnable(false);
-        ptrlIntegralScroll.setPullDownEnable(false);
+//        ptrlIntegralScroll.setPullUpEnable(false);
+//        ptrlIntegralScroll.setPullDownEnable(false);
         banner();
         initPictures();
     }
@@ -340,7 +347,9 @@ public class IntegralFragment extends Fragment {
         httpRequestWrap.setCallBack(new RequestHandler(getActivity(), new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {
-
+                if (srlIntegralPull != null) {
+                    srlIntegralPull.setRefreshing(false);
+                }
                 String data = Errer.isResult(getContext(), result, status);
                 if (data == null) {
                     Log.e(TAG, "---获取轮播积分头部解密失败---" + data);
@@ -381,10 +390,14 @@ public class IntegralFragment extends Fragment {
      * 兑换商品
      */
     private void initPictures() {
+        srlIntegralPull.setRefreshing(true);
         httpRequestWrap.setMethod(HttpRequestWrap.POST);
         httpRequestWrap.setCallBack(new RequestHandler(getContext(), new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {
+                if (srlIntegralPull != null) {
+                    srlIntegralPull.setRefreshing(false);
+                }
                 String data = Errer.isResult(getContext(), result, status);
                 if (data == null) {
                     Log.e(TAG, "---积分商城列表解密失败---" + data);

@@ -78,7 +78,7 @@ public class Errer {
                     }
                     return dataJSON;
                 } else {
-//                    plantState.initToast(context, message, true, 0);
+                    plantState.initToast(context, message, true, 0);
                     return null;
                 }
             } else {

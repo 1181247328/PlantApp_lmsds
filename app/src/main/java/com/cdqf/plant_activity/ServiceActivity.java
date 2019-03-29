@@ -145,7 +145,7 @@ public class ServiceActivity extends BaseActivity {
         title = plantState.getOrderDetails().getCommList().get(position).getCommName();
         price = plantState.getOrderDetails().getCommList().get(position).getCommPrice();
         commNum = plantState.getOrderDetails().getCommList().get(position).getCommNum();
-        money = plantState.getOrderDetails().getCommList().get(position).getTotalPrice();
+        money = plantState.getOrderDetails().getCommList().get(position).getCommPrice();
         commId = plantState.getOrderDetails().getCommList().get(position).getCommId();
         orderId = plantState.getOrderDetails().getOrderId();
         imageLoader.displayImage(url, ivServiceIcon, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
@@ -162,7 +162,7 @@ public class ServiceActivity extends BaseActivity {
         intent.putExtra("commNum", commNum);
         intent.putExtra("money", money);
         intent.putExtra("orderId", orderId);
-        intent.putExtra("commId",commId);
+        intent.putExtra("commId", commId);
         startActivity(intent);
     }
 

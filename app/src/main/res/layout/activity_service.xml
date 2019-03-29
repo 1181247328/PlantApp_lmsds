@@ -19,16 +19,14 @@
 
             <RelativeLayout
                 android:id="@+id/rl_service_return"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@color/strategy_item_published"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="8dp">
+                android:paddingLeft="5dp">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="17dp"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/pldetails_return" />
 
@@ -41,7 +39,7 @@
                 android:gravity="center"
                 android:text="选择服务类型"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 
@@ -49,17 +47,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp">
 
             <com.gcssloop.widget.RCRelativeLayout
                 android:id="@+id/rctl_service_icon"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:background="@color/white"
-                app:round_corner="8dp">
+                app:round_corner="3dp">
 
                 <ImageView
                     android:id="@+id/iv_Service_icon"
@@ -77,8 +75,7 @@
                 android:layout_alignTop="@id/rctl_service_icon"
                 android:layout_toRightOf="@id/rctl_service_icon"
                 android:lineSpacingExtra="1dp"
-                android:paddingLeft="10dp"
-                android:text="大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针"
+                android:paddingLeft="5dp"
                 android:textColor="#232326"
                 android:textSize="14sp" />
 
@@ -90,7 +87,7 @@
                 android:background="@color/white"
                 android:gravity="left|bottom"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp">
+                android:paddingLeft="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -116,7 +113,7 @@
             android:id="@+id/rl_service_refund"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:paddingRight="10dp"
             android:background="@drawable/component_click"
             android:clickable="true"
@@ -138,7 +135,7 @@
                 android:layout_toRightOf="@id/iv_service_imageone"
                 android:text="仅退款"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -149,7 +146,7 @@
                 android:text="未收到货(包含未签收)的情况下"
                 android:textColor="#B5B4B5"
                 android:layout_marginTop="4dp"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <ImageView
                 android:layout_width="15dp"
@@ -186,7 +183,7 @@
                 android:layout_toRightOf="@id/iv_service_imagetwo"
                 android:text="退款退货"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -197,7 +194,7 @@
                 android:text="已收到货,需要退换已收到的货物"
                 android:textColor="#B5B4B5"
                 android:layout_marginTop="4dp"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <ImageView
                 android:layout_width="15dp"

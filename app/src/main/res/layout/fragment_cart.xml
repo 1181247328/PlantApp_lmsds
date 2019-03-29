@@ -148,8 +148,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/allorder_no" />
 
@@ -157,11 +157,11 @@
                     android:id="@+id/tv_cart_there"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:gravity="center|clip_vertical"
                     android:text="购物车空空如也~"
                     android:textColor="#474747"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
 
             </LinearLayout>

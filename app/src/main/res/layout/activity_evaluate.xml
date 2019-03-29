@@ -136,13 +136,12 @@
                     android:id="@+id/mgv_evaluate_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="@color/white"
-                    android:horizontalSpacing="8dp"
+                    android:horizontalSpacing="5dp"
                     android:numColumns="3"
                     android:scrollbars="none"
-                    android:verticalSpacing="8dp"
-                    android:visibility="gone" />
+                    android:verticalSpacing="5dp" />
 
             </LinearLayout>
 

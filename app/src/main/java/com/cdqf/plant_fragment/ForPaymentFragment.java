@@ -528,6 +528,7 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
                 Log.e(TAG, "---待支付成功返回解密成功---" + StatusCode);
                 initPull();
                 eventBus.post(new AllOrderPullFind());
+                eventBus.post(new SendGoodsPullFind());
             }
 
             @Override
@@ -618,6 +619,7 @@ public class ForPaymentFragment extends Fragment implements View.OnClickListener
                 Log.e(TAG, "---待支付成功返回解密成功---" + StatusCode);
                 initPull();
                 eventBus.post(new AllOrderPullFind());
+                eventBus.post(new SendGoodsPullFind());
             }
 
             @Override

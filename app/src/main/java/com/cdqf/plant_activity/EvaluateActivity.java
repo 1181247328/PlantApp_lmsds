@@ -18,6 +18,9 @@ import android.widget.TextView;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_adapter.EvaluateCommentAdapter;
+import com.cdqf.plant_dilog.PromptDilogFragment;
+import com.cdqf.plant_find.EvaluateFind;
+import com.cdqf.plant_find.ImageDeleteFind;
 import com.cdqf.plant_find.TypeFind;
 import com.cdqf.plant_image.PhotoActivity;
 import com.cdqf.plant_image.PhotoFind;
@@ -97,6 +100,8 @@ public class EvaluateActivity extends BaseActivity {
 
     private int position;
 
+    private String commentContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,71 +177,14 @@ public class EvaluateActivity extends BaseActivity {
                 break;
             //发表
             case R.id.tv_evaluate_complete:
-                String commentContent = etEvaluateContext.getText().toString();
+                commentContent = etEvaluateContext.getText().toString();
                 if (commentContent.length() <= 0) {
                     plantState.initToast(context, "请输入内容", true, 0);
                     return;
                 }
-                httpRequestWrap.setCallBack(new RequestHandler(context, 1, "发表中", new OnResponseHandler() {
-                    @Override
-                    public void onResponse(String result, RequestStatus status) {
-                        String data = Errer.isTrave(context, result, status);
-                        if (data == null) {
-                            Log.e(TAG, "---获取评价发表解密失败---" + data);
-                            return;
-                        }
-                        Log.e(TAG, "---获取评价发表解密成功---" + data);
-                        plantState.initToast(context, data, true, 0);
-                        eventBus.post(new TypeFind());
-                        finish();
-                    }
-                }));
-                Evaluate evaluate = new Evaluate();
-                Map<String, Object> params = new HashMap<String, Object>();
-
-                //订单id
-                int orderId = plantState.getEvaluateList().get(position).getOrderId();
-                evaluate.setOrderId(orderId);
-
-                //用户id
-                int consumerId = plantState.getUser().getConsumerId();
-                evaluate.setConsumerId(consumerId);
-
-                //内容
-                evaluate.setCommentContent(commentContent);
-
-                //图片名称
-                List<String> imageNameList = new ArrayList<>();
-                for (int i = 0; i < pictureHttpList.size(); i++) {
-                    imageNameList.add("image" + i);
-                }
-                evaluate.setPicList(imageNameList);
-                String orderContent = gson.toJson(evaluate);
-                params.put("orderContent", orderContent);
-                //图片
-                for (int i = 0; i < pictureHttpList.size(); i++) {
-                    params.put(imageNameList.get(i), new File(pictureHttpList.get(i)));
-                }
-                //随机数
-                int random = plantState.getRandom();
-                String sign = random + "" + orderId + consumerId + commentContent + imageNameList;
-                Log.e(TAG, "---明文---" + orderId + "---" + consumerId + "---" + commentContent + "---" + random);
-                //加密文字
-                String signEncrypt = null;
-                try {
-                    signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
-                    Log.e(TAG, "---加密成功---" + signEncrypt);
-                } catch (Exception e) {
-                    Log.e(TAG, "---加密失败---");
-                    e.printStackTrace();
-                }
-                if (signEncrypt == null) {
-                    plantState.initToast(context, "加密失败", true, 0);
-                }
-                //随机数
-                params.put("random", random);
-                params.put("sign", signEncrypt);
-                httpRequestWrap.send(PlantAddress.USER_SUB, params);
+                PromptDilogFragment promptDilogFragment = new PromptDilogFragment();
+                promptDilogFragment.initPrompt("是否评价", 29);
+                promptDilogFragment.show(getSupportFragmentManager(), "是否评价");
                 break;
         }
     }
@@ -301,6 +249,80 @@ public class EvaluateActivity extends BaseActivity {
         pictureHttpList = p.photoList;
         evaluateCommentAdapter.setPictureHttpList(pictureHttpList);
         evaluateCommentAdapter.notifyDataSetChanged();
+    }
+
+    public void onEventMainThread(ImageDeleteFind i) {
+        pictureHttpList.remove(i.position);
+        evaluateCommentAdapter.setPictureHttpList(pictureHttpList);
+        evaluateCommentAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 评价
+     *
+     * @param ev
+     */
+    public void onEventMainThread(EvaluateFind ev) {
+        httpRequestWrap.setCallBack(new RequestHandler(context, 1, "发表中", new OnResponseHandler() {
+            @Override
+            public void onResponse(String result, RequestStatus status) {
+                String data = Errer.isTrave(context, result, status);
+                if (data == null) {
+                    Log.e(TAG, "---获取评价发表解密失败---" + data);
+                    return;
+                }
+                Log.e(TAG, "---获取评价发表解密成功---" + data);
+                plantState.initToast(context, data, true, 0);
+                eventBus.post(new TypeFind());
+                finish();
+            }
+        }));
+        Evaluate evaluate = new Evaluate();
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        //订单id
+        int orderId = plantState.getEvaluateList().get(position).getOrderId();
+        evaluate.setOrderId(orderId);
+
+        //用户id
+        int consumerId = plantState.getUser().getConsumerId();
+        evaluate.setConsumerId(consumerId);
+
+        //内容
+        evaluate.setCommentContent(commentContent);
+
+        //图片名称
+        List<String> imageNameList = new ArrayList<>();
+        for (int i = 0; i < pictureHttpList.size(); i++) {
+            imageNameList.add("image" + i);
+        }
+        evaluate.setPicList(imageNameList);
+        String orderContent = gson.toJson(evaluate);
+        params.put("orderContent", orderContent);
+        //图片
+        for (int i = 0; i < pictureHttpList.size(); i++) {
+            params.put(imageNameList.get(i), new File(pictureHttpList.get(i)));
+        }
+        //随机数
+        int random = plantState.getRandom();
+        String sign = random + "" + orderId + consumerId + commentContent + imageNameList;
+        Log.e(TAG, "---明文---" + orderId + "---" + consumerId + "---" + commentContent + "---" + random);
+        //加密文字
+        String signEncrypt = null;
+        try {
+            signEncrypt = DESUtils.encryptDES(sign, Constants.secretKey.substring(0, 8));
+            Log.e(TAG, "---加密成功---" + signEncrypt);
+        } catch (Exception e) {
+            Log.e(TAG, "---加密失败---");
+            e.printStackTrace();
+        }
+        if (signEncrypt == null) {
+            plantState.initToast(context, "加密失败", true, 0);
+        }
+        //随机数
+        params.put("random", random);
+        params.put("sign", signEncrypt);
+        httpRequestWrap.send(PlantAddress.USER_SUB, params);
     }
 
     class Evaluate {

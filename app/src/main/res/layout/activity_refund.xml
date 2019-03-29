@@ -18,16 +18,16 @@
 
             <RelativeLayout
                 android:id="@+id/rl_refund_return"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@color/strategy_item_published"
-                android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
-                android:paddingTop="8dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="10dp">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="17dp"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/pldetails_return" />
 
@@ -40,7 +40,7 @@
                 android:gravity="center"
                 android:text="退款/售后"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 
@@ -53,19 +53,19 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/allorder_no" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center|clip_vertical"
-                android:text="暂时还没有退款商品~"
+                android:text="暂无退款商品~"
                 android:textColor="@color/plant_science"
-                android:textSize="16sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -73,8 +73,8 @@
             android:id="@+id/ptrl_refund_pull"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="10dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:paddingBottom="10dp">
 
             <com.jingchen.pulltorefresh.PullableListView
                 android:layout_width="match_parent"

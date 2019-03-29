@@ -178,6 +178,8 @@ public class HttpRequestWrap {
 					params.addBodyParameter(key, String.valueOf(value));
 				} else if(value.getClass() == Boolean.class){
 					params.addBodyParameter(key, String.valueOf(value));
+				} else if(value.getClass() == Double.class){
+					params.addBodyParameter(key, String.valueOf(value));
 				} else {
 					Log.e("经过", "经过");
 					//TODO

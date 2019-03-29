@@ -6,13 +6,15 @@
     android:background="@color/black"
     android:fitsSystemWindows="true">
 
-    <com.jingchen.pulltorefresh.PullToRefreshLayout
-        android:id="@+id/ptrl_integral_scroll"
+    <com.cdqf.plant_view.VerticalSwipeRefreshLayout
+        android:id="@+id/srl_integral_pull"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/plant_ask_background">
 
-        <com.jingchen.pulltorefresh.PullableScrollView
+
+        <ScrollView
+            android:id="@+id/ptrl_integral_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/plant_ask_background"
@@ -186,8 +188,6 @@
 
             </LinearLayout>
 
-        </com.jingchen.pulltorefresh.PullableScrollView>
-
-    </com.jingchen.pulltorefresh.PullToRefreshLayout>
-
+        </ScrollView>
+    </com.cdqf.plant_view.VerticalSwipeRefreshLayout>
 </LinearLayout>

@@ -19,16 +19,14 @@
 
             <RelativeLayout
                 android:id="@+id/rl_type_return"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@color/strategy_item_published"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="8dp">
+                android:paddingLeft="5dp">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="17dp"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/pldetails_return" />
 
@@ -42,7 +40,7 @@
                 android:gravity="center"
                 android:text="仅退款"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 
@@ -53,22 +51,22 @@
 
             <TextView
                 android:id="@+id/tv_type_submit"
-                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
-                android:text="提交"
-                android:gravity="center"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:textSize="18sp"
-                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:background="#24C7A5"
-                android:layout_height="wrap_content" />
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
 
             <ScrollView
-                android:layout_above="@id/tv_type_submit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@id/tv_type_submit"
                 android:background="@color/plant_ask_background"
                 android:scrollbars="none">
 
@@ -82,24 +80,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="10dp">
+                        android:paddingLeft="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp">
 
                         <com.gcssloop.widget.RCRelativeLayout
                             android:id="@+id/rctl_service_icon"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:background="@color/white"
-                            app:round_corner="8dp">
+                            app:round_corner="3dp">
 
                             <ImageView
                                 android:id="@+id/iv_type_icon"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:scaleType="fitXY"
-                                android:src="@mipmap/test4" />
+                                android:scaleType="fitXY" />
 
                         </com.gcssloop.widget.RCRelativeLayout>
 
@@ -111,7 +108,6 @@
                             android:layout_toRightOf="@id/rctl_service_icon"
                             android:lineSpacingExtra="1dp"
                             android:paddingLeft="10dp"
-                            android:text="大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针大白针"
                             android:textColor="#232326"
                             android:textSize="14sp" />
 
@@ -137,7 +133,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="2dp"
-                                android:text="108.00"
                                 android:textColor="#F23030"
                                 android:textSize="16sp" />
 
@@ -149,21 +144,21 @@
                         android:id="@+id/ll_type_state"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:background="@drawable/component_click"
                         android:clickable="true"
                         android:orientation="horizontal"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="12dp">
+                        android:paddingLeft="8dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="货物状态"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -179,7 +174,7 @@
                                 android:layout_marginRight="5dp"
                                 android:text="请选择"
                                 android:textColor="#CBCACB"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
 
                             <ImageView
                                 android:layout_width="15dp"
@@ -198,17 +193,17 @@
                         android:background="@drawable/component_click"
                         android:clickable="true"
                         android:orientation="horizontal"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="12dp">
+                        android:paddingLeft="8dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="退款原因"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -224,7 +219,7 @@
                                 android:layout_marginRight="5dp"
                                 android:text="请选择"
                                 android:textColor="#CBCACB"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
 
                             <ImageView
                                 android:layout_width="15dp"
@@ -239,21 +234,21 @@
                         android:id="@+id/ll_type_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/component_click"
                         android:clickable="true"
                         android:orientation="horizontal"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="12dp">
+                        android:paddingLeft="8dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="退款数量"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -287,24 +282,23 @@
                         android:background="@drawable/component_click"
                         android:clickable="true"
                         android:orientation="horizontal"
-                        android:paddingBottom="12dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="12dp">
+                        android:paddingLeft="8dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="退款金额:"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tv_type_prite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
-                            android:text="￥180"
                             android:textColor="#F33F3F"
                             android:textSize="16sp" />
 
@@ -314,31 +308,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:orientation="horizontal"
                         android:background="@color/white"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
+                        android:orientation="horizontal"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="退款说明:"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <EditText
                             android:id="@+id/tv_type_instructions"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="5dp"
-                            android:paddingTop="12dp"
-                            android:paddingBottom="12dp"
-                            android:hint="选填"
-                            android:textColorHint="#CBCACB"
                             android:background="@color/white"
+                            android:hint="选填"
+                            android:paddingLeft="5dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
                             android:singleLine="true"
+                            android:textCursorDrawable="@drawable/nickname_cursor"
                             android:textColor="#CBCACB"
-                            android:textSize="15sp" />
+                            android:textColorHint="#CBCACB"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 

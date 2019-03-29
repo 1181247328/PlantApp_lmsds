@@ -9,9 +9,9 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp">
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:gravity="center"
             android:text="货物状态"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,22 +34,23 @@
                 android:layout_centerVertical="true"
                 android:text="未收到货"
                 android:textColor="#A6A6A6"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <CheckBox
                 android:id="@+id/cb_type_dilog_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:button="@drawable/checkbox_style"
+                android:background="@drawable/checkbox_style"
+                android:button="@null"
                 android:checked="false" />
 
         </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginTop="12dp"
             android:background="@color/plant_ask_background" />
 
@@ -65,15 +66,18 @@
                 android:layout_centerVertical="true"
                 android:text="已收到货"
                 android:textColor="#A6A6A6"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <CheckBox
                 android:id="@+id/cb_type_dilog_already"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:button="@drawable/checkbox_style"
+                android:layout_marginEnd="0dp"
+                android:background="@drawable/checkbox_style"
+                android:button="@null"
                 android:checked="false" />
 
         </RelativeLayout>
@@ -82,15 +86,15 @@
 
     <TextView
         android:id="@+id/tv_type_dilog_submit"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:text="关闭"
-        android:gravity="center"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:textSize="18sp"
-        android:textColor="@color/white"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="#24C7A5"
-        android:layout_height="wrap_content" />
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="关闭"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
 </RelativeLayout>

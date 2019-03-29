@@ -9,27 +9,28 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+
             android:background="@color/white">
 
             <com.gcssloop.widget.RCRelativeLayout
                 android:id="@+id/rctl_forpayment_item_icon"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:background="@color/white"
-                app:round_corner="8dp">
+                app:round_corner="3dp">
 
                 <ImageView
                     android:id="@+id/iv_order_item_icon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:scaleType="centerCrop" />
 
             </com.gcssloop.widget.RCRelativeLayout>
@@ -41,7 +42,7 @@
                 android:layout_alignTop="@id/rctl_forpayment_item_icon"
                 android:layout_toRightOf="@id/rctl_forpayment_item_icon"
                 android:lineSpacingExtra="1dp"
-                android:paddingLeft="10dp"
+                android:paddingLeft="5dp"
                 android:textColor="#232326"
                 android:textSize="14sp" />
 
@@ -53,7 +54,7 @@
                 android:background="@color/white"
                 android:gravity="left|bottom"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp">
+                android:paddingLeft="5dp">
 
 
                 <LinearLayout
@@ -75,7 +76,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
-                        android:text=""
                         android:textColor="#232326"
                         android:textSize="16sp" />
 

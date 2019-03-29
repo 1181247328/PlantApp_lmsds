@@ -24,6 +24,7 @@ import com.cdqf.plant_find.CartDeteleFind;
 import com.cdqf.plant_find.DeleteOrderOneFind;
 import com.cdqf.plant_find.DeteleShopFind;
 import com.cdqf.plant_find.EvaluateDeleteOneFind;
+import com.cdqf.plant_find.EvaluateFind;
 import com.cdqf.plant_find.ForGoodsOneFind;
 import com.cdqf.plant_find.GoodsAllOneFind;
 import com.cdqf.plant_find.IntegralFind;
@@ -37,6 +38,7 @@ import com.cdqf.plant_find.SettlementFind;
 import com.cdqf.plant_find.StrategyColltionFind;
 import com.cdqf.plant_find.TraveReturnFind;
 import com.cdqf.plant_find.TravelCollectionTwoFind;
+import com.cdqf.plant_find.TypesFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.PlantPreferences;
 import com.cdqf.plant_state.PlantState;
@@ -228,6 +230,12 @@ public class PromptDilogFragment extends DialogFragment implements View.OnClickL
             case 27:
                 tvPromapDilogContent.setText(context);
                 break;
+            case 28:
+                tvPromapDilogContent.setText(context);
+                break;
+            case 29:
+                tvPromapDilogContent.setText(context);
+                break;
         }
     }
 
@@ -383,6 +391,15 @@ public class PromptDilogFragment extends DialogFragment implements View.OnClickL
                     case 27:
                         eventBus.post(new SettIntegralFind());
                         dismiss();
+                        break;
+                    //TypeActivity提交退款
+                    case 28:
+                        eventBus.post(new TypesFind());
+                        dismiss();
+                        break;
+                    //EvaluateActivity评价
+                    case 29:
+                        eventBus.post(new EvaluateFind());
                         break;
                 }
                 break;

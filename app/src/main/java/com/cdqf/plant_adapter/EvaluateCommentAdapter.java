@@ -7,14 +7,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.cdqf.plant_find.ImageDeleteFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_state.PlantState;
-import com.cdqf.plant_state.PlantViewHolder;
+import com.gcssloop.widget.RCRelativeLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -50,7 +53,7 @@ public class EvaluateCommentAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if(getCount()-1 == position){
+        if (getCount() - 1 == position) {
             return 1;
         } else {
             return 0;
@@ -59,7 +62,7 @@ public class EvaluateCommentAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return pictureHttpList.size()+1;
+        return pictureHttpList.size() + 1;
     }
 
     @Override
@@ -75,19 +78,48 @@ public class EvaluateCommentAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         int type = getItemViewType(position);
-        PlantViewHolder plantViewHolder = null;
-        switch(type){
+        ViewHolder plantViewHolder = null;
+        switch (type) {
             //图片显示区
             case 0:
-                plantViewHolder= new PlantViewHolder();
-                convertView = LayoutInflater.from(context).inflate(R.layout.item_comment,null);
-                plantViewHolder.ivEvaluateItemImage = (ImageView) convertView.findViewById(R.id.iv_evaluate_item_image);
-                imageLoader.displayImage(pictureHttpList.get(position),plantViewHolder.ivEvaluateItemImage,plantState.getImageLoaderOptions(R.mipmap.not_loaded,R.mipmap.not_loaded,R.mipmap.not_loaded));
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_comment, null);
+                plantViewHolder = new ViewHolder(convertView);
+                imageLoader.displayImage(pictureHttpList.get(position), plantViewHolder.ivEvaluateItemImage, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
+                plantViewHolder.rcrlEvaluateItemDelete.setOnClickListener(new OnImageDeleteListener(position));
                 break;
             case 1:
-                convertView = LayoutInflater.from(context).inflate(R.layout.item_comment_add,null);
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_comment_add, null);
                 break;
         }
         return convertView;
+    }
+
+    class ViewHolder {
+        /**
+         * 买家评论图片
+         **/
+        @BindView(R.id.iv_evaluate_item_image)
+        public ImageView ivEvaluateItemImage = null;
+
+        @BindView(R.id.rcrl_evaluate_item_delete)
+        public RCRelativeLayout rcrlEvaluateItemDelete = null;
+
+        public ViewHolder(View v) {
+            ButterKnife.bind(this, v);
+        }
+    }
+
+    class OnImageDeleteListener implements View.OnClickListener {
+
+        private int position;
+
+        public OnImageDeleteListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            eventBus.post(new ImageDeleteFind(position));
+        }
     }
 }

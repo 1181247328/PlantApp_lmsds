@@ -29,8 +29,8 @@
         android:paddingTop="15dp">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="17dp"
             android:src="@mipmap/service_refund" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:paddingLeft="10dp"
             android:text="仅退款"
             android:textColor="#232326"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
     
@@ -58,10 +58,11 @@
         android:orientation="horizontal">
 
         <com.gcssloop.widget.RCRelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="90dp"
             android:id="@+id/rcrl_refund_details"
             android:layout_height="wrap_content"
             app:stroke_color="@color/strategy_item_published"
+            app:round_corner="3dp"
             app:stroke_width="1dp">
 
             <TextView
@@ -69,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingBottom="8dp"
+                android:textSize="12sp"
                 android:paddingTop="8dp"
                 android:text="查看详情"
                 android:textColor="@color/strategy_item_published" />

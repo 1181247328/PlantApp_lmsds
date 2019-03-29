@@ -37,6 +37,7 @@ import com.cdqf.plant_find.ForPullFind;
 import com.cdqf.plant_find.GoodsAllFind;
 import com.cdqf.plant_find.GoodsAllOneFind;
 import com.cdqf.plant_find.PayFind;
+import com.cdqf.plant_find.SendGoodsPullFind;
 import com.cdqf.plant_lmsd.R;
 import com.cdqf.plant_lmsd.wxapi.HttpWxPayWrap;
 import com.cdqf.plant_lmsd.wxapi.WXReturnFind;
@@ -548,6 +549,7 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
                 Log.e(TAG, "---待支付成功返回解密成功---" + StatusCode);
                 initPull();
                 eventBus.post(new ForPullFind());
+                eventBus.post(new SendGoodsPullFind());
             }
 
             @Override
@@ -644,6 +646,7 @@ public class AllOrderFragment extends Fragment implements View.OnClickListener {
                 Log.e(TAG, "---待支付成功返回解密成功---" + StatusCode);
                 initPull();
                 eventBus.post(new ForPullFind());
+                eventBus.post(new SendGoodsPullFind());
             }
 
             @Override

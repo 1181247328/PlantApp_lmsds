@@ -15,9 +15,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cdqf.plant_adapter.TypeNumberAdapter;
+import com.cdqf.plant_find.TypeNumberFind;
 import com.cdqf.plant_lmsd.R;
-import com.cdqf.plant_adapter.WhyDilogAdapter;
-import com.cdqf.plant_find.WhyDilogFind;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,34 +26,30 @@ import butterknife.OnItemClick;
 import de.greenrobot.event.EventBus;
 
 /**
- * Created by liu on 2017/12/28.
+ * 数量
  */
+public class TypeNumberDilogFragment extends DialogFragment implements AdapterView.OnItemClickListener {
 
-public class WhyDilogFragment extends DialogFragment implements AdapterView.OnItemClickListener {
-    private String TAG = RegionDilogFragment.class.getSimpleName();
+    private String TAG = TypeNumberDilogFragment.class.getSimpleName();
 
     private View view = null;
 
     private EventBus eventBus = EventBus.getDefault();
 
-    private int type = -1;
+    private int number = 0;
 
     //退款原因集合
     @BindView(R.id.lv_why_dilog_list)
     public ListView lvWhyDilogList = null;
 
-    private WhyDilogAdapter whyDilogAdapter = null;
+    private TypeNumberAdapter whyDilogAdapter = null;
 
     @BindView(R.id.tv_why_dilog_submit)
     public TextView tvWhyDilogSubmit = null;
 
-    private String[] why = new String[]{
-            "不喜欢/不想要",
-            "空包裹",
-            "大小尺寸不符",
-            "少发/漏发",
-            "卖家发错货"
-    };
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
     @Nullable
     @Override
@@ -61,7 +57,7 @@ public class WhyDilogFragment extends DialogFragment implements AdapterView.OnIt
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = getDialog().getWindow();
         window.setGravity(Gravity.BOTTOM);
-        view = inflater.inflate(R.layout.dilgo_why, null);
+        view = inflater.inflate(R.layout.dilog_typenumber, null);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         //初始化前
@@ -96,7 +92,7 @@ public class WhyDilogFragment extends DialogFragment implements AdapterView.OnIt
     }
 
     private void initAdapter() {
-        whyDilogAdapter = new WhyDilogAdapter(getContext(), why);
+        whyDilogAdapter = new TypeNumberAdapter(getContext(), number);
         lvWhyDilogList.setAdapter(whyDilogAdapter);
     }
 
@@ -125,7 +121,7 @@ public class WhyDilogFragment extends DialogFragment implements AdapterView.OnIt
 
     @OnItemClick({R.id.lv_why_dilog_list})
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        eventBus.post(new WhyDilogFind(position, why[position]));
+        eventBus.post(new TypeNumberFind(position + 1));
         dismiss();
     }
 
