@@ -22,8 +22,8 @@
                 android:id="@+id/rl_newaddress_return"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -40,8 +40,8 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical|center"
-                android:paddingBottom="8dp"
                 android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="添加新地址"
                 android:textColor="#474747"
                 android:textSize="18sp" />
@@ -54,10 +54,10 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical|center"
-                android:paddingBottom="8dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
                 android:paddingTop="8dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="8dp"
                 android:text="保存"
                 android:textColor="#474747"
                 android:textSize="16sp" />
@@ -91,9 +91,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingBottom="10dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:text="收货人"
                         android:textColor="#797979"
                         android:textSize="16sp" />
@@ -105,9 +105,9 @@
                         android:layout_weight="3"
                         android:background="@color/white"
                         android:lines="1"
-                        android:singleLine="true"
                         android:paddingLeft="5dp"
                         android:paddingRight="10dp"
+                        android:singleLine="true"
                         android:textColor="#797979"
                         android:textColorHint="#797979"
                         android:textSize="14sp" />
@@ -129,9 +129,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingBottom="10dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:text="联系电话"
                         android:textColor="#797979"
                         android:textSize="16sp" />
@@ -143,9 +143,9 @@
                         android:layout_weight="3"
                         android:background="@color/white"
                         android:lines="1"
-                        android:singleLine="true"
                         android:paddingLeft="5dp"
                         android:paddingRight="10dp"
+                        android:singleLine="true"
                         android:textColor="#797979"
                         android:textColorHint="#797979"
                         android:textSize="14sp" />
@@ -168,9 +168,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingBottom="10dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:text="所在地区"
                         android:textColor="#797979"
                         android:textSize="16sp" />
@@ -216,11 +216,11 @@
                     android:background="@color/white"
                     android:hint="请填写详细地址,不少于5个字"
                     android:lines="1"
-                    android:singleLine="true"
-                    android:paddingBottom="30dp"
                     android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
                     android:paddingTop="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="30dp"
+                    android:singleLine="true"
                     android:textColor="#797979"
                     android:textColorHint="#E1E1E1"
                     android:textSize="14sp" />
@@ -236,9 +236,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:text="设为默认"
                         android:textColor="#474747"
                         android:textSize="16sp" />
@@ -257,10 +257,10 @@
                             android:layout_height="20dp"
                             switch:checked="false"
                             switch:duration="250"
-                            switch:spotOffColor="#E4E4E4"
+                            switch:spotOffColor="@color/strategy_item_published"
                             switch:spotPadding="2dp"
-                            switch:switchOffColor="@color/white"
-                            switch:switchOffStrokeColor="#E4E4E4" />
+                            switch:switchOffColor="#e4e4e4"
+                            switch:switchOffStrokeColor="@color/strategy_item_published" />
 
                     </LinearLayout>
 

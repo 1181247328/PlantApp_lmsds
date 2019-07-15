@@ -13,7 +13,7 @@ android {
         targetSdkVersion 27
         multiDexEnabled true
         versionCode 1
-        versionName "1.0.2.20190321"
+        versionName "1.0.4.20190715"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -106,4 +106,5 @@ dependencies {
     api 'com.android.support:multidex:1.0.1'
     api 'com.squareup.okhttp3:okhttp-urlconnection:3.12.1'
     api 'com.github.franmontiel:PersistentCookieJar:v0.9.3'
+    implementation 'com.wanjian:cockroach:0.0.5'
 }

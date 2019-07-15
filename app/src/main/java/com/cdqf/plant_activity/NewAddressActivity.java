@@ -272,10 +272,10 @@ public class NewAddressActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
 
-                if (detailsAddress.length() >= 5) {
-                    plantState.initToast(context, plantState.getPlantString(context, R.string.detaisl_address_number), true, 0);
-                    return;
-                }
+//                if (detailsAddress.length() >= 5) {
+//                    plantState.initToast(context, plantState.getPlantString(context, R.string.detaisl_address_number), true, 0);
+//                    return;
+//                }
                 httpRequestWrap.setMethod(HttpRequestWrap.POST);
                 httpRequestWrap.setCallBack(new RequestHandler(context, new OnResponseHandler() {
                     @Override

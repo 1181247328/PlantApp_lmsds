@@ -341,6 +341,10 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
                 break;
             //确定提交
             case R.id.tv_settlement_settlement:
+                if (settlement.getReceivingAddress() == null) {
+                    plantState.initToast(context, "请添加地址", true, 0);
+                    return;
+                }
                 httpRequestWrap.setMethod(HttpRequestWrap.POST);
                 httpRequestWrap.setCallBack(new RequestHandler(context, 1, "创建订单中", new OnResponseHandler() {
                     @Override
@@ -360,18 +364,33 @@ public class SettlementActivity extends BaseActivity implements View.OnClickList
                 Map<String, Object> params = new HashMap<String, Object>();
                 //商品id
                 params.put("commIds", commIds);
-                Log.e(TAG,"---商品id---"+commIds);
+                Log.e(TAG, "---商品id---" + commIds);
                 //商品id对应数量
                 params.put("commNums", numbers);
-                Log.e(TAG,"---商品id对应数量---"+numbers);
+                Log.e(TAG, "---商品id对应数量---" + numbers);
                 //用户id(测试id=1)
                 int consumerId = plantState.getUser().getConsumerId();
                 params.put("consumerId", consumerId);
-                Log.e(TAG,"---用户id---"+consumerId);
+                Log.e(TAG, "---用户id---" + consumerId);
                 //用户收货地址id
-                int consumerReceivingId = settlement.getReceivingAddress().getCrId();
+                int consumerReceivingId = 0;
+                boolean isReceivingId = true;
+                try {
+                    consumerReceivingId = settlement.getReceivingAddress().getCrId();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    plantState.initToast(context, "请添加地址", true, 0);
+                    isReceivingId = false;
+                    return;
+                }
+
+                if (!isReceivingId) {
+                    plantState.initToast(context, "请添加地址", true, 0);
+                    return;
+                }
+
                 params.put("consumerReceivingId", consumerReceivingId);
-                Log.e(TAG,"---用户收货地址id---"+consumerReceivingId);
+                Log.e(TAG, "---用户收货地址id---" + consumerReceivingId);
                 //随机数
                 int random = plantState.getRandom();
                 String sign = random + "" + commIds + numbers + consumerId + consumerReceivingId;
