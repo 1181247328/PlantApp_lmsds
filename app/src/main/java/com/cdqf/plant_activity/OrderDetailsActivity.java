@@ -507,7 +507,10 @@ public class OrderDetailsActivity extends BaseActivity {
                 break;
             //收货
             case R.id.rl_orderdetails_layout:
-                initIntent(LogisticsActivity.class);
+                Intent intent = new Intent(context, LogisticsActivity.class);
+                intent.putExtra("type", 1);
+                intent.putExtra("position", position);
+                context.startActivity(intent);
                 break;
             //退款
 //            case R.id.rcrl_orderdetails_refund:

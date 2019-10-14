@@ -6,168 +6,83 @@
     android:background="@color/white"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_logistics_pull"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/plant_ask_background"
-        android:orientation="vertical">
+        android:background="@color/plant_ask_background">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:layout_height="match_parent"
+            android:background="@color/plant_ask_background"
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/rl_logistics_return"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/white"
-                android:paddingLeft="5dp"
-                android:paddingTop="8dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="17dp"
+                <RelativeLayout
+                    android:id="@+id/rl_logistics_return"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/component_click">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="17dp"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/plantscience_return" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/plantscience_return" />
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="查看物流"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_orders_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/plant_ask_background"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/pb_orders_bar"
+                    style="@android:style/Widget.ProgressBar.Inverse"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent" />
 
             </RelativeLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:text="查看物流"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#F5F5F5" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:scrollbars="none">
-
-            <LinearLayout
+                android:id="@+id/tv_orders_abnormal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/plant_ask_background"
-                android:orientation="vertical">
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="异常,请下拉刷新~"
+                android:visibility="gone" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="10dp">
+            <com.cdqf.plant_view.WebViewScroll
+                android:id="@+id/wv_logistics_html"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:scrollbars="none" />
 
-                    <com.gcssloop.widget.RCRelativeLayout
-                        android:id="@+id/rcrl_logistics_picture"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@android:color/transparent"
-                        app:round_corner="3dp">
+        </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/iv_logistics_picture"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:scaleType="fitXY"
-                            android:src="@mipmap/test4" />
-
-                    </com.gcssloop.widget.RCRelativeLayout>
-
-                    <TextView
-                        android:id="@+id/tv_logistics_deliverystatus"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@id/rcrl_logistics_picture"
-                        android:layout_toRightOf="@id/rcrl_logistics_picture"
-                        android:lines="1"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:text="运输中"
-                        android:textColor="@color/strategy_item_published"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tv_logistics_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/rcrl_logistics_picture"
-                        android:layout_toRightOf="@id/rcrl_logistics_picture"
-                        android:lines="1"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:text="官方电话：暂无"
-                        android:textColor="#9A9CA5"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_logistics_courier"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@id/tv_logistics_phone"
-                        android:layout_toRightOf="@id/rcrl_logistics_picture"
-                        android:lines="1"
-                        android:paddingLeft="10dp"
-                        android:paddingBottom="5dp"
-                        android:singleLine="true"
-                        android:text="圆通快递：888888888888888888888"
-                        android:textColor="#9A9CA5"
-                        android:textSize="14sp" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_logistics_there"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/white"
-                    android:gravity="center_vertical|center"
-                    android:orientation="vertical"
-                    android:paddingTop="100dp">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/allorder_no" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center|clip_vertical"
-                        android:text="暂无快递信息~"
-                        android:textColor="#474747"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <com.cdqf.plant_view.ListViewForScrollView
-                    android:id="@+id/lv_logistics_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/white"
-                    android:divider="@null"
-                    android:padding="5dp"
-                    android:scrollbars="none"
-                    android:visibility="gone" />
-
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

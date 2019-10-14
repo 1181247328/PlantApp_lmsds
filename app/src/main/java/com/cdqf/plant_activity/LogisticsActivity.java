@@ -2,18 +2,16 @@ package com.cdqf.plant_activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,26 +19,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
-import com.cdqf.plant_adapter.LogisticsAdapter;
-import com.cdqf.plant_class.Data;
 import com.cdqf.plant_lmsd.R;
+import com.cdqf.plant_okhttp.OKHttpRequestWrap;
+import com.cdqf.plant_okhttp.OnHttpRequest;
 import com.cdqf.plant_state.BaseActivity;
 import com.cdqf.plant_state.Errer;
 import com.cdqf.plant_state.PlantAddress;
 import com.cdqf.plant_state.PlantState;
-import com.cdqf.plant_state.StatusBarCompat;
-import com.cdqf.plant_utils.HttpRequestWrap;
-import com.cdqf.plant_utils.MD5Utils;
-import com.cdqf.plant_utils.OnResponseHandler;
-import com.cdqf.plant_utils.RequestHandler;
-import com.cdqf.plant_utils.RequestStatus;
-import com.cdqf.plant_view.ListViewForScrollView;
+
+import com.cdqf.plant_view.WebViewScroll;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -62,36 +53,23 @@ public class LogisticsActivity extends BaseActivity {
 
     private PlantState plantState = PlantState.getPlantState();
 
-    private HttpRequestWrap httpRequestWrap = null;
+    @BindView(R.id.srl_logistics_pull)
+    public SwipeRefreshLayout srlLogisticsPull = null;
 
     //返回
     @BindView(R.id.rl_logistics_return)
     public RelativeLayout rlLogisticsReturn = null;
 
-    //图片
-    @BindView(R.id.iv_logistics_picture)
-    public ImageView ivLogisticsPicture = null;
+    @BindView(R.id.wv_logistics_html)
+    public WebViewScroll wvLogisticsHtml = null;
 
-    //货物状态
-    @BindView(R.id.tv_logistics_deliverystatus)
-    public TextView tvLogisticsDeliverystatus = null;
+    @BindView(R.id.rl_orders_bar)
+    public RelativeLayout rlOrdersBar = null;
 
-    //快递
-    @BindView(R.id.tv_logistics_courier)
-    public TextView tvLogisticsCourier = null;
+    @BindView(R.id.tv_orders_abnormal)
+    public TextView tvOrdersAbnormal = null;
 
-    //电话
-    @BindView(R.id.tv_logistics_phone)
-    public TextView tvLogisticsPhone = null;
-
-    @BindView(R.id.ll_logistics_there)
-    public LinearLayout llLogisticsThere = null;
-
-    //快递状态集合
-    @BindView(R.id.lv_logistics_list)
-    public ListViewForScrollView lvLogisticsList = null;
-
-    public LogisticsAdapter logisticsAdapter = null;
+    private WebSettings wvLogisticsCarrier = null;
 
     private int type;
 
@@ -99,43 +77,13 @@ public class LogisticsActivity extends BaseActivity {
 
     private Gson gson = new Gson();
 
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 0x001:
-                    //有快递信息显示
-                    llLogisticsThere.setVisibility(View.GONE);
-                    lvLogisticsList.setVisibility(View.VISIBLE);
-                    break;
-                case 0x002:
-                    //无快递信息显示
-                    llLogisticsThere.setVisibility(View.VISIBLE);
-                    lvLogisticsList.setVisibility(View.GONE);
-                    break;
-            }
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //API19以下用于沉侵式菜单栏
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
-
         //加载布局
         setContentView(R.layout.activity_logistics);
-
-        //API>=20以上用于沉侵式菜单栏
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            //沉侵
-            StatusBarCompat.compat(this, ContextCompat.getColor(this, R.color.plant_background));
-        }
 
         initAgo();
 
@@ -150,9 +98,6 @@ public class LogisticsActivity extends BaseActivity {
 
     private void initAgo() {
         context = this;
-        httpRequestWrap = new HttpRequestWrap(context);
-        httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        imageLoader = plantState.getImageLoader(context);
         ButterKnife.bind(this);
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 0);
@@ -160,64 +105,71 @@ public class LogisticsActivity extends BaseActivity {
     }
 
     private void initView() {
+        wvLogisticsCarrier = plantState.webSettings(wvLogisticsHtml);
+        wvLogisticsHtml.setHorizontalScrollBarEnabled(true);
+        wvLogisticsHtml.setVerticalScrollBarEnabled(true);
+        wvLogisticsHtml.requestFocus();
+        wvLogisticsHtml.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
 
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+            }
+        });
     }
 
     private void initAdapter() {
-        logisticsAdapter = new LogisticsAdapter(context);
-        lvLogisticsList.setAdapter(logisticsAdapter);
+
     }
 
     private void initListener() {
+        wvLogisticsHtml.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                return super.onJsAlert(view, url, message, result);
+            }
 
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    Log.e(TAG, "---加载页面完成---");
+                    if (srlLogisticsPull != null) {
+                        srlLogisticsPull.setRefreshing(false);
+                    }
+                    rlOrdersBar.setVisibility(View.GONE);
+                    tvOrdersAbnormal.setVisibility(View.GONE);
+                    wvLogisticsHtml.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        srlLogisticsPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initPull();
+            }
+        });
+
+        wvLogisticsHtml.setWebScrollListener(new WebViewScroll.WebScrollListener() {
+            @Override
+            public void scroll(boolean isScroll) {
+                srlLogisticsPull.setEnabled(isScroll);
+            }
+        });
     }
 
     private void initBack() {
-        if (type == 0) {
-            imageLoader.displayImage(plantState.getAllOrderList().get(position).getOrderCommList().get(0).getImgCommPic(), ivLogisticsPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
-        } else {
-            imageLoader.displayImage(plantState.getForGoodsList().get(position).getOrderCommList().get(0).getImgCommPic(), ivLogisticsPicture, plantState.getImageLoaderOptions(R.mipmap.not_loaded, R.mipmap.not_loaded, R.mipmap.not_loaded));
-        }
+        srlLogisticsPull.setEnabled(false);
         initPull();
     }
 
     private void initPull() {
-        httpRequestWrap.setCallBack(new RequestHandler(context, 1, "获取快递信息中", new OnResponseHandler() {
-            @Override
-            public void onResponse(String result, RequestStatus status) {
-                String data = Errer.isResult(context, result, status);
-                if (data == null) {
-                    Log.e(TAG, "---获取物流信息解密失败---" + data);
-                    return;
-                }
-                Log.e(TAG, "---获取物流信息解密成功---" + data);
-                JSONObject resultJSON = JSON.parseObject(data);
-                //快递公司拼音
-                String expressCode = resultJSON.getString("expressCode");
-                //快递单号
-                String logisticsNum = resultJSON.getString("logisticsNum");
-                //快递公司中文
-                String expressName = resultJSON.getString("expressName");
-                //密钥
-                String key = resultJSON.getString("key");
-                //分配给贵司的的公司编号
-                String customer = resultJSON.getString("customer");
-                tvLogisticsCourier.setText(expressName + ":" + logisticsNum);
-                Param p = new Param();
-                p.setCom(expressCode);
-                p.setNum(logisticsNum);
-                String param = gson.toJson(p);
-                String md5 = param + key + customer;
-                String sign = (MD5Utils.getMD5Single(md5)).toUpperCase();
-                Log.e(TAG, "---快递---" +sign);
-                //获取快递流水单
-                initLogistics(customer, sign,param);
-            }
-        }));
-        initPut();
-    }
 
-    private void initPut() {
         Map<String, Object> params = new HashMap<String, Object>();
         int qId = 0;
         //订单id
@@ -250,41 +202,44 @@ public class LogisticsActivity extends BaseActivity {
         //随机数
         params.put("random", random);
         params.put("sign", signEncrypt);
-        httpRequestWrap.send(PlantAddress.USER_LOGISTICS, params);
-    }
-
-    /**
-     * 获取快递流水号
-     *
-     * @param customer
-     * @param sign
-     */
-    private void initLogistics(String customer, String sign,String param) {
-        Log.e(TAG, "---快递---" + customer + "---" + sign + "---" + param);
-        httpRequestWrap.setMethod(HttpRequestWrap.POST);
-        httpRequestWrap.setCallBack(new RequestHandler(context, 1,"查询中", new OnResponseHandler() {
+        OKHttpRequestWrap okHttpRequestWrap = new OKHttpRequestWrap(context);
+        okHttpRequestWrap.post(PlantAddress.USER_LOGISTICS, false, "请稍候", params, new OnHttpRequest() {
             @Override
-            public void onResponse(String result, RequestStatus status) {
-                Log.e(TAG,"---查询快递---"+result);
-                JSONObject jsonObject = JSON.parseObject(result);
-                String message = jsonObject.getString("message");
-                if(TextUtils.equals(message,"ok")){
-                    handler.sendEmptyMessage(0x001);
-                    String data = jsonObject.getString("data");
-                    List<Data> dataList = gson.fromJson(data,new TypeToken<List<Data>>(){}.getType());
-                    tvLogisticsDeliverystatus.setText(dataList.get(0).getStatus());
-                    logisticsAdapter.setDataList(dataList);
-                } else {
-                    handler.sendEmptyMessage(0x002);
-                    plantState.initToast(context,message,true,0);
+            public void onOkHttpResponse(String response, int id) {
+                if (srlLogisticsPull != null) {
+                    srlLogisticsPull.setEnabled(true);
                 }
+                String data = Errer.unickResult(context, response);
+                if (data == null) {
+                    Log.e(TAG, "---获取物流信息解密失败---" + data);
+                    rlOrdersBar.setVisibility(View.GONE);
+                    tvOrdersAbnormal.setVisibility(View.VISIBLE);
+                    wvLogisticsHtml.setVisibility(View.GONE);
+                    return;
+                }
+                Log.e(TAG, "---获取物流信息解密成功---" + data);
+                JSONObject resultJSON = JSON.parseObject(data);
+                //快递公司
+                String expressCode = resultJSON.getString("expressCode");
+                //快递单号
+                String logisticsNum = resultJSON.getString("logisticsNum");
+                String url = "https://m.kuaidi100.com/app/query/?com=" + expressCode + "&nu=" + logisticsNum + "&coname=qifukeji";
+                wvLogisticsHtml.loadUrl(url);
             }
-        }));
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("customer", customer);
-        params.put("sign", sign);
-        params.put("param", param);
-        httpRequestWrap.send(PlantAddress.LOGISTICS, params);
+
+            @Override
+            public void onOkHttpError(String error) {
+                Log.e(TAG, "---onOkHttpError---" + error);
+                if (srlLogisticsPull != null) {
+                    srlLogisticsPull.setEnabled(true);
+                    srlLogisticsPull.setRefreshing(false);
+                }
+                rlOrdersBar.setVisibility(View.GONE);
+                tvOrdersAbnormal.setVisibility(View.VISIBLE);
+                wvLogisticsHtml.setVisibility(View.GONE);
+                plantState.initToast(context, error, true, 0);
+            }
+        });
     }
 
     private void initIntent(Class<?> activity) {
@@ -341,62 +296,5 @@ public class LogisticsActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "---销毁---");
-    }
-
-    class Param {
-        String com = "";
-        String num = "";
-        String phone = "";
-        String from = "";
-        String to = "";
-        String resultv2 = "1";
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public String getCom() {
-            return com;
-        }
-
-        public void setCom(String com) {
-            this.com = com;
-        }
-
-        public String getResultv2() {
-            return resultv2;
-        }
-
-        public void setResultv2(String resultv2) {
-            this.resultv2 = resultv2;
-        }
-
-        public String getTo() {
-            return to;
-        }
-
-        public void setTo(String to) {
-            this.to = to;
-        }
-
-        public String getFrom() {
-            return from;
-        }
-
-        public void setFrom(String from) {
-            this.from = from;
-        }
-
-        public String getNum() {
-            return num;
-        }
-
-        public void setNum(String num) {
-            this.num = num;
-        }
     }
 }

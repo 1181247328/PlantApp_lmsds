@@ -38,7 +38,7 @@ import java.util.List;
 
 public class MyOrderActivity extends BaseActivity implements View.OnClickListener {
 
-    private String TAG = PublishedActivity.class.getSimpleName();
+    private String TAG = MyOrderActivity.class.getSimpleName();
 
     private Context context = null;
 

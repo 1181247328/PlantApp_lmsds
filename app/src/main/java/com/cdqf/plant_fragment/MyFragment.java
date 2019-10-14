@@ -241,7 +241,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         if (plantState.isLogin()) {
             handler.sendEmptyMessage(0x002);
             imageLoader.displayImage(plantState.getUser().getImgAvatat(), ivMyHearYes, plantState.getImageLoaderOptions(R.mipmap.login_hear, R.mipmap.login_hear, R.mipmap.login_hear));
-            tvMyLoginName.setText(plantState.getUser().getNickName() + "-" + plantState.getUser().getNowMemberName());
+            tvMyLoginName.setText(plantState.getUser().getNickName());
             tvMyRegisteredPhone.setText(plantState.phoneEmpty(plantState.getUser().getPhone()));
         } else {
             ivMyHear.setImageResource(R.mipmap.login_hear);
@@ -327,7 +327,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         imageLoader.displayImage(plantState.getUser().getImgAvatat(), ivMyHearYes, plantState.getImageLoaderOptions(R.mipmap.login_hear, R.mipmap.login_hear, R.mipmap.login_hear));
         handler.sendEmptyMessage(0x002);
         if (plantState.getUser().getNowMemberName() != null) {
-            tvMyLoginName.setText(plantState.getUser().getNickName() + "-" + plantState.getUser().getNowMemberName());
+            tvMyLoginName.setText(plantState.getUser().getNickName());
         } else {
             tvMyLoginName.setText(plantState.getUser().getNickName());
         }
@@ -346,7 +346,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         if (plantState.getUser().getNowMemberName() == null) {
             tvMyLoginName.setText(plantState.getUser().getNickName());
         } else {
-            tvMyLoginName.setText(plantState.getUser().getNickName() + "-" + plantState.getUser().getNowMemberName());
+            tvMyLoginName.setText(plantState.getUser().getNickName());
         }
         tvMyRegisteredPhone.setText(plantState.phoneEmpty(plantState.getUser().getPhone()));
     }

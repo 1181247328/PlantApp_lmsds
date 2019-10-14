@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.cdqf.plant_3des.Constants;
 import com.cdqf.plant_3des.DESUtils;
 import com.cdqf.plant_activity.ForDetailsActivity;
-import com.cdqf.plant_activity.PlantScienceActivity;
 import com.cdqf.plant_activity.PlantsDetailsActivity;
 import com.cdqf.plant_adapter.ScienceAdapter;
 import com.cdqf.plant_adapter.SituationAdapter;
@@ -544,7 +543,6 @@ public class AskFragment extends Fragment {
         switch (v.getId()) {
             //查看更多
             case R.id.tv_ask_more:
-                forIntent(PlantScienceActivity.class);
                 break;
         }
     }
