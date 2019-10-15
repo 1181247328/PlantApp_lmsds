@@ -149,7 +149,7 @@ public class OrderDetailsActivity extends BaseActivity {
                     break;
                 //待发货
                 case 0x02:
-                    rlOrderdetailsLayout.setVisibility(View.VISIBLE);
+                    rlOrderdetailsLayout.setVisibility(View.GONE);
                     break;
             }
         }

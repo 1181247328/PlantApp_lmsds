@@ -146,7 +146,7 @@ public class ShopFragment extends Fragment {
         mgvShopList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                initIntent(GoodsActivity.class, position);
+                initIntent(GoodsActivity.class, position+1);
             }
         });
         //为您推荐

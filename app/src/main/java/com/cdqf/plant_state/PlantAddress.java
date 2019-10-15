@@ -5,13 +5,14 @@ package com.cdqf.plant_state;
  */
 
 public class PlantAddress {
+
     //线下
-    //public static final String ADDRESS = "http://192.168.31.172:5001";
+    public static final String ADDRESS = "http://192.168.31.172:9001";
 
     //老版本
 //    public static final String ADDRESS = "http://rlmsdapi.quanyubao.cn";
 
-    public static final String ADDRESS = "https://lmsdapi.tuogouchebao.com";
+  //  public static final String ADDRESS = "https://lmsdapi.tuogouchebao.com";
 
     public static final String CIPHER = "";
 

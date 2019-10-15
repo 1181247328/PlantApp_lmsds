@@ -257,10 +257,7 @@
                             android:layout_height="20dp"
                             switch:checked="false"
                             switch:duration="250"
-                            switch:spotOffColor="@color/strategy_item_published"
-                            switch:spotPadding="2dp"
-                            switch:switchOffColor="#e4e4e4"
-                            switch:switchOffStrokeColor="@color/strategy_item_published" />
+                            switch:spotPadding="1dp" />
 
                     </LinearLayout>
 

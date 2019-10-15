@@ -25,7 +25,7 @@ public class OrderAdapter extends BaseAdapter{
             R.mipmap.my_delivery,
             R.mipmap.my_goods,
             R.mipmap.my_evaluation,
-            R.mipmap.my_other,
+//            R.mipmap.my_other,
     };
 
     private String[] orderName = new String[]{
@@ -33,7 +33,7 @@ public class OrderAdapter extends BaseAdapter{
             "待发货",
             "待收货",
             "待评价",
-            "退款"
+//            "退款"
     };
 
     public OrderAdapter(Context context) {
@@ -42,7 +42,7 @@ public class OrderAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return 5;
+        return 4;
     }
 
     @Override

@@ -91,7 +91,7 @@ public class OrderDetailsAdapter extends BaseAdapter {
         if (TextUtils.equals(orderStatus, "待发货") || TextUtils.equals(orderStatus, "待评价")) {
 
             /*****退款状态******/
-            plantViewHolder.rcrlOrderdetailsItemRefund.setVisibility(View.VISIBLE);
+            plantViewHolder.rcrlOrderdetailsItemRefund.setVisibility(View.GONE);
             int returnGoodsStatus = orderDetails.getCommList().get(position).getReturnGoodsStatus();
             plantViewHolder.tvOrderdetailsItemRefund.setText(orderDetails.getCommList().get(position).getStrReturnGoodsStatus());
             plantViewHolder.rcrlOrderdetailsItemRefund.setOnClickListener(new OnRefundListener(position, returnGoodsStatus));

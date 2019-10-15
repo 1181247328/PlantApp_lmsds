@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.cdqf.plant_activity.IntroductionActivity;
 import com.cdqf.plant_activity.LoginActivity;
 import com.cdqf.plant_activity.MyOrderActivity;
-import com.cdqf.plant_activity.RefundActivity;
 import com.cdqf.plant_activity.RegisteredOneActivity;
 import com.cdqf.plant_activity.SetActivity;
 import com.cdqf.plant_adapter.OrderAdapter;
@@ -173,10 +172,10 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                     plantState.initToast(getContext(), getContext().getResources().getString(R.string.is_login), true, 0);
                     return;
                 }
-                if (position == orderAdapter.getCount() - 1) {
-                    initIntent(RefundActivity.class);
-                    return;
-                }
+//                if (position == orderAdapter.getCount() - 1) {
+//                    initIntent(RefundActivity.class);
+//                    return;
+//                }
                 initIntent(MyOrderActivity.class, position + 1);
             }
         });

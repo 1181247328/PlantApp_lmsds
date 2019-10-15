@@ -384,7 +384,7 @@ public class TypeActivity extends BaseActivity {
         Log.e(TAG, "---说明---" + remark);
         //随机数
         int random = plantState.getRandom();
-        String sign = random + "" + consumerId + orderId + commId + commNum + returnType + money + returnGoodsReason + remark;
+        String sign = random + "" + consumerId + orderId + commId + commNum + returnType + money + (returnGoodsReason+1) + remark;
         Log.e(TAG, "---随机数---" + random);
         //加密文字
         String signEncrypt = null;
