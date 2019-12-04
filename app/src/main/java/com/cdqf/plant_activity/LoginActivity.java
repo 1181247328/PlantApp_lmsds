@@ -189,14 +189,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 httpRequestWrap.setCallBack(new RequestHandler(context, 1, context.getResources().getString(R.string.login), new OnResponseHandler() {
                     @Override
                     public void onResponse(String result, RequestStatus status) {
-                        String data = Errer.isResult(context, result, status);
+                        String data = Errer.isResultLog(context, result, status);
                         if (data == null) {
                             Log.e(TAG, "---用户登录解密失败---" + data);
                             return;
                         }
                         Log.e(TAG, "---用户登录解密成功---" + data);
-                        User user = new User();
-                        user = gson.fromJson(data, User.class);
+                        User user = gson.fromJson(data, User.class);
                         plantState.setUser(user);
                         plantState.setLogin(true);
                         PlantPreferences.setLogUserComment(context, user);

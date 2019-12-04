@@ -7,13 +7,13 @@ package com.cdqf.plant_state;
 public class PlantAddress {
 
     //线下
-    public static final String ADDRESS = "http://192.168.31.172:9001";
+    public static final String ADDRESS = "http://192.168.31.173:9004";
 
     //老版本
 //    public static final String ADDRESS = "http://rlmsdapi.quanyubao.cn";
 
-  //  public static final String ADDRESS = "https://lmsdapi.tuogouchebao.com";
-
+//    public static final String ADDRESS = "https://lmsdapi.tuogouchebao.com";
+//
     public static final String CIPHER = "";
 
     /**
@@ -236,5 +236,7 @@ public class PlantAddress {
 
     //支付返回
     public static final String RETURN_PAY = ADDRESS + "/api/Order/UpOrderDealStatus";
+
+    public static final String TICKETS = ADDRESS+"/api/Order/GetOrderAdmissionTicketList\n";
 }
 

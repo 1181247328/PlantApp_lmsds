@@ -25,7 +25,7 @@ public class OtherAdapter extends BaseAdapter {
 //            R.mipmap.my_av,
 //            R.mipmap.my_vehicle,
             R.mipmap.my_visit,
-//            R.mipmap.my_travel,
+            R.mipmap.my_travel,
 //            R.mipmap.my_traffic,
 //            R.mipmap.my_surrounding,
 //            R.mipmap.my_consulting,
@@ -40,6 +40,7 @@ public class OtherAdapter extends BaseAdapter {
 //            "交通信息",
 //            "周边旅游",
 //            "收藏"
+            "我的门票"
     };
 
     public OtherAdapter(Context context) {

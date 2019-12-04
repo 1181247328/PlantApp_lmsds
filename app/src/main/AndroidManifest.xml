@@ -476,6 +476,14 @@
 
         </activity>
 
+        <!--我的门票-->
+        <activity
+            android:name="com.cdqf.plant_activity.TicketsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
         <!--搜索-->
         <activity
             android:name="com.cdqf.plant_search.SearchActivity"

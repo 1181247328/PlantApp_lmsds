@@ -43,8 +43,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(TAG, "---微信---");
-        httpRequestWrap = new HttpRequestWrap(this);
-        httpRequestWrap.setMethod(HttpRequestWrap.GET);
+
         api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID, true);
         api.handleIntent(getIntent(), this);
     }
@@ -69,6 +68,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 String code = ((SendAuth.Resp) resp).code;
                 String get_access_token = getCodeRequest(code);
                 Log.e(TAG, "---请求地址---" + get_access_token);
+                HttpRequestWrap httpRequestWrap = new HttpRequestWrap(this);
+                httpRequestWrap.setMethod(HttpRequestWrap.GET);
                 httpRequestWrap.setCallBack(new RequestHandler(WXEntryActivity.this, new OnResponseHandler() {
                     @Override
                     public void onResponse(String result, RequestStatus status) {
@@ -76,7 +77,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         if (status == RequestStatus.SUCCESS) {
                             if (result != null) {
                                 JSONObject wxCodeJSON = JSON.parseObject(result);
-                                int expires_in = wxCodeJSON.getInteger("expires_in");
+                                int expires_in = 0;
+                                expires_in = wxCodeJSON.getInteger("expires_in");
                                 if (expires_in != 7200) {
                                     Toast.makeText(WXEntryActivity.this, "微信登录失败", Toast.LENGTH_SHORT).show();
                                     return;
@@ -128,20 +130,20 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     private String getCodeRequest(String code) {
-        String result = null;
-        Constants.WX_GET_CODE_REQUEST = Constants.WX_GET_CODE_REQUEST.replace("APPID", urlEnodeUTF8(Constants.WX_APP_ID));
-        Constants.WX_GET_CODE_REQUEST = Constants.WX_GET_CODE_REQUEST.replace("SECRET", urlEnodeUTF8(Constants.WX_APP_SECRET));
-        Constants.WX_GET_CODE_REQUEST = Constants.WX_GET_CODE_REQUEST.replace("CODE", urlEnodeUTF8(code));
-        result = Constants.WX_GET_CODE_REQUEST;
-        return result;
+        String request = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+
+        request = request.replace("APPID", urlEnodeUTF8(Constants.WX_APP_ID));
+        request = request.replace("SECRET", urlEnodeUTF8(Constants.WX_APP_SECRET));
+        request = request.replace("CODE", urlEnodeUTF8(code));
+        return request;
     }
 
     private String getUserInfo(String access_token, String openid) {
         String result = null;
-        Constants.WX_GET_USER_INFO = Constants.WX_GET_USER_INFO.replace("ACCESS_TOKEN", urlEnodeUTF8(access_token));
-        Constants.WX_GET_USER_INFO = Constants.WX_GET_USER_INFO.replace("OPENID", urlEnodeUTF8(openid));
-        result = Constants.WX_GET_USER_INFO;
-        return result;
+        String info= "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";
+        info = info.replace("ACCESS_TOKEN", urlEnodeUTF8(access_token));
+        info = info.replace("OPENID", urlEnodeUTF8(openid));
+        return info;
     }
 
     /**
@@ -151,6 +153,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
      */
     private void getUserInfo(String user_info_url) {
         Log.e(TAG, "---用户个人信息地址---" + user_info_url);
+        HttpRequestWrap httpRequestWrap = new HttpRequestWrap(this);
+        httpRequestWrap.setMethod(HttpRequestWrap.GET);
         httpRequestWrap.setCallBack(new RequestHandler(WXEntryActivity.this, new OnResponseHandler() {
             @Override
             public void onResponse(String result, RequestStatus status) {

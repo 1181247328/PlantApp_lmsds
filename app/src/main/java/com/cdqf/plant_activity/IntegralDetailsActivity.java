@@ -202,7 +202,7 @@ public class IntegralDetailsActivity extends BaseActivity {
                 integralDetails = gson.fromJson(data, IntegralDetails.class);
                 tvIndetailsDestination.setText(integralDetails.getCommName());
                 tvIndetailsName.setText(integralDetails.getCommName());
-                tvIndetailsNumber.setText(integralDetails.getUnitPrice() + "");
+                tvIndetailsNumber.setText(integralDetails.getIntegralNumber() + "");
                 htvIndetailsIntroduction.setHtml(integralDetails.getIntroduction(), new HtmlHttpImageGetter(htvIndetailsIntroduction));
                 tvIndetailsRules.setText(context.getResources().getString(R.string.rules) + integralDetails.getTel());
                 //图片

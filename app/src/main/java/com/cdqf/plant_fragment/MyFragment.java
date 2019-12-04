@@ -20,6 +20,7 @@ import com.cdqf.plant_activity.LoginActivity;
 import com.cdqf.plant_activity.MyOrderActivity;
 import com.cdqf.plant_activity.RegisteredOneActivity;
 import com.cdqf.plant_activity.SetActivity;
+import com.cdqf.plant_activity.TicketsActivity;
 import com.cdqf.plant_adapter.OrderAdapter;
 import com.cdqf.plant_adapter.OtherAdapter;
 import com.cdqf.plant_find.Login;
@@ -231,6 +232,14 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 //                        }
 //                        initIntent(CollectionActivity.class);
 //                        break;
+                    // 收藏
+                    case 2:
+                        if (!plantState.isLogin()) {
+                            plantState.initToast(getContext(), getContext().getResources().getString(R.string.is_login), true, 0);
+                            return;
+                        }
+                        initIntent(TicketsActivity.class);
+                        break;
                 }
             }
         });

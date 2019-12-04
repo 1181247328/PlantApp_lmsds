@@ -16,7 +16,7 @@ import com.cdqf.plant_state.PlantViewHolder;
  * Created by liu on 2017/10/30.
  */
 
-public class OrderAdapter extends BaseAdapter{
+public class OrderAdapter extends BaseAdapter {
 
     private Context context = null;
 
@@ -25,7 +25,7 @@ public class OrderAdapter extends BaseAdapter{
             R.mipmap.my_delivery,
             R.mipmap.my_goods,
             R.mipmap.my_evaluation,
-//            R.mipmap.my_other,
+            R.mipmap.my_other,
     };
 
     private String[] orderName = new String[]{
@@ -33,7 +33,7 @@ public class OrderAdapter extends BaseAdapter{
             "待发货",
             "待收货",
             "待评价",
-//            "退款"
+            "退款"
     };
 
     public OrderAdapter(Context context) {
@@ -58,8 +58,8 @@ public class OrderAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         PlantViewHolder plantViewHolder = null;
-        if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_order,null);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_order, null);
             plantViewHolder = new PlantViewHolder();
             plantViewHolder.ivMyItemLogo = (ImageView) convertView.findViewById(R.id.iv_my_item_logo);
             plantViewHolder.tvMyItemName = (TextView) convertView.findViewById(R.id.tv_my_item_name);
