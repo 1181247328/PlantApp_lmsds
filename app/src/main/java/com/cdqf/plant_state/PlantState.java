@@ -434,6 +434,8 @@ public class PlantState {
                     || activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED
                     || activity.checkSelfPermission(Manifest.permission.CALL_PHONE)
+                    != PackageManager.PERMISSION_GRANTED
+                    || activity.checkSelfPermission(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS)
                     != PackageManager.PERMISSION_GRANTED) {
                 activity.requestPermissions(new String[]{
                                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -441,7 +443,8 @@ public class PlantState {
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                 Manifest.permission.READ_PHONE_STATE,
-                                Manifest.permission.CALL_PHONE,},
+                                Manifest.permission.CALL_PHONE,
+                                Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS},
                         0
                 );
             }
